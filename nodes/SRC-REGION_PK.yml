@@ -1,0 +1,73 @@
+fileVersion: 1
+id: e8ea43b4-d62d-4353-bfb7-4f4752fc3e17
+name: REGION_PK
+operation:
+  database: ""
+  deployEnabled: true
+  description: Region data as defined by TPC-H
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2bdaf567-321d-4608-b74c-6af2151c05b0
+          stepCounter: e8ea43b4-d62d-4353-bfb7-4f4752fc3e17
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: R_REGIONKEY
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1827d484-d1fe-47bd-8b62-3af35599efbe
+          stepCounter: e8ea43b4-d62d-4353-bfb7-4f4752fc3e17
+        config: {}
+        dataType: VARCHAR(25)
+        defaultValue: ""
+        description: ""
+        name: R_NAME
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9399e6e8-a462-4773-b976-7af51f4c0846
+          stepCounter: e8ea43b4-d62d-4353-bfb7-4f4752fc3e17
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: REGION_PK
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

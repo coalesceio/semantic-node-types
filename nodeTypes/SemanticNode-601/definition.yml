@@ -1,0 +1,194 @@
+fileVersion: 1
+id: "601"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Semantic View
+    short: SMV
+    plural: Semantic Views
+    tagColor: '#1E89A9'
+
+    deployStrategy: advanced
+    isColumnResyncEnabled: true
+
+    config:
+    - groupName: Semantic View Options
+      items:
+
+      - type: toggleButton
+        displayName: Create Schema Table
+        attributeName: deriveCol
+        isRequired: false
+        default: true
+
+      - type: toggleButton
+        displayName: Drop Schema Table
+        attributeName: dropSchemaTab
+        isRequired: false
+        default: true
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+      - type: materializationSelector
+        isRequired: true
+        default: view
+        enableIf: "false"
+        options:
+        - view
+
+      - type: columnSelector
+        displayName: TABLES (Primary Key)
+        attributeName: primaryKey
+        isRequired: true
+        enableIf: 'true'
+
+      - type: tabular
+        displayName: RELATIONSHIPS (Foreign Key)
+        attributeName: foreignKeyConfig
+        isRequired: false
+        enableIf: 'true'
+
+        columns:
+        - type: columnDropdownSelector
+          displayName: Source Column
+          attributeName: foreignKey
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Reference Table
+          attributeName: refTable
+          isRequired: false
+          enableIf: 'true'
+
+      - type: label
+        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
+        attributeName: labelFactSourceColumnWarnig
+        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
+
+      - type: label
+        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
+        attributeName: labelFactDerivedColumnWarnig
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+      - type: tabular
+        displayName: FACTS
+        attributeName: factDetConfig
+        isRequired: false
+        enableIf: 'true'
+
+        columns:
+        - type: columnDropdownSelector
+          displayName: Source Column
+          attributeName: factCol
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Transform
+          attributeName: factTranform
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Alias Name
+          attributeName: factAlias
+          isRequired: false
+          enableIf: 'true'
+
+      - type: label
+        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
+        attributeName: labelDimSourceColumnWarnig
+        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
+
+      - type: label
+        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
+        attributeName: labelDimDerivedColumnWarnig
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+      - type: tabular
+        displayName: DIMENSIONS
+        attributeName: DimConfig
+        isRequired: false
+        enableIf: 'true'
+
+        columns:
+        - type: columnDropdownSelector
+          displayName: Source Column
+          attributeName: dimCol
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Transform
+          attributeName: dimTransform
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Alias Name
+          attributeName: dimAlias
+          isRequired: false
+          enableIf: 'true'
+
+      - type: label
+        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
+        attributeName: labelMetricSourceColumnWarnig
+        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
+
+      - type: label
+        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
+        attributeName: labelMetricDerivedColumnWarnig
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+      - type: tabular
+        displayName: Metric Details
+        attributeName: metricConfig
+        isRequired: false
+        enableIf: "{% if config.toggle1 %} false {% else %} true {% endif %}"
+
+        columns:
+
+        - type: dropdownSelector
+          displayName: Transform
+          attributeName: metricTransorm
+          options:
+            - COUNT
+            - SUM
+            - AVG
+            - MIN
+            - MAX
+          isRequired: false
+          enableIf: 'true'
+
+        - type: columnDropdownSelector
+          displayName: Source Column
+          attributeName: metricCol
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Transform Expression
+          attributeName: metricTransformExprn
+          isRequired: false
+          enableIf: 'true'
+
+        - type: textBox
+          displayName: Alias Name
+          attributeName: metricAlias
+          isRequired: false
+          enableIf: 'true'
+
+    mappingColumns:
+    - headerName: P/R/F/D
+      attributeName: refKey
+      pinned: 'left'
+      type: textBox
+
+    - headerName: Reference Table
+      attributeName: refTable
+      pinColumn: 'left'
+      type: textBox
+name: Semantic Node
+type: NodeType

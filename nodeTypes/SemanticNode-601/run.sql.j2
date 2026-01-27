@@ -1,0 +1,3 @@
+{{stage('0')}}
+--{{ sources | map(attribute='columns') | list | sum(start=[]) | map(attribute='sourceColumns') | list | sum(start=[]) | map(attribute='node') | list | map(attribute='name') | list }}
+select 1=0

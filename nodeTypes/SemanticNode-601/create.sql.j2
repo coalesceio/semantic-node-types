@@ -1,0 +1,214 @@
+{% set nsSVvariables = namespace(primKey=[], foreignKey=[], factDetails=[], dimDetails=[], metricDetails=[]) %}
+
+{% for col in desiredState.columns if col.primaryKey %}
+
+    {%- set srcTableLocName = desiredState.sources[0].columns 
+                            | selectattr('id','eq', col.id)
+                            | map(attribute='sourceColumns')
+                            | first 
+                            | map(attribute='node.location.name')
+                            | first -%}
+
+    {%- set srcTableName = desiredState.sources[0].columns 
+                            | selectattr('id','eq', col.id)
+                            | map(attribute='sourceColumns')
+                            | first 
+                            | map(attribute='node.name')
+                            | first -%}
+
+    {% set _ = nsSVvariables.primKey.append({
+        "id": col.id,
+        "name": col.name,
+        "srcTablePath" : ref_no_link(srcTableLocName, srcTableName)
+    }) %}
+
+{% endfor %}
+
+{% for col in desiredState.config.foreignKeyConfig.get('items') %}
+
+    {% set fk = col.foreignKey %}
+    {%- set srcTableName = desiredState.sources[0].columns 
+                            | selectattr('id','eq', fk.id)
+                            | map(attribute='sourceColumns')
+                            | first 
+                            | map(attribute='node.name')
+                            | first -%}
+
+    {% set _ = nsSVvariables.foreignKey.append({
+        "id": fk.id,
+        "name": fk.name,
+        "srcTableName": srcTableName,
+        "refTable": col.refTable
+    }) %}
+{% endfor %}
+
+{% for item in desiredState.config.factDetConfig.get('items') %}
+
+    {% set col = item.factCol %}
+    {%- set srcTableName = desiredState.sources[0].columns 
+                            | selectattr('id','eq', col.id)
+                            | map(attribute='sourceColumns')
+                            | first 
+                            | map(attribute='node.name')
+                            | first -%}
+
+    
+    {% set _ = nsSVvariables.factDetails.append({
+        "id":   col.id   if col else None,
+        "name": col.name if col else None,
+        "srcTableName": srcTableName,
+        "transform": item.factTranform or "",
+        "alias": item.factAlias or ""
+    }) %}
+{% endfor %}
+
+{% for item in desiredState.config.DimConfig.get('items') %}
+
+    {% set col = item.dimCol %}
+    {%- set srcTableName = desiredState.sources[0].columns 
+                            | selectattr('id','eq', col.id)
+                            | map(attribute='sourceColumns')
+                            | first 
+                            | map(attribute='node.name')
+                            | first -%}
+
+    {% set _ = nsSVvariables.dimDetails.append({
+        "id": col.id if col else None,
+        "name": col.name if col else None,
+        "srcTableName": srcTableName,
+        "transform": item.dimTransform or "",
+        "alias": item.dimAlias or ""
+    }) %}
+{% endfor %}
+
+{% for item in desiredState.config.metricConfig.get('items') %}
+    {% set col = item.metricCol %}
+    {% set _ = nsSVvariables.metricDetails.append({
+        "id": col.id if col else None,
+        "name": col.name if col else None,
+        "src": item.srcTable if item.srcTable else "",
+        "transform": item.metricTransorm,
+        "exprn": item.metricTransformExprn if item.metricExprn else "",
+        "alias": item.metricAlias if item.metricAlias else ""
+    }) %}
+{% endfor %}
+
+{% set combined = nsSVvariables.primKey
+                + nsSVvariables.foreignKey
+                + nsSVvariables.factDetails
+                + nsSVvariables.dimDetails
+                + nsSVvariables.metricDetails %}
+
+{% set all_ids = combined | map(attribute='id') | list | unique | list %}
+{% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
+
+{% if desiredState.config.deriveCol %}
+
+    {{ stage('Create Schema Table', true, "sql", "create") }}
+    CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+    AS
+    (
+        SELECT                 
+            {% for col in desiredState.sources[0].columns if col.id in all_ids %}
+                {{ get_source_transform(col) }} AS "{{ col.name }}",
+            {% endfor %}
+            {% for col in nsSVvariables.factDetails if col.id is none %}
+                {{ col.transform }} AS "{{ col.alias }}",
+            {% endfor %}
+            {% for col in nsSVvariables.dimDetails if col.id is none %}
+                {%- if not loop.last -%},{% endif %}
+                {{ col.transform }} AS "{{ col.alias }}"
+            {% endfor %}
+
+            FROM
+            {% for tablePath in allSrcTables %}
+                    {{ tablePath }} {{tablePath.split('.')[-1].replace('"','')}}
+                {%- if not loop.last -%} , {% endif %}
+            {% endfor %}
+
+            WHERE 1=0
+            GROUP BY ALL
+        )
+{% else %}
+
+    {% if desiredState.config.dropSchemaTab %}
+
+        {{ stage('Dropping Schema Table') }}
+        DROP TABLE IF EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+
+    {% endif %}
+
+    {{ stage('Create Semantic View', true, "sql", "create") }}
+    CREATE OR REPLACE SEMANTIC VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+
+    TABLES
+    (
+        {% for table, cols in nsSVvariables.primKey | groupby('srcTablePath') %}
+        {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }} PRIMARY KEY (
+            {{ cols | map(attribute='name') | join(', ') }}
+        ){% if not loop.last %},{% endif %}
+        {% endfor %}
+    )
+
+    RELATIONSHIPS
+    (
+        {% for item in nsSVvariables.foreignKey %}
+            {{ item.srcTableName }} ({{ item.name }}) REFERENCES {{ item.refTable }}
+            
+            {% if not loop.last %},{% endif %}
+        {% endfor %}
+    )
+
+    FACTS (
+        {%- for col in nsSVvariables.factDetails %}
+            {% if col.transform %}
+                {{ col.alias if col.alias 
+                            else col.name }}
+                AS {{ col.transform }}
+            {% else %}      
+                {{ col.srcTableName }}.{{ col.alias if col.alias 
+                            else col.name }}
+                AS {{ col.name }}
+            {% endif %}
+
+            {% if not loop.last %},{% endif %}
+        {%- endfor %}
+    )
+
+    DIMENSIONS (
+        {%- for col in nsSVvariables.dimDetails %}
+            {% if col.transform != '' %}
+                {{ col.alias if col.alias 
+                            else col.name }}
+                AS {{ col.transform }}
+            {% else %}
+                {% if col.alias != '' %}
+                    {% if col.alias.split('.') | length == 2 %}
+                        {{ col.alias }}
+                    {% else %}
+                        {{ col.srcTableName + '.' + col.alias }}
+                    {% endif %}
+                {% else %}
+                    {{ col.srcTableName + '.' + col.name }}
+                {% endif %}
+                AS {{ col.srcTableName }}.{{ col.name }}
+            {% endif %}
+
+            {% if not loop.last %},{% endif %}
+        {%- endfor %}
+    )
+
+    METRICS
+    (
+        {% for col in nsSVvariables.metricDetails %}
+            {{ col.alias if col.alias else column }}
+            AS 
+            {%- if col.exprn %}
+                {{ col.exprn }} 
+            {%- else %}
+                {{col.transform}}({{ col.name }})
+            {%- endif %}
+            {%- if not loop.last %},{% endif %}
+        {% endfor %}
+    )
+{% endif %}
