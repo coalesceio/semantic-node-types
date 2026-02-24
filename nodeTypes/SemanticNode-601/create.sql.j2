@@ -1,4 +1,9 @@
 {% set nsSVvariables = namespace(primKey=[], foreignKey=[], factDetails=[], dimDetails=[], metricDetails=[]) %}
+{% set objectFullPath = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
+{% set desiredDatabase = desiredState.storageLocations
+                            | selectattr('name', 'equalto', desiredState.node.location.name)
+                            | map(attribute='database')
+                            | first %}
 
 {% for col in desiredState.columns if col.primaryKey %}
 
@@ -46,11 +51,14 @@
 
     {% set col = item.factCol %}
     {%- set srcTableName = desiredState.sources[0].columns 
-                            | selectattr('id','eq', col.id)
-                            | map(attribute='sourceColumns')
-                            | first 
-                            | map(attribute='node.name')
-                            | first -%}
+        | selectattr('id', 'eq', col.id)
+        | map(attribute='sourceColumns')
+        | first 
+        | select('defined')
+        | selectattr('node', 'defined')
+        | map(attribute='node.name') 
+        | first 
+        | default('', true) -%}
 
     
     {% set _ = nsSVvariables.factDetails.append({
@@ -66,11 +74,14 @@
 
     {% set col = item.dimCol %}
     {%- set srcTableName = desiredState.sources[0].columns 
-                            | selectattr('id','eq', col.id)
-                            | map(attribute='sourceColumns')
-                            | first 
-                            | map(attribute='node.name')
-                            | first -%}
+        | selectattr('id', 'eq', col.id)
+        | map(attribute='sourceColumns')
+        | first 
+        | select('defined')
+        | selectattr('node', 'defined')
+        | map(attribute='node.name') 
+        | first 
+        | default('', true) -%}
 
     {% set _ = nsSVvariables.dimDetails.append({
         "id": col.id if col else None,
@@ -104,8 +115,29 @@
 
 {% if desiredState.config.deriveCol %}
 
+    {{ stage('Drop Semantic View') }}
+    EXECUTE IMMEDIATE $$
+    DECLARE
+    -- Default to NULL or 'NONE' so the IF checks don't crash
+    target_type STRING DEFAULT 'NONE';
+    BEGIN
+    -- 1. Use INTO to capture the result
+    SELECT count(*) 
+        INTO :target_type
+        FROM {{desiredDatabase}}.information_schema.semantic_views
+        WHERE name = '{{ desiredState.node.name }}'
+        LIMIT 1;
+
+    -- 2. Drop the existing object based on its type
+    IF (target_type = 1) THEN
+        DROP SEMANTIC VIEW {{ objectFullPath }};
+        RETURN 'Success: Semantic View found and dropped.';
+    END IF;
+    END;
+    $$;
+
     {{ stage('Create Schema Table', true, "sql", "create") }}
-    CREATE OR REPLACE TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+    CREATE OR REPLACE TABLE {{ objectFullPath }}
     AS
     (
         SELECT                 
@@ -131,15 +163,29 @@
         )
 {% else %}
 
-    {% if desiredState.config.dropSchemaTab %}
+    {{ stage('Drop Schema Table') }}
+    EXECUTE IMMEDIATE $$
+    DECLARE
+    -- Default to NULL or 'NONE' so the IF checks don't crash
+    target_type STRING DEFAULT 'NONE';
+    BEGIN
+    -- 1. Use INTO to capture the result
+    SELECT table_type 
+        INTO :target_type
+        FROM {{desiredDatabase}}.information_schema.tables
+        WHERE table_name = '{{ desiredState.node.name }}'
+        LIMIT 1;
 
-        {{ stage('Dropping Schema Table') }}
-        DROP TABLE IF EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-
-    {% endif %}
+    -- 2. Drop the existing object based on its type
+    IF (target_type = 'BASE TABLE') THEN
+        DROP TABLE {{ objectFullPath }};
+        RETURN 'Success: Table found and dropped.';
+    END IF;
+    END;
+    $$;
 
     {{ stage('Create Semantic View', true, "sql", "create") }}
-    CREATE OR REPLACE SEMANTIC VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+    CREATE OR REPLACE SEMANTIC VIEW {{ objectFullPath }}
 
     TABLES
     (

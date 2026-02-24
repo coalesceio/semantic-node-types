@@ -23,19 +23,12 @@ metadata:
         isRequired: false
         default: true
 
-      - type: toggleButton
-        displayName: Drop Schema Table
-        attributeName: dropSchemaTab
-        isRequired: false
-        default: true
-        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
-
       - type: materializationSelector
         isRequired: true
-        default: view
+        default: semantic view
         enableIf: "false"
         options:
-        - view
+        - semantic view
 
       - type: columnSelector
         displayName: TABLES (Primary Key)

@@ -38,6 +38,11 @@ operation:
             columnCounter: 61c9f8a5-5b5b-4bca-a19d-be0720b21a93
             stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
           dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: f90c7856-979c-468b-af66-a748a1ad2e9a
+            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimTransform: ""
     deriveCol: false
     dropSchemaTab: false
     factDetConfig:
@@ -114,12 +119,18 @@ operation:
             stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
           metricTransformExprn: ""
           metricTransorm: COUNT
+        - metricAlias: nation.comments
+          metricCol:
+            columnCounter: f90c7856-979c-468b-af66-a748a1ad2e9a
+            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          metricTransformExprn: ""
+          metricTransorm: COUNT
         - metricAlias: customer.customer_order_count
           metricCol:
             columnCounter: e4d5ad65-bfb2-43ff-96c7-9c5b41ef614a
             stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
           metricTransformExprn: ""
-          metricTransorm: SUM
+          metricTransorm: COUNT
         - metricAlias: orders.average_line_items_per_order
           metricCol:
             columnCounter: 2f0e8068-4a33-4d44-8d33-8d6a205ef406
@@ -453,6 +464,27 @@ operation:
         primaryKey: false
         sourceColumnReferences:
           - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f90c7856-979c-468b-af66-a748a1ad2e9a
+          stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        config: {}
+        dataType: VARCHAR(152)
+        defaultValue: ""
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6989a3d1-1a42-48b7-8b21-f0f37c26fd0c
+                stepCounter: 1a14f22b-2960-44ed-8368-cc005690f2bc
             transform: ""
         transform: ""
         uniqueKey: false

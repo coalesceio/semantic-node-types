@@ -1,0 +1,111 @@
+{{ stage('Create Semantic View') }}
+{%- set ns = namespace(table_map={}) -%}
+
+{%- for table_col in columns if table_col.semanticType == 'TABLE' -%}
+  {%- set source_table_col = sources[0].columns | selectattr('id', 'equalto', table_col.id) | first -%}
+  {%- if source_table_col.sourceColumns | length > 0 -%}
+    {%- set source_node = source_table_col.sourceColumns[0].node -%}
+    {%- set ns.table_map = dict(ns.table_map, **{table_col.name: {'source_node_id': source_node.id, 'primary_keys': []}}) -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- for col in columns if col.semanticType == 'PRIMARY KEY' -%}
+  {%- set source_col = sources[0].columns | selectattr('id', 'equalto', col.id) | first -%}
+  {%- if source_col.sourceColumns | length > 0 -%}
+    {%- set source_node = source_col.sourceColumns[0].node -%}
+    {%- for table_name, table_info in ns.table_map.items() -%}
+      {%- if table_info.source_node_id == source_node.id -%}
+        {%- set _ = ns.table_map[table_name].primary_keys.append(col.name | lower) -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor %}
+
+CREATE OR REPLACE SEMANTIC VIEW {{ ref_no_link(node.location.name, node.name) }}
+
+TABLES (
+  {%- for col in columns if col.semanticType == 'TABLE' %}
+    {%- set source_col = sources[0].columns | selectattr('id', 'equalto', col.id) | first -%}
+    {%- set source_node = source_col.sourceColumns[0].node -%}
+    {%- set location_name = source_node.location.name -%}
+    {%- set db = storageLocations | selectattr('name', 'equalto', location_name) | map(attribute='database') | first -%}
+    {%- set schema = storageLocations | selectattr('name', 'equalto', location_name) | map(attribute='schema') | first %}
+  {{ col.name }} AS {{ db }}.{{ schema }}.{{ source_node.name }}
+    {%- if col.name in ns.table_map and ns.table_map[col.name].primary_keys | length > 0 %}
+    PRIMARY KEY ({{ ns.table_map[col.name].primary_keys | join(', ') }})
+    {%- endif %}
+    {%- if col.synonyms %}
+    WITH SYNONYMS ({% for synonym in col.synonyms.split(',') %}'{{ synonym.strip() }}'{% if not loop.last %}, {% endif %}{% endfor %})
+    {%- endif %}
+    {%- if col.description %}
+    COMMENT = '{{ col.description | escape  }}'
+    {%- endif %}
+    {%- if not loop.last %},{% endif %}
+  {% endfor %}
+)
+
+{%- set relationship_cols = columns | selectattr('semanticType', 'equalto', 'RELATIONSHIPS') | list -%}
+{%- if relationship_cols | length > 0 %}
+
+RELATIONSHIPS (
+  {%- for rel in relationship_cols %}
+    {%- set source_rel = sources[0].columns | selectattr('id', 'equalto', rel.id) | first %}
+  {{ rel.name }} AS
+    {{ source_rel.transform }}
+    {%- if not loop.last %},{% endif %}
+  {%- endfor %}
+)
+{%- endif %}
+
+{%- set fact_cols = columns | selectattr('semanticType', 'equalto', 'FACTS') | list -%}
+{%- if fact_cols | length > 0 %}
+
+FACTS (
+  {%- for fact in fact_cols %}
+    {%- set source_fact = sources[0].columns | selectattr('id', 'equalto', fact.id) | first %}
+  {{ fact.name }} AS {{ source_fact.transform }}
+    {%- if fact.description %}
+    COMMENT = '{{ fact.description | escape  }}'
+    {%- endif %}
+    {%- if not loop.last %},{% endif %}
+  {%- endfor %}
+)
+{%- endif %}
+
+{%- set dimension_cols = columns | selectattr('semanticType', 'equalto', 'DIMENSIONS') | list -%}
+{%- if dimension_cols | length > 0 %}
+
+DIMENSIONS (
+  {%- for dim in dimension_cols %}
+    {%- set source_dim = sources[0].columns | selectattr('id', 'equalto', dim.id) | first %}
+  {{ dim.name }} AS {{ source_dim.transform }}
+    {%- if dim.synonyms %}
+    WITH SYNONYMS = ({% for synonym in dim.synonyms.split(',') %}'{{ synonym.strip() }}'{% if not loop.last %}, {% endif %}{% endfor %})
+    {%- endif %}
+    {%- if dim.description %}
+    COMMENT = '{{ dim.description | escape  }}'
+    {%- endif %}
+    {%- if not loop.last %},{% endif %}
+  {%- endfor %}
+)
+{%- endif %}
+
+{%- set metric_cols = columns | selectattr('semanticType', 'equalto', 'METRICS') | list -%}
+{%- if metric_cols | length > 0 %}
+
+METRICS (
+  {%- for metric in metric_cols %}
+    {%- set source_metric = sources[0].columns | selectattr('id', 'equalto', metric.id) | first %}
+  {{ metric.name }} AS {{ source_metric.transform }}
+    {%- if metric.description %}
+    COMMENT = '{{ metric.description | escape  }}'
+    {%- endif %}
+    {%- if not loop.last %},{% endif %}
+  {%- endfor %}
+)
+{%- endif %}
+
+{%- if node.description %}
+COMMENT = '{{ node.description | escape  }}'
+{%- else %};
+{%- endif %}
