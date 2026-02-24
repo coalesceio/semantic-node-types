@@ -6,55 +6,37 @@ operation:
     DimConfig:
       items:
         - dimAlias: nation.nation_name
-          dimCol:
-            columnCounter: 65d1a88f-cff1-4d5c-a213-5bb5d4a28d24
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
         - dimAlias: customer.customer_name
-          dimCol:
-            columnCounter: e02d396a-67d6-4c29-9bbb-6c98e54db5dd
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
         - dimAlias: customer.customer_region_name
-          dimCol:
-            columnCounter: 8c31a34f-53f9-4345-aa11-2329734ee3cc
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
         - dimAlias: customer.customer_nation_name
-          dimCol:
-            columnCounter: 65d1a88f-cff1-4d5c-a213-5bb5d4a28d24
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
         - dimAlias: customer.customer_market_segment
-          dimCol:
-            columnCounter: b09ed4cf-739a-4e51-9ae2-1113bc77a331
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
         - dimAlias: customer.customer_country_code
           dimCol: null
           dimTransform: LEFT(c_phone, 2)
         - dimAlias: orders.order_date
-          dimCol:
-            columnCounter: 61c9f8a5-5b5b-4bca-a19d-be0720b21a93
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          dimCol: null
           dimTransform: ""
     deriveCol: true
     factDetConfig:
       items:
         - factAlias: null
-          factCol:
-            columnCounter: 8c31a34f-53f9-4345-aa11-2329734ee3cc
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          factCol: null
           factTranform: null
         - factAlias: ""
-          factCol:
-            columnCounter: 65d1a88f-cff1-4d5c-a213-5bb5d4a28d24
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          factCol: null
           factTranform: ""
         - factAlias: ""
-          factCol:
-            columnCounter: 9817e8dd-5eff-4292-b77f-6e523b4094b0
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          factCol: null
           factTranform: ""
         - factAlias: customer.c_customer_order_count
           factCol: null
@@ -67,50 +49,32 @@ operation:
           factTranform: COUNT(CONCAT(l_orderkey, '-', l_linenumber))
     foreignKeyConfig:
       items:
-        - foreignKey:
-            columnCounter: 47f826c7-6b69-4aed-8cf8-694f5614c699
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        - foreignKey: null
           refTable: region_pk
-        - foreignKey:
-            columnCounter: 895c33ad-4336-4256-9ec5-66fe3760a05a
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        - foreignKey: null
           refTable: nation
-        - foreignKey:
-            columnCounter: 7c8e96bb-7d9a-48f2-ae6b-fecd4f88018c
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        - foreignKey: null
           refTable: customer
-        - foreignKey:
-            columnCounter: 53630b1a-d2d9-4241-a6af-1694bede33c5
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        - foreignKey: null
           refTable: orders
-        - foreignKey:
-            columnCounter: dfc63338-f6a7-49dc-82f1-55411e9d6f51
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+        - foreignKey: null
           refTable: nation
     metricConfig:
       items:
         - metricAlias: customer.customer_count
-          metricCol:
-            columnCounter: 85edcf25-8567-4e21-8ea2-b7dac2931989
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          metricCol: null
           metricTransformExprn: ""
           metricTransorm: COUNT
         - metricAlias: orders.order_count
-          metricCol:
-            columnCounter: 9817e8dd-5eff-4292-b77f-6e523b4094b0
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          metricCol: null
           metricTransformExprn: ""
           metricTransorm: COUNT
         - metricAlias: orders.order_average_value
-          metricCol:
-            columnCounter: b99d7212-3ec8-4842-8620-0edd5ac3485e
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          metricCol: null
           metricTransformExprn: ""
           metricTransorm: AVG
         - metricAlias: supplier.supplier_count
-          metricCol:
-            columnCounter: 94f41999-a52f-4429-a4a4-f4e500f3164e
-            stepCounter: af61b263-65cb-4dc3-ab36-ff40d7b962df
+          metricCol: null
           metricTransformExprn: ""
           metricTransorm: COUNT
   database: ""
