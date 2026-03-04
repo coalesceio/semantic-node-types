@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 670c62bb-435e-4814-8161-b7abb8808200
-name: SMV_Model
+name: smv_tpch_analysis
 operation:
   config:
     DimConfig:
@@ -20,7 +20,7 @@ operation:
             columnCounter: b3bb9676-6340-498d-b6c0-8321702ba722
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
           dimTransform: ""
-        - dimAlias: ustomer.customer_nation_name
+        - dimAlias: customer.customer_nation_name
           dimCol:
             columnCounter: 08d9189d-622a-458c-ba00-f876cc8c3a40
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
@@ -33,7 +33,7 @@ operation:
         - dimAlias: customer.customer_country_code
           dimCol: null
           dimTransform: LEFT(c_phone, 2)
-        - dimAlias: orders.o_orderdate
+        - dimAlias: ""
           dimCol:
             columnCounter: 8f58e5cf-e0bf-46c0-a8ac-cac0a9bf5bc6
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
@@ -41,17 +41,17 @@ operation:
     deriveCol: true
     factDetConfig:
       items:
-        - factAlias: region.r_name
+        - factAlias: ""
           factCol:
             columnCounter: b3bb9676-6340-498d-b6c0-8321702ba722
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
           factTranform: ""
-        - factAlias: nation.n_name
+        - factAlias: ""
           factCol:
             columnCounter: 08d9189d-622a-458c-ba00-f876cc8c3a40
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
           factTranform: ""
-        - factAlias: orders.o_orderkey
+        - factAlias: ""
           factCol:
             columnCounter: 9a4ef56d-3103-4f70-8b2e-2016e485de7e
             stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
@@ -90,28 +90,36 @@ operation:
     metricConfig:
       items:
         - metricAlias: customer.customer_count
-          metricCol: null
-          metricTransformExprn: c_custkey
+          metricCol:
+            columnCounter: 8f468104-321f-4f57-9126-ea79f8dc63d0
+            stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
+          metricTransformExprn: ""
           metricTransorm: COUNT
         - metricAlias: customer.customer_order_count
           metricCol: null
-          metricTransformExprn: c_customer_order_count)
+          metricTransformExprn: SUM(c_customer_order_count)
           metricTransorm: SUM
         - metricAlias: orders.order_count
-          metricCol: null
-          metricTransformExprn: o_orderkey
+          metricCol:
+            columnCounter: 9a4ef56d-3103-4f70-8b2e-2016e485de7e
+            stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
+          metricTransformExprn: ""
           metricTransorm: COUNT
         - metricAlias: orders.order_average_value
-          metricCol: null
-          metricTransformExprn: orders.o_totalprice
+          metricCol:
+            columnCounter: a7058154-7ad9-4ad4-b240-a6b2d8407f19
+            stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
+          metricTransformExprn: ""
           metricTransorm: AVG
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
-          metricTransformExprn: orders.count_line_items
+          metricTransformExprn: AVG(orders.count_line_items)
           metricTransorm: AVG
         - metricAlias: supplier.supplier_count
-          metricCol: null
-          metricTransformExprn: s_suppkey
+          metricCol:
+            columnCounter: 028c5d77-1f64-4005-b899-f6e010bcc37d
+            stepCounter: 670c62bb-435e-4814-8161-b7abb8808200
+          metricTransformExprn: ""
           metricTransorm: COUNT
   database: ""
   deployEnabled: true
@@ -849,9 +857,9 @@ operation:
             ON "SUPPLIER"./*COLUMN*/ = "ORDERS"./*COLUMN*/
             INNER JOIN {{ ref('SRC', 'LINEITEM') }} "LINEITEM"
             ON "SUPPLIER"./*COLUMN*/ = "LINEITEM"./*COLUMN*/
-        name: SMV_Model
+        name: smv_tpch_analysis
         noLinkRefs: []
-  name: SMV_Model
+  name: smv_tpch_analysis
   overrideSQL: false
   schema: ""
   sqlType: "601"

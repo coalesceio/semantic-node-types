@@ -17,16 +17,10 @@ metadata:
     - groupName: Semantic View Options
       items:
 
-      - type: toggleButton
-        displayName: Create Schema Table
-        attributeName: deriveCol
-        isRequired: false
-        default: true
-
       - type: materializationSelector
         isRequired: true
         default: semantic view
-        enableIf: "false"
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
         options:
         - semantic view
 
@@ -55,16 +49,6 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
-      - type: label
-        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
-        attributeName: labelFactSourceColumnWarnig
-        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
-
-      - type: label
-        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
-        attributeName: labelFactDerivedColumnWarnig
-        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
-
       - type: tabular
         displayName: FACTS
         attributeName: factDetConfig
@@ -90,16 +74,6 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
-      - type: label
-        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
-        attributeName: labelDimSourceColumnWarnig
-        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
-
-      - type: label
-        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
-        attributeName: labelDimDerivedColumnWarnig
-        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
-
       - type: tabular
         displayName: DIMENSIONS
         attributeName: DimConfig
@@ -124,16 +98,6 @@ metadata:
           attributeName: dimAlias
           isRequired: false
           enableIf: 'true'
-
-      - type: label
-        displayName: ⚠️ Limited to base columns and source-level transformations. Re-Sync required after creation.
-        attributeName: labelMetricSourceColumnWarnig
-        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
-
-      - type: label
-        displayName: ⚠️ Include derived columns and/or update existing expressions as needed.
-        attributeName: labelMetricDerivedColumnWarnig
-        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 
       - type: tabular
         displayName: Metric Details
@@ -172,16 +136,5 @@ metadata:
           attributeName: metricAlias
           isRequired: false
           enableIf: 'true'
-
-    mappingColumns:
-    - headerName: P/R/F/D
-      attributeName: refKey
-      pinned: 'left'
-      type: textBox
-
-    - headerName: Reference Table
-      attributeName: refTable
-      pinColumn: 'left'
-      type: textBox
 name: Semantic Node
 type: NodeType

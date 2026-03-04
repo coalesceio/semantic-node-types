@@ -1,0 +1,80 @@
+fileVersion: 1
+id: 9074a78e-8b47-4182-8d85-3c84777e035d
+name: V_tpch_analysis
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ca929ee-a95c-4b60-8a8b-d5c9f8f75b21
+          stepCounter: 9074a78e-8b47-4182-8d85-3c84777e035d
+        config: {}
+        dataType: varchar(10)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: customer_market_segment
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: customer_market_segment
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ffa0e7f-41dc-44dc-8cd0-a6a8ded14575
+          stepCounter: 9074a78e-8b47-4182-8d85-3c84777e035d
+        config: {}
+        dataType: NUMERIC
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: AGG_order_average_value
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: AGG(order_average_value)
+        systemColumnType: None
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          smv_tpch_analysis: 670c62bb-435e-4814-8161-b7abb8808200
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: smv_tpch_analysis
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'smv_tpch_analysis') }} "smv_tpch_analysis"
+            GROUP BY customer_market_segment
+            ORDER BY customer_market_segment
+        name: V_tpch_analysis
+        noLinkRefs: []
+  name: V_tpch_analysis
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

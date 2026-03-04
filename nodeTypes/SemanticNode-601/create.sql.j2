@@ -113,148 +113,77 @@
 {% set all_ids = combined | map(attribute='id') | list | unique | list %}
 {% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
 
-{% if desiredState.config.deriveCol %}
+{# -------------------------------------------------------------- #}
 
-    {{ stage('Drop Semantic View') }}
-    EXECUTE IMMEDIATE $$
-    DECLARE
-    -- Default to NULL or 'NONE' so the IF checks don't crash
-    target_type STRING DEFAULT 'NONE';
-    BEGIN
-    -- 1. Use INTO to capture the result
-    SELECT count(*) 
-        INTO :target_type
-        FROM {{desiredDatabase}}.information_schema.semantic_views
-        WHERE name = '{{ desiredState.node.name }}'
-        LIMIT 1;
+{{ stage('Create Semantic View', true, "sql", "create") }}
+CREATE OR REPLACE SEMANTIC VIEW {{ objectFullPath }}
 
-    -- 2. Drop the existing object based on its type
-    IF (target_type = 1) THEN
-        DROP SEMANTIC VIEW {{ objectFullPath }};
-        RETURN 'Success: Semantic View found and dropped.';
-    END IF;
-    END;
-    $$;
+TABLES
+(
+    {% for table, cols in nsSVvariables.primKey | groupby('srcTablePath') %}
+    {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }} PRIMARY KEY (
+        {{ cols | map(attribute='name') | join(', ') }}
+    ){% if not loop.last %},{% endif %}
+    {% endfor %}
+)
 
-    {{ stage('Create Schema Table', true, "sql", "create") }}
-    CREATE OR REPLACE TABLE {{ objectFullPath }}
-    AS
-    (
-        SELECT                 
-            {% for col in desiredState.sources[0].columns if col.id in all_ids %}
-                {{ get_source_transform(col) }} AS "{{ col.name }}",
-            {% endfor %}
-            {% for col in nsSVvariables.factDetails if col.id is none %}
-                {{ col.transform }} AS "{{ col.alias }}",
-            {% endfor %}
-            {% for col in nsSVvariables.dimDetails if col.id is none %}
-                {%- if not loop.last -%},{% endif %}
-                {{ col.transform }} AS "{{ col.alias }}"
-            {% endfor %}
+RELATIONSHIPS
+(
+    {% for item in nsSVvariables.foreignKey %}
+        {{ item.srcTableName }} ({{ item.name }}) REFERENCES {{ item.refTable }}
+        
+        {% if not loop.last %},{% endif %}
+    {% endfor %}
+)
 
-            FROM
-            {% for tablePath in allSrcTables %}
-                    {{ tablePath }} {{tablePath.split('.')[-1].replace('"','')}}
-                {%- if not loop.last -%} , {% endif %}
-            {% endfor %}
+FACTS (
+    {%- for col in nsSVvariables.factDetails %}
+        {% if col.transform %}
+            {{ col.alias if col.alias 
+                        else col.name }}
+            AS {{ col.transform }}
+        {% else %}      
+            {{ col.srcTableName }}.{{ col.alias if col.alias 
+                        else col.name }}
+            AS {{ col.name }}
+        {% endif %}
 
-            WHERE 1=0
-            GROUP BY ALL
-        )
-{% else %}
+        {% if not loop.last %},{% endif %}
+    {%- endfor %}
+)
 
-    {{ stage('Drop Schema Table') }}
-    EXECUTE IMMEDIATE $$
-    DECLARE
-    -- Default to NULL or 'NONE' so the IF checks don't crash
-    target_type STRING DEFAULT 'NONE';
-    BEGIN
-    -- 1. Use INTO to capture the result
-    SELECT table_type 
-        INTO :target_type
-        FROM {{desiredDatabase}}.information_schema.tables
-        WHERE table_name = '{{ desiredState.node.name }}'
-        LIMIT 1;
-
-    -- 2. Drop the existing object based on its type
-    IF (target_type = 'BASE TABLE') THEN
-        DROP TABLE {{ objectFullPath }};
-        RETURN 'Success: Table found and dropped.';
-    END IF;
-    END;
-    $$;
-
-    {{ stage('Create Semantic View', true, "sql", "create") }}
-    CREATE OR REPLACE SEMANTIC VIEW {{ objectFullPath }}
-
-    TABLES
-    (
-        {% for table, cols in nsSVvariables.primKey | groupby('srcTablePath') %}
-        {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }} PRIMARY KEY (
-            {{ cols | map(attribute='name') | join(', ') }}
-        ){% if not loop.last %},{% endif %}
-        {% endfor %}
-    )
-
-    RELATIONSHIPS
-    (
-        {% for item in nsSVvariables.foreignKey %}
-            {{ item.srcTableName }} ({{ item.name }}) REFERENCES {{ item.refTable }}
-            
-            {% if not loop.last %},{% endif %}
-        {% endfor %}
-    )
-
-    FACTS (
-        {%- for col in nsSVvariables.factDetails %}
-            {% if col.transform %}
-                {{ col.alias if col.alias 
-                            else col.name }}
-                AS {{ col.transform }}
-            {% else %}      
-                {{ col.srcTableName }}.{{ col.alias if col.alias 
-                            else col.name }}
-                AS {{ col.name }}
-            {% endif %}
-
-            {% if not loop.last %},{% endif %}
-        {%- endfor %}
-    )
-
-    DIMENSIONS (
-        {%- for col in nsSVvariables.dimDetails %}
-            {% if col.transform != '' %}
-                {{ col.alias if col.alias 
-                            else col.name }}
-                AS {{ col.transform }}
-            {% else %}
-                {% if col.alias != '' %}
-                    {% if col.alias.split('.') | length == 2 %}
-                        {{ col.alias }}
-                    {% else %}
-                        {{ col.srcTableName + '.' + col.alias }}
-                    {% endif %}
+DIMENSIONS (
+    {%- for col in nsSVvariables.dimDetails %}
+        {% if col.transform != '' %}
+            {{ col.alias if col.alias 
+                        else col.name }}
+            AS {{ col.transform }}
+        {% else %}
+            {% if col.alias != '' %}
+                {% if col.alias.split('.') | length == 2 %}
+                    {{ col.alias }}
                 {% else %}
-                    {{ col.srcTableName + '.' + col.name }}
+                    {{ col.srcTableName + '.' + col.alias }}
                 {% endif %}
-                AS {{ col.srcTableName }}.{{ col.name }}
+            {% else %}
+                {{ col.srcTableName + '.' + col.name }}
             {% endif %}
+            AS {{ col.srcTableName }}.{{ col.name }}
+        {% endif %}
 
-            {% if not loop.last %},{% endif %}
-        {%- endfor %}
-    )
+        {% if not loop.last %},{% endif %}
+    {%- endfor %}
+)
 
-    METRICS
-    (
-        {% for col in nsSVvariables.metricDetails %}
-            {{ col.alias if col.alias else column }}
-            AS 
-            {%- if col.exprn %}
-                {{ col.exprn }} 
-            {%- else %}
-                {{col.transform}}({{ col.name }})
-            {%- endif %}
-            {%- if not loop.last %},{% endif %}
-        {% endfor %}
-    )
-{% endif %}
+METRICS
+(
+    {%- set metrics = desiredState.config.metricConfig.get('items') -%}
+    {%- for m in metrics %}
+        {%- if m.metricTransformExprn and m.metricTransformExprn != "" %}
+            {{ m.metricAlias }} AS {{ m.metricTransformExprn }}
+        {%- elif m.metricTransorm and m.metricCol %}
+            {{ m.metricAlias }} AS {{ m.metricTransorm }}({{ m.metricCol.name }})
+        {%- endif %}
+        {%- if not loop.last %},{% endif %}
+    {%- endfor %}
+)
