@@ -66,7 +66,8 @@
         "name": col.name if col else None,
         "srcTableName": srcTableName,
         "transform": item.factTranform or "",
-        "alias": item.factAlias or ""
+        "alias": item.factAlias or "",
+        "layer": item.factLayer
     }) %}
 {% endfor %}
 
@@ -88,7 +89,8 @@
         "name": col.name if col else None,
         "srcTableName": srcTableName,
         "transform": item.dimTransform or "",
-        "alias": item.dimAlias or ""
+        "alias": item.dimAlias or "",
+        "layer": item.dimLayer
     }) %}
 {% endfor %}
 
@@ -99,19 +101,18 @@
         "name": col.name if col else None,
         "src": item.srcTable if item.srcTable else "",
         "transform": item.metricTransorm,
-        "exprn": item.metricTransformExprn if item.metricExprn else "",
-        "alias": item.metricAlias if item.metricAlias else ""
+        "exprn": item.metricTransformExprn if item.metricTransformExprn else "",
+        "alias": item.metricAlias if item.metricAlias else "",
+        "layer": item.metricLayer
     }) %}
 {% endfor %}
 
-{% set combined = nsSVvariables.primKey
-                + nsSVvariables.foreignKey
-                + nsSVvariables.factDetails
-                + nsSVvariables.dimDetails
-                + nsSVvariables.metricDetails %}
+{% set combined = nsSVvariables.primKey + nsSVvariables.foreignKey %}
 
 {% set all_ids = combined | map(attribute='id') | list | unique | list %}
 {% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
+
+{# -------------------------------------------------------------- #}
 
 {% if desiredState.config.deriveCol %}
 
@@ -139,28 +140,88 @@
     {{ stage('Create Schema Table', true, "sql", "create") }}
     CREATE OR REPLACE TABLE {{ objectFullPath }}
     AS
-    (
-        SELECT                 
-            {% for col in desiredState.sources[0].columns if col.id in all_ids %}
-                {{ get_source_transform(col) }} AS "{{ col.name }}",
-            {% endfor %}
-            {% for col in nsSVvariables.factDetails if col.id is none %}
-                {{ col.transform }} AS "{{ col.alias }}",
-            {% endfor %}
-            {% for col in nsSVvariables.dimDetails if col.id is none %}
-                {%- if not loop.last -%},{% endif %}
-                {{ col.transform }} AS "{{ col.alias }}"
-            {% endfor %}
-
+    SELECT
+        layer2Columns.*,
+        {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '3' %}
+            {{ col.transform }} AS "{{ col.alias }}",
+        {%- endfor %}
+        {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '3' %}
+            {{ col.transform }} AS "{{ col.alias }}",
+        {%- endfor %}
+        {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '3' %}
+            {{ col.exprn }} AS "{{ col.alias }}"
+            {%- if not loop.last -%},{% endif %}
+        {%- endfor %}
             FROM
-            {% for tablePath in allSrcTables %}
-                    {{ tablePath }} {{tablePath.split('.')[-1].replace('"','')}}
-                {%- if not loop.last -%} , {% endif %}
-            {% endfor %}
+            (
+                SELECT
+                    layer1Columns.*,
+                    {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '2' %}
+                        {{ col.transform }} AS "{{ col.alias }}",
+                    {%- endfor %}
+                    {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '2' %}
+                        {{ col.transform }} AS "{{ col.alias }}",
+                    {%- endfor %}
+                    {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '2' %}
+                        {{ col.exprn }} AS "{{ col.alias }}"
+                        {%- if not loop.last -%},{% endif %}
+                    {%- endfor %}
+                FROM
+                (
+                    SELECT
+                    {%- for col in desiredState.sources[0].columns if col.id in all_ids %}
+                        "{{ col.name }}",
+                    {%- endfor %}
+                    {%- for col in nsSVvariables.factDetails if col.layer == '1' %}
+                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
+                            {{ col.name }} 
+                            {%- if col.alias | trim != '' %}
+                            AS "{{ col.alias }}",
+                            {%- else %}
+                            AS {{ col.name }},
+                            {% endif %}
+                        {%- elif col.id is none %}
+                            {{ col.transform }} AS "{{ col.alias }}",
+                        {% endif %}
+                    {%- endfor %}
+                    {%- for col in nsSVvariables.dimDetails if col.layer == '1' %}
+                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
+                            {{ col.name }} 
+                            {%- if col.alias | trim != '' %}
+                            AS "{{ col.alias }}",
+                            {%- else %}
+                            AS {{ col.name }},
+                            {% endif %}
+                        {%- elif col.id is none %}
+                            {{ col.transform }} AS "{{ col.alias }}",
+                        {% endif %}
+                    {%- endfor %}
+                    {%- for col in nsSVvariables.metricDetails if col.layer == '1' %}
+                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
+                            {{ col.name }} 
+                            {%- if col.alias | trim != '' %}
+                            AS "{{ col.alias }}",
+                            {%- else %}
+                            AS {{ col.name }},
+                            {% endif %}
+                        {%- elif col.id is none %}
+                            {{ col.transform }} AS "{{ col.alias }}",
+                        {% endif %}
+                    {%- endfor %}
+                        
+                    FROM
+                    {% for tablePath in allSrcTables %}
+                        {{ tablePath }} {{tablePath.split('.')[-1].replace('"','')}}
+                    {%- if not loop.last -%} , {% endif %}
+                    {% endfor %}
+                    GROUP BY ALL
+                ) layer1Columns
+                GROUP BY ALL
+            ) layer2Columns
 
-            WHERE 1=0
-            GROUP BY ALL
-        )
+        WHERE 1=0
+        GROUP BY ALL
+        
 {% else %}
 
     {{ stage('Drop Schema Table') }}
@@ -246,15 +307,14 @@
 
     METRICS
     (
-        {% for col in nsSVvariables.metricDetails %}
-            {{ col.alias if col.alias else column }}
-            AS 
-            {%- if col.exprn %}
-                {{ col.exprn }} 
-            {%- else %}
-                {{col.transform}}({{ col.name }})
+        {%- set metrics = desiredState.config.metricConfig.get('items') -%}
+        {%- for m in metrics %}
+            {%- if m.metricTransformExprn and m.metricTransformExprn != "" %}
+                {{ m.metricAlias }} AS {{ m.metricTransformExprn }}
+            {%- elif m.metricTransorm and m.metricCol %}
+                {{ m.metricAlias }} AS {{ m.metricTransorm }}({{ m.metricCol.name }})
             {%- endif %}
             {%- if not loop.last %},{% endif %}
-        {% endfor %}
+        {%- endfor %}
     )
 {% endif %}

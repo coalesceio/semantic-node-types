@@ -1,3 +1,4 @@
 {{stage('0')}}
---{{ sources | map(attribute='columns') | list | sum(start=[]) | map(attribute='sourceColumns') | list | sum(start=[]) | map(attribute='node') | list | map(attribute='name') | list }}
-select 1=0
+{% for item in config.metricConfig.get('items') %}
+     {{ item.metricLayer }}
+{% endfor %}
