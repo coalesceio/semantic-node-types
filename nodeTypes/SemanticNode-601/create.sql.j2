@@ -113,7 +113,7 @@
                     + nsSVvariables.dimDetails
                     + nsSVvariables.metricDetails %}
 
-{% set allBaseIds = layerCombined
+{% set allBaseIds = baseCombined
     | map(attribute='id')
     | list
     | unique
@@ -126,7 +126,7 @@
     | unique
     | list
 %}
-{% set all_ids = (allBaseIds + allLayerIds) | unique | list %}
+{% set all_ids = allBaseIds + allLayerIds %}
 {% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
 
 {# -------------------------------------------------------------- #}
