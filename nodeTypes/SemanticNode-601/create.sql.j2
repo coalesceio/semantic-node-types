@@ -107,9 +107,19 @@
     }) %}
 {% endfor %}
 
-{% set combined = nsSVvariables.primKey + nsSVvariables.foreignKey %}
+{% set combined = nsSVvariables.primKey
+                    +  nsSVvariables.foreignKey 
+                    + nsSVvariables.factDetails
+                    + nsSVvariables.dimDetails
+                    + nsSVvariables.metricDetails %}
 
-{% set all_ids = combined | map(attribute='id') | list | unique | list %}
+{% set all_ids = combined
+    | selectattr('transform', 'equalto', '')
+    | map(attribute='id')
+    | list
+    | unique
+    | list
+%}
 {% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
 
 {# -------------------------------------------------------------- #}
@@ -173,37 +183,22 @@
                         "{{ col.name }}",
                     {%- endfor %}
                     {%- for col in nsSVvariables.factDetails if col.layer == '1' %}
-                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
-                            {{ col.name }} 
-                            {%- if col.alias | trim != '' %}
-                            AS "{{ col.alias }}",
-                            {%- else %}
-                            AS {{ col.name }},
-                            {% endif %}
+                        {%- if col.id and col.alias | trim != '' -%}
+                            {{ col.name }} AS "{{ col.alias }}",
                         {%- elif col.id is none %}
                             {{ col.transform }} AS "{{ col.alias }}",
                         {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.dimDetails if col.layer == '1' %}
-                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
-                            {{ col.name }} 
-                            {%- if col.alias | trim != '' %}
-                            AS "{{ col.alias }}",
-                            {%- else %}
-                            AS {{ col.name }},
-                            {% endif %}
+                        {%- if col.id and col.alias | trim != '' -%}
+                            {{ col.name }} AS "{{ col.alias }}",
                         {%- elif col.id is none %}
                             {{ col.transform }} AS "{{ col.alias }}",
                         {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.metricDetails if col.layer == '1' %}
-                        {%- if col.id and (col.id not in all_ids or (col.id in all_ids and col.alias)) -%}
-                            {{ col.name }} 
-                            {%- if col.alias | trim != '' %}
-                            AS "{{ col.alias }}",
-                            {%- else %}
-                            AS {{ col.name }},
-                            {% endif %}
+                        {%- if col.id and col.alias | trim != '' -%}
+                            {{ col.name }} AS "{{ col.alias }}",
                         {%- elif col.id is none %}
                             {{ col.transform }} AS "{{ col.alias }}",
                         {% endif %}
