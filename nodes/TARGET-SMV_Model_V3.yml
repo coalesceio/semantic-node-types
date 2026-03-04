@@ -69,7 +69,7 @@ operation:
         - factAlias: customer.c_customer_order_count
           factCol: null
           factLayer: "1"
-          factTranform: COUNT(o_orderkey)
+          factTranform: COUNT(orders.o_orderkey)
         - factAlias: lineitem.line_item_id
           factCol: null
           factLayer: "1"
@@ -109,11 +109,6 @@ operation:
           metricLayer: "1"
           metricTransformExprn: ""
           metricTransorm: COUNT
-        - metricAlias: customer.customer_order_count
-          metricCol: null
-          metricLayer: "2"
-          metricTransformExprn: "\"customer.c_customer_order_count\""
-          metricTransorm: SUM
         - metricAlias: orders.order_count
           metricCol:
             columnCounter: 79fe33d9-b187-4333-89cb-6b5ce0f07da7
@@ -128,11 +123,6 @@ operation:
           metricLayer: "1"
           metricTransformExprn: ""
           metricTransorm: AVG
-        - metricAlias: orders.average_line_items_per_order
-          metricCol: null
-          metricLayer: "3"
-          metricTransformExprn: "\"orders.count_line_items\""
-          metricTransorm: AVG
         - metricAlias: supplier.supplier_count
           metricCol:
             columnCounter: 787f84cb-8ecc-4288-95d1-72175d193888
@@ -140,6 +130,16 @@ operation:
           metricLayer: "1"
           metricTransformExprn: ""
           metricTransorm: COUNT
+        - metricAlias: customer.customer_order_count
+          metricCol: null
+          metricLayer: "2"
+          metricTransformExprn: SUM("customer.c_customer_order_count")
+          metricTransorm: ""
+        - metricAlias: orders.average_line_items_per_order
+          metricCol: null
+          metricLayer: "3"
+          metricTransformExprn: AVG("orders.count_line_items")
+          metricTransorm: ""
   database: ""
   deployEnabled: true
   description: ""
