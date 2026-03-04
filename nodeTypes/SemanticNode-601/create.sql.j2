@@ -107,19 +107,26 @@
     }) %}
 {% endfor %}
 
-{% set combined = nsSVvariables.primKey
-                    +  nsSVvariables.foreignKey 
-                    + nsSVvariables.factDetails
+{% set baseCombined = nsSVvariables.primKey
+                    +  nsSVvariables.foreignKey %}
+{% set layerCombined = nsSVvariables.factDetails
                     + nsSVvariables.dimDetails
                     + nsSVvariables.metricDetails %}
 
-{% set all_ids = combined
-    | selectattr('transform', 'equalto', '')
+{% set allBaseIds = layerCombined
     | map(attribute='id')
     | list
     | unique
     | list
 %}
+{% set allLayerIds = layerCombined
+    | selectattr('alias', 'equalto', '')
+    | map(attribute='id')
+    | list
+    | unique
+    | list
+%}
+{% set all_ids = (allBaseIds + allLayerIds) | unique | list %}
 {% set allSrcTables = nsSVvariables.primKey | map(attribute='srcTablePath') | list | unique | list %}
 
 {# -------------------------------------------------------------- #}
