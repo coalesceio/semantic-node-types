@@ -24,6 +24,17 @@ metadata:
         options:
         - semantic view
 
+      - type: label
+        displayName: ⚠️ Re-Sync required after creation
+        attributeName: labelFactSourceColumnWarnig
+        enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
+
+      - type: toggleButton
+        displayName: Create Schema Table
+        attributeName: deriveCol
+        isRequired: false
+        default: true
+
       - type: columnSelector
         displayName: TABLES (Primary Key)
         attributeName: primaryKey
