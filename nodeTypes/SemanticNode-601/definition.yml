@@ -17,16 +17,10 @@ metadata:
     - groupName: Semantic View Options
       items:
 
-      - type: toggleButton
-        displayName: Create Schema Table
-        attributeName: deriveCol
-        isRequired: false
-        default: true
-
       - type: materializationSelector
         isRequired: true
         default: semantic view
-        enableIf: "false"
+        enableIf: "true"
         options:
         - semantic view
 
@@ -172,16 +166,5 @@ metadata:
           attributeName: metricAlias
           isRequired: false
           enableIf: 'true'
-
-    mappingColumns:
-    - headerName: P/R/F/D
-      attributeName: refKey
-      pinned: 'left'
-      type: textBox
-
-    - headerName: Reference Table
-      attributeName: refTable
-      pinColumn: 'left'
-      type: textBox
 name: Semantic Node
 type: NodeType
