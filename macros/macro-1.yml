@@ -1,0 +1,19 @@
+fileVersion: 1
+id: "1"
+macroString: |-
+  {% macro build_expr(expr) -%}
+      {%- if expr and '.' in expr -%}
+      {%- set func = expr.split('(')[0] -%}
+      {%- set col = expr.split('.')[-1].replace(')','') -%}
+      {{- func ~ '("' ~ col ~ '")' -}}
+      {%- else -%}
+      {{- expr -}}
+      {%- endif -%}
+  {%- endmacro %}
+
+
+  {% macro build_alias(alias) -%}
+      {{- alias.split('.')[-1] if alias else '' -}}
+  {%- endmacro %}
+name: macro
+type: Macro
