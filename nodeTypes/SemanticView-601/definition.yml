@@ -8,7 +8,7 @@ metadata:
     capitalized: Semantic View
     short: SMV
     plural: Semantic Views
-    tagColor: '#1E89A9'
+    tagColor: '#6B5BD2'
 
     deployStrategy: advanced
     isColumnResyncEnabled: true

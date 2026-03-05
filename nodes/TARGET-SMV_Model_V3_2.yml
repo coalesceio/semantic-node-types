@@ -1,11 +1,11 @@
 fileVersion: 1
 id: 2390471c-9a61-4644-819a-1c7564e371c7
-name: SMV_ORDERS_LINEITEM_CUSTOMER
+name: SMV_Model_V3_2
 operation:
   config:
     DimConfig:
       items:
-        - dimAlias: customers.customer_name
+        - dimAlias: customer.customer_name
           dimCol:
             columnCounter: 04d268b4-f66b-4c80-85c5-af9aedc6c641
             stepCounter: 2390471c-9a61-4644-819a-1c7564e371c7
@@ -48,7 +48,7 @@ operation:
           refTable: orders
     metricConfig:
       items:
-        - metricAlias: customers.customer_count
+        - metricAlias: customer.customer_count
           metricCol:
             columnCounter: 594c420e-0122-4c37-8fd2-0433e51eb240
             stepCounter: 2390471c-9a61-4644-819a-1c7564e371c7
@@ -592,9 +592,9 @@ operation:
             ON "ORDERS"./*COLUMN*/ = "LINEITEM"./*COLUMN*/
             INNER JOIN {{ ref('SRC', 'CUSTOMER') }} "CUSTOMER"
             ON "ORDERS"./*COLUMN*/ = "CUSTOMER"./*COLUMN*/
-        name: SMV_ORDERS_LINEITEM_CUSTOMER
+        name: SMV_Model_V3_2
         noLinkRefs: []
-  name: SMV_ORDERS_LINEITEM_CUSTOMER
+  name: SMV_Model_V3_2
   overrideSQL: false
   schema: ""
   sqlType: "601"

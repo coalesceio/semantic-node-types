@@ -4,10 +4,10 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |
+  nodeMetadataSpec: |-
     capitalized: Semantic Query
     short: SMQ
-    tagColor: '#C4C4C4'
+    tagColor: '#A6A9D2'
     isDisabled: true
     plural: Views
 
@@ -19,23 +19,5 @@ metadata:
             - view
           default: view
           isRequired: true
-
-        - type: toggleButton
-          attributeName: selectDistinct
-          displayName: Distinct
-
-        - type: multisourceToggle
-
-        - type: overrideSQLToggle
-
-        - displayName: Multi Source Strategy
-          attributeName: insertStrategy
-          type: dropdownSelector
-          default: UNION
-          options:
-          - "UNION"
-          - "UNION ALL" 
-          isRequired: true
-          enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
 name: Semantic Query
 type: NodeType
