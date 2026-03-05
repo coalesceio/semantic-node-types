@@ -182,5 +182,5 @@ metadata:
           attributeName: metricAlias
           isRequired: false
           enableIf: 'true'
-name: Semantic Node
+name: Semantic View
 type: NodeType
