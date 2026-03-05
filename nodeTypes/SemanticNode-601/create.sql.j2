@@ -120,7 +120,7 @@
     | list
 %}
 {% set allLayerIds = layerCombined
-    | selectattr('alias', 'equalto', '')
+    | selectattr('alias', 'ne', '')
     | map(attribute='id')
     | list
     | unique
@@ -154,19 +154,33 @@
     END;
     $$;
 
+    {% set agg_funcs = ['count(', 'sum(', 'avg(', 'min(', 'max('] %}
+
     {{ stage('Create Schema Table', true, "sql", "create") }}
     CREATE OR REPLACE TABLE {{ objectFullPath }}
     AS
     SELECT
         layer2Columns.*,
         {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '3' %}
+        {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
+            {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+        {% else %}
             {{ col.transform }} AS "{{ col.alias }}",
+        {% endif %}
         {%- endfor %}
         {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '3' %}
+        {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
+            {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+        {% else %}
             {{ col.transform }} AS "{{ col.alias }}",
+        {% endif %}
         {%- endfor %}
         {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '3' %}
-            {{ col.exprn }} AS "{{ col.alias }}"
+        {% if col.exprn and agg_funcs | select('in', col.exprn|lower) | list | length > 0 %}
+            {{ col.exprn | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+        {% else %}
+            {{ col.exprn }} AS "{{ col.alias }}",
+        {% endif %}
             {%- if not loop.last -%},{% endif %}
         {%- endfor %}
             FROM
@@ -174,20 +188,42 @@
                 SELECT
                     layer1Columns.*,
                     {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '2' %}
+                    {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
+                        {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% else %}
                         {{ col.transform }} AS "{{ col.alias }}",
+                    {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '2' %}
+                    {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
+                        {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% else %}
                         {{ col.transform }} AS "{{ col.alias }}",
+                    {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '2' %}
-                        {{ col.exprn }} AS "{{ col.alias }}"
+                    {% if col.exprn and agg_funcs | select('in', col.exprn|lower) | list | length > 0 %}
+                        {{ col.exprn | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% else %}
+                        {{ col.exprn }} AS "{{ col.alias }}",
+                    {% endif %}
                         {%- if not loop.last -%},{% endif %}
                     {%- endfor %}
                 FROM
                 (
                     SELECT
                     {%- for col in desiredState.sources[0].columns if col.id in all_ids %}
-                        "{{ col.name }}",
+                        {{ col.name }} AS "{{ col.name }}",
+                        {% set alias = all_ids 
+                                        | selectattr('id', 'equalto', col.id) 
+                                        | map(attribute='alias') 
+                                        | first 
+                                        | default('') 
+                                        | trim
+                                    %}
+                        {% if alias != '' -%}
+                            {{ col.name }} AS "{{ alias }}",
+                        {%- endif -%}
                     {%- endfor %}
                     {%- for col in nsSVvariables.factDetails if col.layer == '1' %}
                         {%- if col.id and col.alias | trim != '' -%}

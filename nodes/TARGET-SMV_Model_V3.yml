@@ -77,7 +77,7 @@ operation:
         - factAlias: orders.count_line_items
           factCol: null
           factLayer: "2"
-          factTranform: COUNT("lineitem.line_item_id")
+          factTranform: COUNT(lineitem.line_item_id)
     foreignKeyConfig:
       items:
         - foreignKey:
@@ -133,12 +133,12 @@ operation:
         - metricAlias: customer.customer_order_count
           metricCol: null
           metricLayer: "2"
-          metricTransformExprn: SUM("customer.c_customer_order_count")
+          metricTransformExprn: SUM(customer.c_customer_order_count)
           metricTransorm: ""
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
           metricLayer: "3"
-          metricTransformExprn: AVG("orders.count_line_items")
+          metricTransformExprn: AVG(orders.count_line_items)
           metricTransorm: ""
   database: ""
   deployEnabled: true
