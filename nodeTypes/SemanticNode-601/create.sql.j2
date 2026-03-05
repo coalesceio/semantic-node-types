@@ -154,60 +154,56 @@
     END;
     $$;
 
-    {% set agg_funcs = ['count(', 'sum(', 'avg(', 'min(', 'max('] %}
-
     {{ stage('Create Schema Table', true, "sql", "create") }}
     CREATE OR REPLACE TABLE {{ objectFullPath }}
     AS
     SELECT
         layer2Columns.*,
         {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '3' %}
-        {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
-            {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
-        {% else %}
-            {{ col.transform }} AS "{{ col.alias }}",
-        {% endif %}
+            {% if '.' in col.transform %}
+                {{ col.transform.split('(')[0] }}("{{ col.transform.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
+            {% else %}
+                {{ col.transform.split('(')[-1].replace(')','') ~ '")' }} AS "{{ col.alias.split('.')[1] }}",
+            {% endif %}
         {%- endfor %}
         {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '3' %}
-        {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
-            {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
-        {% else %}
-            {{ col.transform }} AS "{{ col.alias }}",
-        {% endif %}
+            {% if '.' in col.transform %}
+                {{ col.transform.split('(')[0] }}("{{ col.transform.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
+            {% else %}
+                {{ col.transform.split('(')[-1].replace(')','') ~ '")' }} AS "{{ col.alias.split('.')[1] }}",
+            {% endif %}
         {%- endfor %}
         {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '3' %}
-        {% if col.exprn and agg_funcs | select('in', col.exprn|lower) | list | length > 0 %}
-            {{ col.exprn | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
-        {% else %}
-            {{ col.exprn }} AS "{{ col.alias }}",
-        {% endif %}
-            {%- if not loop.last -%},{% endif %}
+            {% if '.' in col.exprn %}
+                {{ col.exprn.split('(')[0] }}("{{ col.exprn.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
+            {% else %}
+                {{ col.exprn }} AS "{{ col.alias.split('.')[1] }}",
+            {% endif %}
         {%- endfor %}
             FROM
             (
                 SELECT
                     layer1Columns.*,
                     {%- for col in nsSVvariables.factDetails if col.id is none and col.layer == '2' %}
-                    {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
-                        {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% if '.' in col.transform %}
+                        {{ col.transform.split('(')[0] }}("{{ col.transform.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
                     {% else %}
-                        {{ col.transform }} AS "{{ col.alias }}",
+                        {{ col.transform.split('(')[-1].replace(')','') ~ '")' }} AS "{{ col.alias.split('.')[1] }}",
                     {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.dimDetails if col.id is none and col.layer == '2' %}
-                    {% if col.transform and agg_funcs | select('in', col.transform|lower) | list | length > 0 %}
-                        {{ col.transform | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% if '.' in col.transform %}
+                        {{ col.transform.split('(')[0] }}("{{ col.transform.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
                     {% else %}
-                        {{ col.transform }} AS "{{ col.alias }}",
+                        {{ col.transform.split('(')[-1].replace(')','') ~ '")' }} AS "{{ col.alias.split('.')[1] }}",
                     {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.metricDetails if col.id is none and col.layer == '2' %}
-                    {% if col.exprn and agg_funcs | select('in', col.exprn|lower) | list | length > 0 %}
-                        {{ col.exprn | replace('(', '("') | replace(')', '")') }} AS "{{ col.alias }}",
+                    {% if '.' in col.exprn %}
+                        {{ col.exprn.split('(')[0] }}("{{ col.exprn.split('.')[-1].replace(')','') }}") AS "{{ col.alias.split('.')[1] }}",
                     {% else %}
-                        {{ col.exprn }} AS "{{ col.alias }}",
+                        {{ col.exprn }} AS "{{ col.alias.split('.')[1] }}",
                     {% endif %}
-                        {%- if not loop.last -%},{% endif %}
                     {%- endfor %}
                 FROM
                 (
@@ -227,23 +223,35 @@
                     {%- endfor %}
                     {%- for col in nsSVvariables.factDetails if col.layer == '1' %}
                         {%- if col.id and col.alias | trim != '' -%}
-                            {{ col.name }} AS "{{ col.alias }}",
+                            {{ col.name }} AS "{{ col.alias.split('.')[1] }}",
                         {%- elif col.id is none %}
-                            {{ col.transform }} AS "{{ col.alias }}",
+                            {% if '.' in col.transform %}
+                                {{ col.transform.split('(')[0] }}({{ col.transform.split('.')[-1].replace(')','') }}) AS "{{ col.alias.split('.')[1] }}",
+                            {% else %}
+                                {{ col.transform }} AS "{{ col.alias.split('.')[1] }}",
+                            {% endif %}
                         {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.dimDetails if col.layer == '1' %}
                         {%- if col.id and col.alias | trim != '' -%}
-                            {{ col.name }} AS "{{ col.alias }}",
+                            {{ col.name }} AS "{{ col.alias.split('.')[1] }}",
                         {%- elif col.id is none %}
-                            {{ col.transform }} AS "{{ col.alias }}",
+                            {% if '.' in col.transform %}
+                                {{ col.transform.split('(')[0] }}({{ col.transform.split('.')[-1].replace(')','') }}) AS "{{ col.alias.split('.')[1] }}",
+                            {% else %}
+                                {{ col.transform }} AS "{{ col.alias.split('.')[1] }}",
+                            {% endif %}
                         {% endif %}
                     {%- endfor %}
                     {%- for col in nsSVvariables.metricDetails if col.layer == '1' %}
                         {%- if col.id and col.alias | trim != '' -%}
-                            {{ col.name }} AS "{{ col.alias }}",
+                            {{ col.name }} AS "{{ col.alias.split('.')[1] }}",
                         {%- elif col.id is none %}
-                            {{ col.transform }} AS "{{ col.alias }}",
+                            {% if '.' in col.transform %}
+                                {{ col.transform.split('(')[0] }}({{ col.transform.split('.')[-1].replace(')','') }}) AS "{{ col.alias.split('.')[1] }}",
+                            {% else %}
+                                {{ col.transform }} AS "{{ col.alias.split('.')[1] }}",
+                            {% endif %}
                         {% endif %}
                     {%- endfor %}
                         

@@ -1,12 +1,12 @@
 fileVersion: 1
-id: View
+id: "629"
 isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
   nodeMetadataSpec: |
-    capitalized: View
-    short: V
+    capitalized: Semantic Query
+    short: SMQ
     tagColor: '#C4C4C4'
     isDisabled: true
     plural: Views
@@ -37,5 +37,5 @@ metadata:
           - "UNION ALL" 
           isRequired: true
           enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
-name: View
+name: Semantic Query
 type: NodeType
