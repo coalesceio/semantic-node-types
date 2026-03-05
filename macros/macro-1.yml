@@ -1,6 +1,16 @@
 fileVersion: 1
 id: "1"
 macroString: |-
+  {# --------------------------------------------------------------------------------------------------------------------------------
+  **Macro: build_expr(expr)**
+
+  **Description** Formats a transformation expression by removing any table prefix from a column reference and quoting the column name.
+  This is useful when dynamically generating SQL where expressions like `COUNT(table.column)` must become `COUNT("column")` in the final query.
+
+  **Input** expr (string) - A SQL transformation expression. It may contain a function with a table-qualified column reference such as `COUNT(orders.o_orderkey)
+
+  **Output** - Returns a formatted SQL expression with the column name quoted and the table prefix removed.
+   --------------------------------------------------------------------------------------------------------------------------------#}
   {% macro build_expr(expr) -%}
       {%- if expr and '.' in expr -%}
       {%- set func = expr.split('(')[0] -%}
@@ -11,7 +21,15 @@ macroString: |-
       {%- endif -%}
   {%- endmacro %}
 
+  {# --------------------------------------------------------------------------------------------------------------------------------
+  **Macro: build_alias(alias)
 
+  **Description** Extracts the final column name from a dot-separated alias.
+  If the alias is provided as `table.column`, the macro returns only column
+
+  **Input** alias (string) - A column alias that may include a prefix such as customer.cust_name
+  **Output** Returns the final column name without the prefix.
+   --------------------------------------------------------------------------------------------------------------------------------#}
   {% macro build_alias(alias) -%}
       {{- alias.split('.')[-1] if alias else '' -}}
   {%- endmacro %}
