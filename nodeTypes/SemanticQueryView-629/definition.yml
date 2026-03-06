@@ -19,5 +19,5 @@ metadata:
             - view
           default: view
           isRequired: true
-name: Semantic Query
+name: Semantic Query View
 type: NodeType

@@ -19,13 +19,14 @@ metadata:
 
       - type: materializationSelector
         isRequired: true
+        attributeName: semanticMaterialization
         default: semantic view
         enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
         options:
         - semantic view
 
       - type: label
-        displayName: ⚠️ Re-Sync required after creation
+        displayName: ⚠️ Re-sync after creation to fetch columns for downstream node access
         attributeName: labelFactSourceColumnWarnig
         enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
 
