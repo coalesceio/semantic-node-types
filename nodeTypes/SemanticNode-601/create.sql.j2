@@ -17,31 +17,32 @@ does not permit copying or modification for any other purpose.
                                 | map(attribute='database')
                                 | first %}
 
-    {% for col in desiredState.columns if col.primaryKey %}
+    {% for col in desiredState.config.primaryKeyConfig.get('items') %}
 
+        {% set pk = col.primaryKey %}
         {%- set srcTableLocName = desiredState.sources[0].columns 
-                                | selectattr('id','eq', col.id)
+                                | selectattr('id','eq', pk.id)
                                 | map(attribute='sourceColumns')
                                 | first 
                                 | map(attribute='node.location.name')
                                 | first -%}
 
         {%- set srcTableName = desiredState.sources[0].columns 
-                                | selectattr('id','eq', col.id)
+                                | selectattr('id','eq', pk.id)
                                 | map(attribute='sourceColumns')
                                 | first 
                                 | map(attribute='node.name')
                                 | first -%}
 
         {% set _ = nsSVvariables.primKey.append({
-            "id": col.id,
-            "name": col.name,
+            "id": pk.id,
+            "name": pk.name,
             "srcTablePath" : ref_no_link(srcTableLocName, srcTableName)
         }) %}
 
     {% endfor %}
 
-    {% for col in desiredState.config.foreignKeyConfig.get('items') %}
+    {% for col in desiredState.config.foreignKeyConfig.get('items') if desiredState.config.relationToggle %}
 
         {% set fk = col.foreignKey %}
         {%- set srcTableName = desiredState.sources[0].columns 
@@ -59,7 +60,7 @@ does not permit copying or modification for any other purpose.
         }) %}
     {% endfor %}
 
-    {% for item in desiredState.config.factDetConfig.get('items') %}
+    {% for item in desiredState.config.factDetConfig.get('items') if desiredState.config.factToggle %}
 
         {% set col = item.factCol %}
         {%- set srcTableName = desiredState.sources[0].columns 
@@ -83,7 +84,7 @@ does not permit copying or modification for any other purpose.
         }) %}
     {% endfor %}
 
-    {% for item in desiredState.config.DimConfig.get('items') %}
+    {% for item in desiredState.config.DimConfig.get('items') if desiredState.config.dimToggle %}
 
         {% set col = item.dimCol %}
         {%- set srcTableName = desiredState.sources[0].columns 
@@ -106,7 +107,7 @@ does not permit copying or modification for any other purpose.
         }) %}
     {% endfor %}
 
-    {% for item in desiredState.config.metricConfig.get('items') %}
+    {% for item in desiredState.config.metricConfig.get('items') if desiredState.config.mericToggle %}
         {% set col = item.metricCol %}
         {% set _ = nsSVvariables.metricDetails.append({
             "id": col.id if col else None,
@@ -254,12 +255,17 @@ does not permit copying or modification for any other purpose.
         TABLES
         (
             {% for table, cols in nsSVvariables.primKey | groupby('srcTablePath') %}
-            {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }} PRIMARY KEY (
+            {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }}
+            {% if desiredState.config.tableOnlyToggle == false %}
+            PRIMARY KEY (
                 {{ cols | map(attribute='name') | join(', ') }}
-            ){% if not loop.last %},{% endif %}
+            )
+            {% endif %}
+            {% if not loop.last %},{% endif %}
             {% endfor %}
         )
 
+        {% if desiredState.config.relationToggle %}
         RELATIONSHIPS
         (
             {% for item in nsSVvariables.foreignKey %}
@@ -268,7 +274,9 @@ does not permit copying or modification for any other purpose.
                 {% if not loop.last %},{% endif %}
             {% endfor %}
         )
+        {% endif %}
 
+        {% if desiredState.config.factToggle %}
         FACTS (
             {%- for col in nsSVvariables.factDetails %}
                 {% if col.transform %}
@@ -284,7 +292,9 @@ does not permit copying or modification for any other purpose.
                 {% if not loop.last %},{% endif %}
             {%- endfor %}
         )
+        {% endif %}
 
+        {% if desiredState.config.dimToggle %}
         DIMENSIONS (
             {%- for col in nsSVvariables.dimDetails %}
                 {% if col.transform != '' %}
@@ -307,7 +317,9 @@ does not permit copying or modification for any other purpose.
                 {% if not loop.last %},{% endif %}
             {%- endfor %}
         )
+        {% endif %}
 
+        {% if desiredState.config.metricToggle %}
         METRICS
         (
             {%- set metrics = desiredState.config.metricConfig.get('items') -%}
@@ -320,6 +332,7 @@ does not permit copying or modification for any other purpose.
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
+        {% endif %}
     {% endif %}
 
 {% elif desiredState == undefined and currentState != undefined %}

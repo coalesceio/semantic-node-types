@@ -36,17 +36,37 @@ metadata:
         isRequired: false
         default: true
 
-      - type: columnSelector
+      - type: toggleButton
+        displayName: Consider Table Only(No primary Key)
+        attributeName: tableOnlyToggle
+        isRequired: false
+        default: false
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+      - type: tabular
         displayName: TABLES (Primary Key)
-        attributeName: primaryKey
-        isRequired: true
+        attributeName: primaryKeyConfig
+        isRequired: false
         enableIf: 'true'
+
+        columns:
+        - type: columnDropdownSelector
+          displayName: Source Column
+          attributeName: primaryKey
+          isRequired: false
+          enableIf: 'true'
+
+      - type: toggleButton
+        displayName: Enable Relationsship
+        attributeName: relationToggle
+        isRequired: false
+        default: false
 
       - type: tabular
         displayName: RELATIONSHIPS (Foreign Key)
         attributeName: foreignKeyConfig
         isRequired: false
-        enableIf: 'true'
+        enableIf: "{% if config.relationToggle %} true {% else %} false {% endif %}"
 
         columns:
         - type: columnDropdownSelector
@@ -61,11 +81,17 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
+      - type: toggleButton
+        displayName: Enable Facts
+        attributeName: factToggle
+        isRequired: false
+        default: false
+
       - type: tabular
         displayName: FACTS
         attributeName: factDetConfig
         isRequired: false
-        enableIf: 'true'
+        enableIf: "{% if config.factToggle %} true {% else %} false {% endif %}"
 
         columns:
 
@@ -98,11 +124,17 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
+      - type: toggleButton
+        displayName: Enable Dimensions
+        attributeName: dimToggle
+        isRequired: false
+        default: false
+
       - type: tabular
         displayName: DIMENSIONS
         attributeName: DimConfig
         isRequired: false
-        enableIf: 'true'
+        enableIf: "{% if config.dimToggle %} true {% else %} false {% endif %}"
 
         columns:
 
@@ -135,11 +167,17 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
+      - type: toggleButton
+        displayName: Enable Metrics
+        attributeName: mericToggle
+        isRequired: false
+        default: false
+
       - type: tabular
-        displayName: Metric Details
+        displayName: METRICS
         attributeName: metricConfig
         isRequired: false
-        enableIf: "{% if config.toggle1 %} false {% else %} true {% endif %}"
+        enableIf: "{% if config.mericToggle %} true {% else %} false {% endif %}"
 
         columns:
 
@@ -183,5 +221,5 @@ metadata:
           attributeName: metricAlias
           isRequired: false
           enableIf: 'true'
-name: Semantic View
+name: Semantic Node
 type: NodeType
