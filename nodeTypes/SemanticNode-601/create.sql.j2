@@ -107,14 +107,14 @@ does not permit copying or modification for any other purpose.
         }) %}
     {% endfor %}
 
-    {% for item in desiredState.config.metricConfig.get('items') if desiredState.config.mericToggle %}
+    {% for item in desiredState.config.metricConfig.get('items') if desiredState.config.metricToggle %}
         {% set col = item.metricCol %}
         {% set _ = nsSVvariables.metricDetails.append({
             "id": col.id if col else None,
             "name": col.name if col else None,
             "src": item.srcTable if item.srcTable else "",
-            "transform": item.metricTransorm,
-            "exprn": item.metricTransformExprn if item.metricTransformExprn else "",
+            "metric": item.metricTransform,
+            "derived": item.metricTransformExprn if item.metricTransformExprn else "",
             "alias": item.metricAlias if item.metricAlias else "",
             "layer": item.metricLayer
         }) %}
@@ -174,8 +174,11 @@ does not permit copying or modification for any other purpose.
             layer2Columns.*
         {%- for group in [nsSVvariables.factDetails, nsSVvariables.dimDetails, nsSVvariables.metricDetails] %}
         {%- for col in group if col.id is none and col.layer == '3' %}
-        {%- set expr = col.transform if col.transform else col.exprn -%}
-        {%- set final_expr = build_expr(expr) -%}
+        {%- if col.transform %}
+        {%- set final_expr = build_expr(col.transform) -%}
+        {%- else %}
+        {%- set final_expr = build_expr(col.metric + '(' + col.derived + ')') -%}
+        {%- endif -%}
         {%- set alias = build_alias(col.alias) -%}
         , {{ final_expr }} AS "{{ alias }}"
         {%- endfor %}
@@ -186,7 +189,7 @@ does not permit copying or modification for any other purpose.
                 layer1Columns.*
         {%- for group in [nsSVvariables.factDetails, nsSVvariables.dimDetails, nsSVvariables.metricDetails] %}
         {%- for col in group if col.id is none and col.layer == '2' %}
-        {%- set expr = col.transform if col.transform else col.exprn -%}
+        {%- set expr = col.transform if col.transform else col.derived -%}
         {%- set final_expr = build_expr(expr) -%}
         {%- set alias = build_alias(col.alias) -%}
         , {{ final_expr }} AS "{{ alias }}"
@@ -325,9 +328,9 @@ does not permit copying or modification for any other purpose.
             {%- set metrics = desiredState.config.metricConfig.get('items') -%}
             {%- for m in metrics %}
                 {%- if m.metricTransformExprn and m.metricTransformExprn != "" %}
-                    {{ m.metricAlias }} AS {{ m.metricTransformExprn }}
-                {%- elif m.metricTransorm and m.metricCol %}
-                    {{ m.metricAlias }} AS {{ m.metricTransorm }}({{ m.metricCol.name }})
+                    {{ m.metricAlias }} AS {{ m.metricTransform }}({{ m.metricTransformExprn }})
+                {%- elif m.metricTransform and m.metricCol %}
+                    {{ m.metricAlias }} AS {{ m.metricTransform }}({{ m.metricCol.name }})
                 {%- endif %}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}

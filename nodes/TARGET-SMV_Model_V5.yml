@@ -1,6 +1,6 @@
 fileVersion: 1
 id: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-name: SMV_ORDERS_LINEITEM_CUSTOMER
+name: SMV_Model_V5
 operation:
   config:
     DimConfig:
@@ -9,27 +9,33 @@ operation:
           dimCol:
             columnCounter: ab632ed2-6e5e-4b0c-bc97-5bb6d4218f41
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          dimLayer: "1"
           dimTransform: ""
         - dimAlias: orders.order_date
           dimCol:
             columnCounter: 93b0ce9a-a8e9-4842-8fd4-af13f161d40d
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          dimLayer: "1"
           dimTransform: ""
         - dimAlias: orders.order_year
           dimCol: null
+          dimLayer: "1"
           dimTransform: YEAR(o_orderdate)
-    deriveCol: false
+    deriveCol: true
     dimToggle: true
     factDetConfig:
       items:
         - factAlias: lineitem.line_item_id
           factCol: null
+          factLayer: "1"
           factTranform: CONCAT(l_orderkey, '-', l_linenumber)
         - factAlias: orders.count_line_items
           factCol: null
+          factLayer: "2"
           factTranform: COUNT(lineitem.line_item_id)
         - factAlias: lineitem.discounted_price
           factCol: null
+          factLayer: "1"
           factTranform: l_extendedprice * (1 - l_discount)
     factToggle: true
     foreignKeyConfig:
@@ -49,18 +55,22 @@ operation:
           metricCol:
             columnCounter: c2c1d35a-8b00-4dfb-87cf-30bf6c0fe51f
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          metricLayer: "1"
+          metricTransform: COUNT
           metricTransformExprn: ""
-          metricTransorm: COUNT
         - metricAlias: orders.order_average_value
           metricCol:
             columnCounter: 084a77d8-fe3d-49e1-adf2-34ae9d684135
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          metricLayer: "1"
+          metricTransform: AVG
           metricTransformExprn: ""
-          metricTransorm: AVG
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
-          metricTransformExprn: AVG(orders.count_line_items)
-          metricTransorm: ""
+          metricLayer: "3"
+          metricTransform: AVG
+          metricTransformExprn: orders.count_line_items
+    metricToggle: true
     primaryKeyConfig:
       items:
         - primaryKey:
@@ -599,9 +609,9 @@ operation:
             ON "ORDERS"./*COLUMN*/ = "LINEITEM"./*COLUMN*/
             INNER JOIN {{ ref('SRC', 'CUSTOMER') }} "CUSTOMER"
             ON "ORDERS"./*COLUMN*/ = "CUSTOMER"./*COLUMN*/
-        name: SMV_ORDERS_LINEITEM_CUSTOMER
+        name: SMV_Model_V5
         noLinkRefs: []
-  name: SMV_ORDERS_LINEITEM_CUSTOMER
+  name: SMV_Model_V5
   overrideSQL: false
   schema: ""
   sqlType: "601"

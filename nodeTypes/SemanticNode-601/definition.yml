@@ -96,7 +96,7 @@ metadata:
         columns:
 
         - type: dropdownSelector
-          displayName: Layer
+          displayName: Derived Stage
           attributeName: factLayer
           default: '1'
           options:
@@ -139,7 +139,7 @@ metadata:
         columns:
 
         - type: dropdownSelector
-          displayName: Layer
+          displayName: Derived Stage
           attributeName: dimLayer
           default: '1'
           options:
@@ -169,7 +169,7 @@ metadata:
 
       - type: toggleButton
         displayName: Enable Metrics
-        attributeName: mericToggle
+        attributeName: metricToggle
         isRequired: false
         default: false
 
@@ -177,12 +177,12 @@ metadata:
         displayName: METRICS
         attributeName: metricConfig
         isRequired: false
-        enableIf: "{% if config.mericToggle %} true {% else %} false {% endif %}"
+        enableIf: "{% if config.metricToggle %} true {% else %} false {% endif %}"
 
         columns:
 
         - type: dropdownSelector
-          displayName: Layer
+          displayName: Derived Stage
           attributeName: metricLayer
           default: '1'
           options:
@@ -193,8 +193,8 @@ metadata:
           enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
 
         - type: dropdownSelector
-          displayName: Transform
-          attributeName: metricTransorm
+          displayName: Metric Applied
+          attributeName: metricTransform
           options:
             - COUNT
             - SUM
@@ -211,7 +211,7 @@ metadata:
           enableIf: 'true'
 
         - type: textBox
-          displayName: Transform Expression
+          displayName: Derived Column
           attributeName: metricTransformExprn
           isRequired: false
           enableIf: 'true'
