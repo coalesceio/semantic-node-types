@@ -1,0 +1,23 @@
+fileVersion: 1
+id: "631"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Semantic Query
+    short: SMQ
+    tagColor: '#A6A9D2'
+    isDisabled: true
+    plural: Views
+
+    config:
+    - groupName: Options
+      items: 
+      - type: materializationSelector
+        options:
+            - view
+        default: view
+        isRequired: true
+name: Semantic Query
+type: NodeType
