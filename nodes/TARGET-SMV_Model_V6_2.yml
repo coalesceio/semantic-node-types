@@ -43,10 +43,12 @@ operation:
         - foreignKey:
             columnCounter: 2accd803-ffd9-48ba-b18f-8ef7633e77c1
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          refAlias: ""
           refTable: orders
         - foreignKey:
             columnCounter: 64946c97-7e1e-471b-9ea2-29fd4da72b04
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          refAlias: ""
           refTable: customer
     mericToggle: true
     metricConfig:

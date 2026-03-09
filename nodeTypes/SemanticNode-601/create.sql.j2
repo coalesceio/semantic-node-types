@@ -247,8 +247,11 @@ does not permit copying or modification for any other purpose.
                 layer1Columns.*
         {%- for group in [nsSVvariables.factDetails, nsSVvariables.dimDetails, nsSVvariables.metricDetails] %}
         {%- for col in group if col.id is none and col.layer == '2' %}
-        {%- set expr = col.transform if col.transform else col.derived -%}
-        {%- set final_expr = build_expr(expr) -%}
+        {%- if col.transform %}
+        {%- set final_expr = build_expr(col.transform) -%}
+        {%- else %}
+        {%- set final_expr = build_expr(col.metric + '(' + col.derived + ')') -%}
+        {%- endif -%}
         {%- set alias = build_alias(col.alias) -%}
         , {{ final_expr }} AS "{{ alias }}"
         {%- endfor %}
