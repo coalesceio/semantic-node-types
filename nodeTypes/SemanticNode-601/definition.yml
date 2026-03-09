@@ -17,14 +17,6 @@ metadata:
     - groupName: Semantic View Options
       items:
 
-      - type: materializationSelector
-        isRequired: true
-        attributeName: semanticMaterialization
-        default: semantic view
-        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
-        options:
-        - semantic view
-
       - type: label
         displayName: ⚠️ Re-sync after creation to fetch columns for downstream node access
         attributeName: labelFactSourceColumnWarnig
@@ -35,6 +27,14 @@ metadata:
         attributeName: deriveCol
         isRequired: false
         default: true
+
+      - type: materializationSelector
+        isRequired: true
+        attributeName: semanticMaterialization
+        default: semantic view
+        enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+        options:
+        - semantic view
 
       - type: toggleButton
         displayName: Consider Table Only(No primary Key)
@@ -55,6 +55,24 @@ metadata:
           attributeName: primaryKey
           isRequired: false
           enableIf: 'true'
+
+        - type: textBox
+          displayName: Alias
+          attributeName: primAlias
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Synonym
+          attributeName: primSynonym
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Comment
+          attributeName: primComment
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 
       - type: toggleButton
         displayName: Enable Relationsship
@@ -80,6 +98,24 @@ metadata:
           attributeName: refTable
           isRequired: false
           enableIf: 'true'
+
+        - type: textBox
+          displayName: Alias
+          attributeName: refAlias
+          isRequired: false
+          enableIf: ""
+
+        - type: textBox
+          displayName: Synonym
+          attributeName: refSynonym
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Comment
+          attributeName: refComment
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 
       - type: toggleButton
         displayName: Enable Facts
@@ -124,6 +160,18 @@ metadata:
           isRequired: false
           enableIf: 'true'
 
+        - type: textBox
+          displayName: Synonym
+          attributeName: factSynonym
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Comment
+          attributeName: factComment
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
       - type: toggleButton
         displayName: Enable Dimensions
         attributeName: dimToggle
@@ -166,6 +214,18 @@ metadata:
           attributeName: dimAlias
           isRequired: false
           enableIf: 'true'
+
+        - type: textBox
+          displayName: Synonym
+          attributeName: dimSynonym
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Comment
+          attributeName: dimComment
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 
       - type: toggleButton
         displayName: Enable Metrics
@@ -221,5 +281,17 @@ metadata:
           attributeName: metricAlias
           isRequired: false
           enableIf: 'true'
+
+        - type: textBox
+          displayName: Synonym
+          attributeName: metricSynonym
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        - type: textBox
+          displayName: Comment
+          attributeName: metricComment
+          isRequired: false
+          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 name: Semantic Node
 type: NodeType

@@ -33,5 +33,51 @@ macroString: |2-
     {% macro build_alias(alias) -%}
         {{- alias.split('.')[-1] if alias else '' -}}
     {%- endmacro %}
+
+  {% macro renderSynonymAndComment(obj) %}
+
+  {% if obj.synonym is defined or obj.comment is defined %}
+
+      {# single column case #}
+      {% if obj.synonym is defined and obj.synonym | trim != '' %}
+      WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
+      {% endif %}
+
+      {% if obj.comment is defined and obj.comment | trim != '' %}
+      COMMENT = '{{ obj.comment }}'
+      {% endif %}
+
+  {% else %}
+
+      {# grouped case (item.list) #}
+      {%- set synonyms = obj
+          | selectattr('synonym','defined')
+          | map(attribute='synonym')
+          | map('trim')
+          | reject('equalto','')
+          | unique
+          | list
+      -%}
+
+      {%- if synonyms %}
+      WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
+      {%- endif %}
+
+      {%- set comments = obj
+          | selectattr('comment','defined')
+          | map(attribute='comment')
+          | map('trim')
+          | reject('equalto','')
+          | unique
+          | list
+      -%}
+
+      {%- if comments %}
+      COMMENT = '{{ comments | join(', ') }}'
+      {%- endif %}
+
+  {% endif %}
+
+  {% endmacro %}
 name: macro
 type: Macro

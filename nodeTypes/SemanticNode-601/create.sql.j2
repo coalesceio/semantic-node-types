@@ -37,8 +37,31 @@ does not permit copying or modification for any other purpose.
         {% set _ = nsSVvariables.primKey.append({
             "id": pk.id,
             "name": pk.name,
+            "alias": col.primAlias,
+            "synonym": col.primSynonym,
+            "comment": col.primComment,
             "srcTablePath" : ref_no_link(srcTableLocName, srcTableName)
         }) %}
+
+    {% endfor %}
+
+    {% set ns = namespace(aliasMap={}) %}
+    {% for item in nsSVvariables.primKey | groupby('srcTablePath') %}
+
+        {# extract valid aliases #}
+        {% set aliases = item.list
+            | selectattr('alias','defined')
+            | map(attribute='alias')
+            | map('trim')
+            | reject('equalto','')
+            | list
+        %}
+
+        {# fallback to table name if alias missing #}
+        {% set tbl_alias = aliases[0] if aliases else item.grouper.split('.')[-1] | replace('"','') %}
+
+        {# store in alias map #}
+        {% set _ = ns.aliasMap.update({ item.grouper: tbl_alias }) %}
 
     {% endfor %}
 
@@ -52,10 +75,20 @@ does not permit copying or modification for any other purpose.
                                 | map(attribute='node.name')
                                 | first -%}
 
+        {%- set srcTableLocName = desiredState.sources[0].columns 
+                                | selectattr('id','eq', fk.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | map(attribute='node.location.name')
+                                | first -%}
+
         {% set _ = nsSVvariables.foreignKey.append({
             "id": fk.id,
             "name": fk.name,
-            "srcTableName": srcTableName,
+            "alias": col.refAlias,
+            "synonym": col.refSynonym,
+            "comment": col.refComment,
+            "srcTablePath" : ref_no_link(srcTableLocName, srcTableName),
             "refTable": col.refTable
         }) %}
     {% endfor %}
@@ -64,23 +97,34 @@ does not permit copying or modification for any other purpose.
 
         {% set col = item.factCol %}
         {%- set srcTableName = desiredState.sources[0].columns 
-            | selectattr('id', 'eq', col.id)
-            | map(attribute='sourceColumns')
-            | first 
-            | select('defined')
-            | selectattr('node', 'defined')
-            | map(attribute='node.name') 
-            | first 
-            | default('', true) -%}
+                                | selectattr('id', 'eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.name') 
+                                | first 
+                                | default('', true) -%}
 
+        {%- set srcTableLocName = desiredState.sources[0].columns 
+                                | selectattr('id','eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.location.name') 
+                                | first 
+                                | default('', true) -%}
         
         {% set _ = nsSVvariables.factDetails.append({
             "id":   col.id   if col else None,
             "name": col.name if col else None,
-            "srcTableName": srcTableName,
+            "srcTablePath": ref_no_link(srcTableLocName, srcTableName) if srcTableLocName and srcTableName else "",
             "transform": item.factTranform or "",
             "alias": item.factAlias or "",
-            "layer": item.factLayer
+            "layer": item.factLayer,
+            "synonym": item.factSynonym,
+            "comment": item.factComment
         }) %}
     {% endfor %}
 
@@ -88,22 +132,34 @@ does not permit copying or modification for any other purpose.
 
         {% set col = item.dimCol %}
         {%- set srcTableName = desiredState.sources[0].columns 
-            | selectattr('id', 'eq', col.id)
-            | map(attribute='sourceColumns')
-            | first 
-            | select('defined')
-            | selectattr('node', 'defined')
-            | map(attribute='node.name') 
-            | first 
-            | default('', true) -%}
+                                | selectattr('id', 'eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.name') 
+                                | first 
+                                | default('', true) -%}
+
+        {%- set srcTableLocName = desiredState.sources[0].columns 
+                                | selectattr('id','eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.location.name') 
+                                | first 
+                                | default('', true) -%}
 
         {% set _ = nsSVvariables.dimDetails.append({
             "id": col.id if col else None,
             "name": col.name if col else None,
-            "srcTableName": srcTableName,
+            "srcTablePath": ref_no_link(srcTableLocName, srcTableName) if srcTableLocName and srcTableName else "",
             "transform": item.dimTransform or "",
             "alias": item.dimAlias or "",
-            "layer": item.dimLayer
+            "layer": item.dimLayer,
+            "synonym": item.dimSynonym,
+            "comment": item.dimComment
         }) %}
     {% endfor %}
 
@@ -116,7 +172,9 @@ does not permit copying or modification for any other purpose.
             "metric": item.metricTransform,
             "derived": item.metricTransformExprn if item.metricTransformExprn else "",
             "alias": item.metricAlias if item.metricAlias else "",
-            "layer": item.metricLayer
+            "layer": item.metricLayer,
+            "synonym": item.metricSynonym,
+            "comment": item.metricComment,
         }) %}
     {% endfor %}
 
@@ -257,14 +315,17 @@ does not permit copying or modification for any other purpose.
 
         TABLES
         (
-            {% for table, cols in nsSVvariables.primKey | groupby('srcTablePath') %}
-            {{ table.split('.')[-1] | replace('"','') }} AS {{ table | replace('"','') }}
-            {% if desiredState.config.tableOnlyToggle == false %}
+            {% for item in nsSVvariables.primKey | groupby('srcTablePath') %}
+
+            {{ ns.aliasMap[item.grouper] }} AS {{ item.grouper | replace('"','') }}
+
+            {%- if desiredState.config.tableOnlyToggle == false %}
             PRIMARY KEY (
-                {{ cols | map(attribute='name') | join(', ') }}
+                {{ item.list | map(attribute='name') | join(', ') }}
             )
-            {% endif %}
-            {% if not loop.last %},{% endif %}
+            {%- endif %}
+            {{ renderSynonymAndComment(item.list) }}
+            {%- if not loop.last %},{% endif %}
             {% endfor %}
         )
 
@@ -272,9 +333,9 @@ does not permit copying or modification for any other purpose.
         RELATIONSHIPS
         (
             {% for item in nsSVvariables.foreignKey %}
-                {{ item.srcTableName }} ({{ item.name }}) REFERENCES {{ item.refTable }}
-                
-                {% if not loop.last %},{% endif %}
+                {{ item.alias }} AS {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
+                {{ renderSynonymAndComment(item) }}
+                {%- if not loop.last %},{% endif %}
             {% endfor %}
         )
         {% endif %}
@@ -287,11 +348,11 @@ does not permit copying or modification for any other purpose.
                                 else col.name }}
                     AS {{ col.transform }}
                 {% else %}      
-                    {{ col.srcTableName }}.{{ col.alias if col.alias 
+                    {{ ns.aliasMap[col.srcTablePath] }}.{{ col.alias if col.alias 
                                 else col.name }}
                     AS {{ col.name }}
                 {% endif %}
-
+                {{ renderSynonymAndComment(col) }}
                 {% if not loop.last %},{% endif %}
             {%- endfor %}
         )
@@ -309,14 +370,14 @@ does not permit copying or modification for any other purpose.
                         {% if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
                         {% else %}
-                            {{ col.srcTableName + '.' + col.alias }}
+                            {{ ns.aliasMap[col.srcTablePath] + '.' + col.alias }}
                         {% endif %}
                     {% else %}
-                        {{ col.srcTableName + '.' + col.name }}
+                        {{ ns.aliasMap[col.srcTablePath] + '.' + col.name }}
                     {% endif %}
-                    AS {{ col.srcTableName }}.{{ col.name }}
+                    AS {{ ns.aliasMap[col.srcTablePath] }}.{{ col.name }}
                 {% endif %}
-
+                {{ renderSynonymAndComment(col) }}
                 {% if not loop.last %},{% endif %}
             {%- endfor %}
         )
@@ -326,12 +387,14 @@ does not permit copying or modification for any other purpose.
         METRICS
         (
             {%- set metrics = desiredState.config.metricConfig.get('items') -%}
-            {%- for m in metrics %}
-                {%- if m.metricTransformExprn and m.metricTransformExprn != "" %}
-                    {{ m.metricAlias }} AS {{ m.metricTransform }}({{ m.metricTransformExprn }})
-                {%- elif m.metricTransform and m.metricCol %}
-                    {{ m.metricAlias }} AS {{ m.metricTransform }}({{ m.metricCol.name }})
+            {%- for item in metrics %}
+                {%- if item.metricTransformExprn and item.metricTransformExprn != "" %}
+                    {{ item.metricAlias }} AS {{ item.metricTransform }}({{ item.metricTransformExprn }})
+                {%- elif item.metricTransform and item.metricCol %}
+                    {{ item.metricAlias }} AS {{ item.metricTransform }}({{ item.metricCol.name }})
                 {%- endif %}
+                --{{item}}
+                {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
