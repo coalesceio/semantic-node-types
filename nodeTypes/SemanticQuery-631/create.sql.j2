@@ -9,6 +9,7 @@
     )
     {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
     AS
+    SELECT
     {% for source in sources %}
         {% for col in source.columns %}
            {{ get_source_transform(col).split('.')[1] | replace('"','') if '.' in get_source_transform(col) else get_source_transform(col) | replace('"','') }}
