@@ -1,6 +1,6 @@
 fileVersion: 1
 id: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-name: SMV_Model_V5_2
+name: SMV_Model_V6_1
 operation:
   config:
     DimConfig:
@@ -113,12 +113,12 @@ operation:
             columnCounter: 6455fc58-1465-45a3-b199-751762f1789b
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
         - primAlias: line_items
-          primComment: ""
+          primComment: Transactional order line items
           primSynonym: ""
           primaryKey:
             columnCounter: 03e50419-3b9f-474c-b924-36cb4e5dd90f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-        - primAlias: line_items
+        - primAlias: ""
           primComment: Transactional order line items
           primSynonym: ""
           primaryKey:
@@ -856,9 +856,9 @@ operation:
             ON "NATION"./*COLUMN*/ = "ORDERS"./*COLUMN*/
             INNER JOIN {{ ref('SRC', 'SUPPLIER') }} "SUPPLIER"
             ON "NATION"./*COLUMN*/ = "SUPPLIER"./*COLUMN*/
-        name: SMV_Model_V5_2
+        name: SMV_Model_V6_1
         noLinkRefs: []
-  name: SMV_Model_V5_2
+  name: SMV_Model_V6_1
   overrideSQL: false
   schema: ""
   sqlType: "601"

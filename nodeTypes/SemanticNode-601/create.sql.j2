@@ -393,7 +393,6 @@ does not permit copying or modification for any other purpose.
                 {%- elif item.metricTransform and item.metricCol %}
                     {{ item.metricAlias }} AS {{ item.metricTransform }}({{ item.metricCol.name }})
                 {%- endif %}
-                --{{item}}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}

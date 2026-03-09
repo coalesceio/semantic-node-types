@@ -1,6 +1,6 @@
 fileVersion: 1
 id: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-name: SMV_Model_V5
+name: SMV_Model_V6_2
 operation:
   config:
     DimConfig:
@@ -609,9 +609,9 @@ operation:
             ON "ORDERS"./*COLUMN*/ = "LINEITEM"./*COLUMN*/
             INNER JOIN {{ ref('SRC', 'CUSTOMER') }} "CUSTOMER"
             ON "ORDERS"./*COLUMN*/ = "CUSTOMER"./*COLUMN*/
-        name: SMV_Model_V5
+        name: SMV_Model_V6_2
         noLinkRefs: []
-  name: SMV_Model_V5
+  name: SMV_Model_V6_2
   overrideSQL: false
   schema: ""
   sqlType: "601"
