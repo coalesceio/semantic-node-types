@@ -5,50 +5,43 @@ operation:
   config:
     DimConfig:
       items:
-        - dimAlias: customers.customer_name
+        - dimAlias: customer.customer_name
           dimCol:
             columnCounter: 11412f74-97c8-4e1d-b8b5-a426713a654f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          dimComment: Customer full name
-          dimSynonym: client, buyer
+          dimLayer: "1"
           dimTransform: ""
         - dimAlias: orders.order_date
           dimCol:
             columnCounter: b3cdc0d7-89a3-4a9d-9d68-56a0ebacd5d6
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          dimComment: Date when the order was placed
-          dimSynonym: ""
+          dimLayer: "1"
           dimTransform: ""
         - dimAlias: "orders.order_year "
           dimCol: null
-          dimComment: Year of order placement
-          dimSynonym: ""
+          dimLayer: "1"
           dimTransform: YEAR(o_orderdate)
         - dimAlias: "orders.order_status "
           dimCol:
             columnCounter: 09e62efb-3aae-4492-b65b-380d0f3602f3
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          dimComment: Order status (F=Fulfilled, O=Open, P=Pending)
-          dimSynonym: ""
+          dimLayer: "1"
           dimTransform: ""
-    deriveCol: false
+    deriveCol: true
     dimToggle: true
     factDetConfig:
       items:
-        - factAlias: line_items.line_item_id
+        - factAlias: lineitem.line_item_id
           factCol: null
-          factComment: ""
-          factSynonym: ""
+          factLayer: "1"
           factTranform: CONCAT(l_orderkey, '-', l_linenumber)
         - factAlias: orders.count_line_items
           factCol: null
-          factComment: ""
-          factSynonym: ""
-          factTranform: COUNT(line_items.line_item_id)
-        - factAlias: line_items.discounted_price
+          factLayer: "2"
+          factTranform: COUNT(lineitem.line_item_id)
+        - factAlias: lineitem.discounted_price
           factCol: null
-          factComment: Net price after discount
-          factSynonym: ""
+          factLayer: "1"
           factTranform: l_extendedprice * (1 - l_discount)
     factToggle: true
     foreignKeyConfig:
@@ -56,72 +49,50 @@ operation:
         - foreignKey:
             columnCounter: afd91548-b029-4cfe-b7d8-452b5f53954f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          refAlias: orders_to_customers
-          refComment: ""
-          refSynonym: ""
-          refTable: customers
+          refTable: customer
         - foreignKey:
             columnCounter: 03e50419-3b9f-474c-b924-36cb4e5dd90f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          refAlias: line_item_to_orders
-          refComment: ""
-          refSynonym: ""
           refTable: orders
     metricConfig:
       items:
-        - metricAlias: "customers.customer_count "
+        - metricAlias: "customer.customer_count "
           metricCol:
             columnCounter: 6455fc58-1465-45a3-b199-751762f1789b
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          metricComment: Total customers
-          metricSynonym: ""
+          metricLayer: "1"
           metricTransform: COUNT
           metricTransformExprn: ""
         - metricAlias: orders.order_average_value
           metricCol:
             columnCounter: 711d1933-2b6a-4d77-aaa4-4ef6ef461b45
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-          metricComment: Average order value (AOV)
-          metricSynonym: ""
+          metricLayer: "1"
           metricTransform: AVG
           metricTransformExprn: ""
         - metricAlias: "orders.average_line_items_per_order "
           metricCol: null
-          metricComment: Avg line items per order
-          metricSynonym: ""
+          metricLayer: "3"
           metricTransform: COUNT
           metricTransformExprn: orders.count_line_items
-        - metricAlias: "line_items.total_revenue "
+        - metricAlias: "lineitem.total_revenue "
           metricCol: null
-          metricComment: Total revenue
-          metricSynonym: ""
+          metricLayer: "2"
           metricTransform: SUM
-          metricTransformExprn: line_items.discounted_price
+          metricTransformExprn: lineitem.discounted_price
     metricToggle: true
     primaryKeyConfig:
       items:
-        - primAlias: ""
-          primComment: All orders table for sales analytics
-          primSynonym: sales orders
-          primaryKey:
+        - primaryKey:
             columnCounter: 35bd0e2a-b3f3-413a-9d9d-1d8c777bf235
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-        - primAlias: customers
-          primComment: Customer master data
-          primSynonym: ""
-          primaryKey:
+        - primaryKey:
             columnCounter: 6455fc58-1465-45a3-b199-751762f1789b
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-        - primAlias: line_items
-          primComment: ""
-          primSynonym: ""
-          primaryKey:
+        - primaryKey:
             columnCounter: 03e50419-3b9f-474c-b924-36cb4e5dd90f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
-        - primAlias: line_items
-          primComment: Transactional order line items
-          primSynonym: ""
-          primaryKey:
+        - primaryKey:
             columnCounter: 9726f91b-7103-43ea-a6b3-60adb1b1e9b8
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
     relationToggle: true
