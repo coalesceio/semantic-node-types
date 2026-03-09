@@ -60,19 +60,19 @@ metadata:
           displayName: Alias
           attributeName: primAlias
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Synonym
           attributeName: primSynonym
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Comment
           attributeName: primComment
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
       - type: toggleButton
         displayName: Enable Relationsship
@@ -109,13 +109,13 @@ metadata:
           displayName: Synonym
           attributeName: refSynonym
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Comment
           attributeName: refComment
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
       - type: toggleButton
         displayName: Enable Facts
@@ -164,13 +164,13 @@ metadata:
           displayName: Synonym
           attributeName: factSynonym
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Comment
           attributeName: factComment
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
       - type: toggleButton
         displayName: Enable Dimensions
@@ -219,13 +219,13 @@ metadata:
           displayName: Synonym
           attributeName: dimSynonym
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Comment
           attributeName: dimComment
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
       - type: toggleButton
         displayName: Enable Metrics
@@ -286,12 +286,12 @@ metadata:
           displayName: Synonym
           attributeName: metricSynonym
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 
         - type: textBox
           displayName: Comment
           attributeName: metricComment
           isRequired: false
-          enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+          enableIf: ""
 name: Semantic Node
 type: NodeType

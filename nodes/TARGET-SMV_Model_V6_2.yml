@@ -9,21 +9,28 @@ operation:
           dimCol:
             columnCounter: ab632ed2-6e5e-4b0c-bc97-5bb6d4218f41
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          dimComment: ""
-          dimSynonym: ""
+          dimComment: Customer full name
+          dimSynonym: client, buyer
           dimTransform: ""
         - dimAlias: orders.order_date
           dimCol:
             columnCounter: 93b0ce9a-a8e9-4842-8fd4-af13f161d40d
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          dimComment: ""
+          dimComment: Date when the order was placed
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: orders.order_year
           dimCol: null
-          dimComment: ""
+          dimComment: Year of order placement
           dimSynonym: ""
           dimTransform: YEAR(o_orderdate)
+        - dimAlias: orders.order_status
+          dimCol:
+            columnCounter: a609acc8-1420-45f7-a8b3-3df23ea9c469
+            stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
+          dimComment: Order status (F=Fulfilled, O=Open, P=Pending
+          dimSynonym: ""
+          dimTransform: ""
     deriveCol: false
     dimToggle: true
     factDetConfig:
@@ -41,7 +48,7 @@ operation:
         - factAlias: line_items.discounted_price
           factCol: null
           factComment: ""
-          factSynonym: ""
+          factSynonym: Net price after discount
           factTranform: l_extendedprice * (1 - l_discount)
     factToggle: true
     foreignKeyConfig:
@@ -67,7 +74,7 @@ operation:
           metricCol:
             columnCounter: c2c1d35a-8b00-4dfb-87cf-30bf6c0fe51f
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          metricComment: ""
+          metricComment: Total customers
           metricSynonym: ""
           metricTransform: COUNT
           metricTransformExprn: ""
@@ -75,16 +82,22 @@ operation:
           metricCol:
             columnCounter: 084a77d8-fe3d-49e1-adf2-34ae9d684135
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          metricComment: ""
+          metricComment: Average order value (AOV)
           metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: ""
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
-          metricComment: ""
+          metricComment: Avg line items per order
           metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: orders.count_line_items
+        - metricAlias: line_items.total_revenue
+          metricCol: null
+          metricComment: Total revenue
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: line_items.discounted_price
     metricToggle: true
     primaryKeyConfig:
       items:
@@ -106,7 +119,7 @@ operation:
           primaryKey:
             columnCounter: 2accd803-ffd9-48ba-b18f-8ef7633e77c1
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-        - primAlias: line_items
+        - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
