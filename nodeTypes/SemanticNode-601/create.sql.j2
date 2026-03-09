@@ -336,7 +336,8 @@ does not permit copying or modification for any other purpose.
         RELATIONSHIPS
         (
             {% for item in nsSVvariables.foreignKey %}
-                {{ item.alias }} AS {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
+                {% if item.alias != '' %} {{ item.alias }} AS {% endif -%}
+                 {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
             {% endfor %}

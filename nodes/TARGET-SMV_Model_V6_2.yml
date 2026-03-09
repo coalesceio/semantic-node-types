@@ -5,37 +5,43 @@ operation:
   config:
     DimConfig:
       items:
-        - dimAlias: customer.customer_name
+        - dimAlias: customers.customer_name
           dimCol:
             columnCounter: ab632ed2-6e5e-4b0c-bc97-5bb6d4218f41
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          dimLayer: "1"
+          dimComment: ""
+          dimSynonym: ""
           dimTransform: ""
         - dimAlias: orders.order_date
           dimCol:
             columnCounter: 93b0ce9a-a8e9-4842-8fd4-af13f161d40d
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          dimLayer: "1"
+          dimComment: ""
+          dimSynonym: ""
           dimTransform: ""
         - dimAlias: orders.order_year
           dimCol: null
-          dimLayer: "1"
+          dimComment: ""
+          dimSynonym: ""
           dimTransform: YEAR(o_orderdate)
-    deriveCol: true
+    deriveCol: false
     dimToggle: true
     factDetConfig:
       items:
-        - factAlias: lineitem.line_item_id
+        - factAlias: line_items.line_item_id
           factCol: null
-          factLayer: "1"
+          factComment: ""
+          factSynonym: ""
           factTranform: CONCAT(l_orderkey, '-', l_linenumber)
         - factAlias: orders.count_line_items
           factCol: null
-          factLayer: "2"
-          factTranform: COUNT(lineitem.line_item_id)
-        - factAlias: lineitem.discounted_price
+          factComment: ""
+          factSynonym: ""
+          factTranform: COUNT(line_items.line_item_id)
+        - factAlias: line_items.discounted_price
           factCol: null
-          factLayer: "1"
+          factComment: ""
+          factSynonym: ""
           factTranform: l_extendedprice * (1 - l_discount)
     factToggle: true
     foreignKeyConfig:
@@ -43,48 +49,67 @@ operation:
         - foreignKey:
             columnCounter: 2accd803-ffd9-48ba-b18f-8ef7633e77c1
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          refAlias: ""
+          refAlias: "orders_to_customers "
+          refComment: ""
+          refSynonym: ""
           refTable: orders
         - foreignKey:
             columnCounter: 64946c97-7e1e-471b-9ea2-29fd4da72b04
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          refAlias: ""
-          refTable: customer
+          refAlias: "line_item_to_orders "
+          refComment: ""
+          refSynonym: ""
+          refTable: customers
     mericToggle: true
     metricConfig:
       items:
-        - metricAlias: customer.customer_count
+        - metricAlias: customers.customer_count
           metricCol:
             columnCounter: c2c1d35a-8b00-4dfb-87cf-30bf6c0fe51f
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          metricLayer: "1"
+          metricComment: ""
+          metricSynonym: ""
           metricTransform: COUNT
           metricTransformExprn: ""
         - metricAlias: orders.order_average_value
           metricCol:
             columnCounter: 084a77d8-fe3d-49e1-adf2-34ae9d684135
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-          metricLayer: "1"
+          metricComment: ""
+          metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: ""
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
-          metricLayer: "3"
+          metricComment: ""
+          metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: orders.count_line_items
     metricToggle: true
     primaryKeyConfig:
       items:
-        - primaryKey:
+        - primAlias: ""
+          primComment: All orders table for sales analytics
+          primSynonym: sales orders
+          primaryKey:
             columnCounter: c531a0b1-ddd6-4e56-819e-a21c45835fb6
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-        - primaryKey:
+        - primAlias: customers
+          primComment: Customer master data
+          primSynonym: ""
+          primaryKey:
             columnCounter: c2c1d35a-8b00-4dfb-87cf-30bf6c0fe51f
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-        - primaryKey:
+        - primAlias: line_items
+          primComment: Transactional order line items
+          primSynonym: ""
+          primaryKey:
             columnCounter: 2accd803-ffd9-48ba-b18f-8ef7633e77c1
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
-        - primaryKey:
+        - primAlias: line_items
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
             columnCounter: a1f4cce1-0627-4791-89d3-c7535274815a
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
     relationToggle: true
