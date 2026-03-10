@@ -162,6 +162,28 @@ does not permit copying or modification for any other purpose.
     {% endfor %}
 
     {% for item in desiredState.config.metricConfig.get('items') if desiredState.config.metricToggle %}
+
+        {% set col = item.metricCol %}
+        {%- set srcTableName = desiredState.sources[0].columns 
+                                | selectattr('id', 'eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.name') 
+                                | first 
+                                | default('', true) -%}
+
+        {%- set srcTableLocName = desiredState.sources[0].columns 
+                                | selectattr('id','eq', col.id)
+                                | map(attribute='sourceColumns')
+                                | first 
+                                | select('defined')
+                                | selectattr('node', 'defined')
+                                | map(attribute='node.location.name') 
+                                | first 
+                                | default('', true) -%}
+
         {% set col = item.metricCol %}
         {% set _ = nsSVvariables.metricDetails.append({
             "id": col.id if col else None,
@@ -169,6 +191,7 @@ does not permit copying or modification for any other purpose.
             "src": item.srcTable if item.srcTable else "",
             "metric": item.metricTransform,
             "derived": item.metricTransformExprn if item.metricTransformExprn else "",
+            "srcTablePath": ref_no_link(srcTableLocName, srcTableName) if srcTableLocName and srcTableName else "",
             "alias": item.metricAlias if item.metricAlias else "",
             "layer": item.metricLayer,
             "synonym": item.metricSynonym,
@@ -348,10 +371,17 @@ does not permit copying or modification for any other purpose.
                     {{ col.alias if col.alias 
                                 else col.name }}
                     AS {{ col.transform }}
-                {%- else %}      
-                    {{ ns.aliasMap[col.srcTablePath] }}.{{ col.alias if col.alias 
-                                else col.name }}
-                    AS {{ col.name }}
+                {%- else %}
+                    {% if col.alias != '' %}
+                        {%- if col.alias.split('.') | length == 2 %}
+                            {{ col.alias }}
+                        {%- else %}
+                            {{ ns.aliasMap[col.srcTablePath] + '.' + col.alias }}
+                        {%- endif %}
+                    {%- else %}
+                        {{ ns.aliasMap[col.srcTablePath] + '.' + col.name }}
+                    {%- endif %}
+                    AS {{ ns.aliasMap[col.srcTablePath] }}.{{ col.name }}
                 {%- endif %}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
@@ -391,7 +421,7 @@ does not permit copying or modification for any other purpose.
                 {%- if item.derived and item.derived != "" %}
                     {{ item.alias }} AS {{ item.metric }}({{ item.derived }})
                 {%- elif item.metric and item.name %}
-                    {{ item.alias }} AS {{ item.metric }}({{ item.name }})
+                    {{ ns.aliasMap[item.srcTablePath] }}.{{ item.alias }} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}.{{ item.name }})
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
