@@ -42,16 +42,19 @@ operation:
         - factAlias: line_items.line_item_id
           factCol: null
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: CONCAT(l_orderkey, '-', l_linenumber)
         - factAlias: orders.count_line_items
           factCol: null
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: COUNT(line_items.line_item_id)
         - factAlias: line_items.discounted_price
           factCol: null
           factComment: ""
+          factLayer: "1"
           factSynonym: Net price after discount
           factTranform: l_extendedprice * (1 - l_discount)
     factToggle: true
@@ -61,15 +64,11 @@ operation:
             columnCounter: 2accd803-ffd9-48ba-b18f-8ef7633e77c1
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
           refAlias: "orders_to_customers "
-          refComment: ""
-          refSynonym: ""
           refTable: orders
         - foreignKey:
             columnCounter: 64946c97-7e1e-471b-9ea2-29fd4da72b04
             stepCounter: b4f6113a-b83e-4c53-b49c-c7f44129f5c7
           refAlias: "line_item_to_orders "
-          refComment: ""
-          refSynonym: ""
           refTable: customers
     mericToggle: true
     metricConfig:

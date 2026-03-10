@@ -397,6 +397,7 @@ does not permit copying or modification for any other purpose.
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
+        {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
         {% endif %}
     {% endif %}
 
