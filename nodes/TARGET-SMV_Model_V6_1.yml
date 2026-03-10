@@ -57,15 +57,11 @@ operation:
             columnCounter: afd91548-b029-4cfe-b7d8-452b5f53954f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
           refAlias: orders_to_customers
-          refComment: ""
-          refSynonym: ""
           refTable: customers
         - foreignKey:
             columnCounter: 03e50419-3b9f-474c-b924-36cb4e5dd90f
             stepCounter: d09ca7cf-8b98-498c-9bc8-f06e8c880be8
           refAlias: line_item_to_orders
-          refComment: ""
-          refSynonym: ""
           refTable: orders
     metricConfig:
       items:

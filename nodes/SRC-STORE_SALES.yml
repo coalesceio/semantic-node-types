@@ -1,0 +1,453 @@
+fileVersion: 1
+id: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+name: STORE_SALES
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9838c95c-c0ff-4b11-a390-7b0c8f21aac2
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_SOLD_DATE_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ebcc34f8-51a8-4a43-8b2f-6bc02d754962
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_SOLD_TIME_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 00fb906b-d9bb-46bc-9ef1-772007270b9b
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_ITEM_SK
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0e33e1f-74e1-4e0c-8b69-c6517544dbc8
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_CUSTOMER_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f46313e5-07a9-4fc0-acd0-f28aa810d776
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_CDEMO_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9bbfdb41-9f8d-43ca-b303-f3626edbb8b2
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_HDEMO_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ac7beb8-ce25-412e-8019-79702a8689f4
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_ADDR_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 675c78ea-259b-4eda-8304-1a7f580c0212
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_STORE_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f6fd12ce-d7e2-4896-a133-3dfaaf53983a
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_PROMO_SK
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a2dda58d-9b31-42b5-877b-a325fe5b5b4b
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_TICKET_NUMBER
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 405df957-e2d0-4eca-91f2-574976c6d0d5
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SS_QUANTITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22edfce7-55b4-4cac-919c-f09de05a969d
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_WHOLESALE_COST
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b333ae4-6c54-466b-adf8-648f1ac2b37e
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_LIST_PRICE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a34ffc9d-42e3-415c-a509-b4f95f61b045
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_SALES_PRICE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71049489-8a97-457a-aa67-2a9cd4068e50
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_EXT_DISCOUNT_AMT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54f106df-1a12-47b1-b79b-340caacce187
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_EXT_SALES_PRICE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 73911815-d6bf-4f32-9299-d3268a9f4286
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_EXT_WHOLESALE_COST
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4eaf4f50-ac76-4efc-b106-2d147d28400e
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_EXT_LIST_PRICE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c5ab2ba9-f196-46d8-808a-b07d5a905afb
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_EXT_TAX
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 46bafd60-2dbc-4781-85dc-508338b678f2
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_COUPON_AMT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 221567f4-df9c-4534-8255-46d52d56cad2
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_NET_PAID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbe9445a-f330-442e-a213-eb7271ba102d
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_NET_PAID_INC_TAX
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ae64240-6fea-4d74-9845-827d54c09016
+          stepCounter: 19cbcf7d-6b2f-4f30-bf6d-686d8f1c6ee6
+        config: {}
+        dataType: NUMBER(7,2)
+        defaultValue: ""
+        description: ""
+        name: SS_NET_PROFIT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: STORE_SALES
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

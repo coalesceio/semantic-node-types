@@ -84,8 +84,8 @@ macroString: |2-
           COMMENT = '{{ comments | join(', ') }}'
           {%- endif %}
 
-      {% endif %}
+      {%- endif %}
 
-  {% endmacro %}
+  {%- endmacro %}
 name: macro
 type: Macro

@@ -316,7 +316,7 @@ does not permit copying or modification for any other purpose.
 
         TABLES
         (
-            {% for item in nsSVvariables.primKey | groupby('srcTablePath') %}
+            {%- for item in nsSVvariables.primKey | groupby('srcTablePath') -%}
 
             {{ ns.aliasMap[item.grouper] }} AS {{ item.grouper | replace('"','') }}
 
@@ -326,68 +326,68 @@ does not permit copying or modification for any other purpose.
             )
             {%- endif %}
             {{ renderSynonymAndComment(item.list) }}
-            {%- if not loop.last %},{% endif %}
-            {% endfor %}
+            {%- if not loop.last %},{%- endif %}
+            {%- endfor %}
         )
 
-        {% if desiredState.config.relationToggle %}
+        {%- if desiredState.config.relationToggle %}
         RELATIONSHIPS
         (
-            {% for item in nsSVvariables.foreignKey %}
-                {% if item.alias != '' %} {{ item.alias }} AS {% endif -%}
+            {%- for item in nsSVvariables.foreignKey -%}
+                {%- if item.alias != '' %} {{ item.alias }} AS {% endif -%}
                  {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
                 {%- if not loop.last %},{% endif %}
-            {% endfor %}
+            {%- endfor %}
         )
-        {% endif %}
+        {%- endif %}
 
-        {% if desiredState.config.factToggle %}
+        {%- if desiredState.config.factToggle %}
         FACTS (
-            {%- for col in nsSVvariables.factDetails %}
-                {% if col.transform %}
+            {%- for col in nsSVvariables.factDetails -%}
+                {%- if col.transform %}
                     {{ col.alias if col.alias 
                                 else col.name }}
                     AS {{ col.transform }}
-                {% else %}      
+                {%- else %}      
                     {{ ns.aliasMap[col.srcTablePath] }}.{{ col.alias if col.alias 
                                 else col.name }}
                     AS {{ col.name }}
-                {% endif %}
+                {%- endif %}
                 {{ renderSynonymAndComment(col) }}
-                {% if not loop.last %},{% endif %}
+                {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
-        {% endif %}
+        {%- endif %}
 
-        {% if desiredState.config.dimToggle %}
+        {%- if desiredState.config.dimToggle %}
         DIMENSIONS (
-            {%- for col in nsSVvariables.dimDetails %}
-                {% if col.transform != '' %}
+            {%- for col in nsSVvariables.dimDetails -%}
+                {%- if col.transform != '' %}
                     {{ col.alias if col.alias 
                                 else col.name }}
                     AS {{ col.transform }}
-                {% else %}
+                {%- else %}
                     {% if col.alias != '' %}
-                        {% if col.alias.split('.') | length == 2 %}
+                        {%- if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
-                        {% else %}
+                        {%- else %}
                             {{ ns.aliasMap[col.srcTablePath] + '.' + col.alias }}
-                        {% endif %}
-                    {% else %}
+                        {%- endif %}
+                    {%- else %}
                         {{ ns.aliasMap[col.srcTablePath] + '.' + col.name }}
-                    {% endif %}
+                    {%- endif %}
                     AS {{ ns.aliasMap[col.srcTablePath] }}.{{ col.name }}
-                {% endif %}
+                {%- endif %}
                 {{ renderSynonymAndComment(col) }}
-                {% if not loop.last %},{% endif %}
+                {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
-        {% endif %}
+        {%- endif %}
 
-        {% if desiredState.config.metricToggle %}
+        {%- if desiredState.config.metricToggle %}
         METRICS
         (
-            {%- for item in nsSVvariables.metricDetails %}
+            {%- for item in nsSVvariables.metricDetails -%}
                 {%- if item.derived and item.derived != "" %}
                     {{ item.alias }} AS {{ item.metric }}({{ item.derived }})
                 {%- elif item.metric and item.name %}
@@ -398,10 +398,10 @@ does not permit copying or modification for any other purpose.
             {%- endfor %}
         )
         {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
-        {% endif %}
-    {% endif %}
+        {%- endif %}
+    {%- endif %}
 
-{% elif desiredState == undefined and currentState != undefined %}
+{%- elif desiredState == undefined and currentState != undefined %}
     {{ stage('Drop ' + '{{currentState.node.materializationType}}') }}
     DROP SEMANTIC VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
-{% endif %}
+{%- endif %}

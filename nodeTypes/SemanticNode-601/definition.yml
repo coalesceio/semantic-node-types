@@ -74,17 +74,11 @@ metadata:
           isRequired: false
           enableIf: ""
 
-      - type: toggleButton
-        displayName: Enable Relationsship
-        attributeName: relationToggle
-        isRequired: false
-        default: false
-
       - type: tabular
         displayName: RELATIONSHIPS (Foreign Key)
         attributeName: foreignKeyConfig
         isRequired: false
-        enableIf: "{% if config.relationToggle %} true {% else %} false {% endif %}"
+        enableIf: ""
 
         columns:
         - type: columnDropdownSelector
