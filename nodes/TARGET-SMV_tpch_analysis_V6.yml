@@ -10,6 +10,7 @@ operation:
             columnCounter: 20e95251-8bce-4493-9227-5c6aad65fa53
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: customer_name
@@ -17,6 +18,7 @@ operation:
             columnCounter: 49325810-41ff-4f6c-8af2-6d0cfe85b609
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: customer_region_name
@@ -24,6 +26,7 @@ operation:
             columnCounter: 5e941146-7e89-4b03-aa63-9ece7cbf452c
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: customer_nation_name
@@ -31,6 +34,7 @@ operation:
             columnCounter: 20e95251-8bce-4493-9227-5c6aad65fa53
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: customer_market_segment
@@ -38,11 +42,13 @@ operation:
             columnCounter: da389db5-e84b-4250-a099-b34319399a9b
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: customer.customer_country_code
           dimCol: null
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: LEFT(c_phone, 2)
         - dimAlias: order_date
@@ -50,9 +56,10 @@ operation:
             columnCounter: 2bffac1d-d270-4ec7-b7d5-a0adcaa9aed1
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           dimComment: ""
+          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
-    deriveCol: false
+    deriveCol: true
     dimToggle: true
     factDetConfig:
       items:
@@ -70,6 +77,13 @@ operation:
           factComment: ""
           factSynonym: ""
           factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: 85659f8e-37ec-420e-b321-de5899ad9aa5
+            stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
+          factComment: ""
+          factSynonym: ""
+          factTranform: ""
         - factAlias: lineitem.line_item_id
           factCol: null
           factComment: ""
@@ -80,6 +94,11 @@ operation:
           factComment: ""
           factSynonym: ""
           factTranform: COUNT(lineitem.line_item_id)
+        - factAlias: customer.c_customer_order_count
+          factCol: null
+          factComment: ""
+          factSynonym: ""
+          factTranform: COUNT(orders.o_orderkey)
     factToggle: true
     foreignKeyConfig:
       items:
@@ -110,8 +129,57 @@ operation:
           refTable: nation
     metricConfig:
       items:
-        - {}
-    metricToggle: false
+        - metricAlias: customer_count
+          metricCol:
+            columnCounter: f99f523d-826f-43a3-8a7e-fcd79fdd30eb
+            stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: ""
+        - metricAlias: customer.customer_order_count
+          metricCol: null
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: c_customer_order_count
+        - metricAlias: order_count
+          metricCol:
+            columnCounter: 85659f8e-37ec-420e-b321-de5899ad9aa5
+            stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: ""
+        - metricAlias: order_average_value
+          metricCol:
+            columnCounter: 807a23bd-a3a6-4144-996f-b2e78a7cffef
+            stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: AVG
+          metricTransformExprn: ""
+        - metricAlias: orders.average_line_items_per_order
+          metricCol: null
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: AVG
+          metricTransformExprn: count_line_items
+        - metricAlias: supplier_count
+          metricCol:
+            columnCounter: 95077db2-6d13-4a98-9260-4bd654ce0f4a
+            stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: ""
+    metricToggle: true
     primaryKeyConfig:
       items:
         - primAlias: region
