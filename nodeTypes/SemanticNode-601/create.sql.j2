@@ -421,7 +421,11 @@ does not permit copying or modification for any other purpose.
                 {%- if item.derived and item.derived != "" %}
                     {{ item.alias }} AS {{ item.metric }}({{ item.derived }})
                 {%- elif item.metric and item.name %}
-                    {{ ns.aliasMap[item.srcTablePath] }}.{{ item.alias }} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}.{{ item.name }})
+                    {%- if item.alias.split('.') | length == 2 %}
+                    {{ item.alias }}
+                    {%- else %}
+                    {{ ns.aliasMap[item.srcTablePath] + '.' + item.alias }}
+                    {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}.{{ item.name }})
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
