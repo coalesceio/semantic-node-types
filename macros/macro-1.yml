@@ -107,9 +107,9 @@ macroString: |2-
               {%- set colOrder = item.sortOrder -%}
 
               {%- if loop.first -%}
-                  {%- set ns.sortCols = '"' ~ colName ~ '"' ~ colOrder -%}
+                  {%- set ns.sortCols = colName ~ ' ' ~ colOrder -%}
               {%- else -%}
-                  {%- set ns.sortCols = ns.sortCols ~ ', "' ~ colName ~ '"' ~ colOrder -%}
+                  {%- set ns.sortCols = ns.sortCols ~ ', ' ~ colName ~ ' ' ~ colOrder -%}
               {%- endif -%}
 
           {%- endfor -%}
@@ -124,7 +124,7 @@ macroString: |2-
 
   {%- macro extractClause(join) -%}
 
-      {%- set sql = join | replace('\n',' ') | lower -%}
+      {%- set sql = join | replace('\n',' ') -%}
       {%- set lowerSql = sql | lower -%}
 
       {%- set whereClause = lowerSql.find(' where ') -%}

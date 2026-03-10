@@ -11,25 +11,35 @@ CREATE OR REPLACE {{ node.materializationType }} {{ ref_no_link(node.location.na
 AS
 SELECT * FROM SEMANTIC_VIEW
 (
-    {{ sources[0].dependencies[0].node.name }}
+    {{ ref_no_link(sources[0].dependencies[0].node.location.name, sources[0].dependencies[0].node.name) }}
 
-    DIMENSIONS
+    {% set factColumns = columns
+        | selectattr('isaFactColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {% if factColumns %}
+    FACTS
+    {{ factColumns | join(', ') }}
+    {% endif %}
+
     {% set dimColumns = columns
         | selectattr('isaDimColumn', 'equalto', true)
         | map(attribute='name')
         | list
     %}
     {% if dimColumns %}
+    DIMENSIONS
     {{ dimColumns | join(', ') }}
     {% endif %}
     
-    METRICS
     {% set metricColumns = columns
         | selectattr('isaMetricColumn', 'equalto', true)
         | map(attribute='name')
         | list
     %}
     {% if metricColumns %}
+    METRICS
     {{ metricColumns | join(', ') }}
     {% endif %}
 )
