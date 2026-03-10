@@ -21,62 +21,70 @@ macroString: |2-
         {%- endif -%}
     {%- endmacro %}
 
-    {# --------------------------------------------------------------------------------------------------------------------------------
-    **Macro: build_alias(alias)
+  {# -----------------------------------------------------------------------------
+  **Macro: build_alias(alias)
 
-    **Description** Extracts the final column name from a dot-separated alias.
-    If the alias is provided as `table.column`, the macro returns only column
+  **Description** Extracts the final column name from a dot-separated alias.
+  If the alias is provided as `table.column`, the macro returns only column
 
-    **Input** alias (string) - A column alias that may include a prefix such as customer.cust_name
-    **Output** Returns the final column name without the prefix.
-     --------------------------------------------------------------------------------------------------------------------------------#}
-    {% macro build_alias(alias) -%}
-        {{- alias.split('.')[-1] if alias else '' -}}
-    {%- endmacro %}
+  **Input** alias (string) - A column alias that may include a prefix such as customer.cust_name
+  **Output** Returns the final column name without the prefix.
+  ------------------------------------------------------------------------------#}
+  {% macro build_alias(alias) -%}
+      {{- alias.split('.')[-1] if alias else '' -}}
+  {%- endmacro %}
 
+  {# -----------------------------------------------------------------------------
+  Description: Renders WITH SYNONYMS and COMMENT clauses if synonym or comment values exist.
+
+  Input: obj – Object or list of objects containing optional synonym and comment fields.
+
+  Output: WITH SYNONYMS ('value') if synonym exists
+          COMMENT = 'value' if comment exists
+  ------------------------------------------------------------------------------#}
   {% macro renderSynonymAndComment(obj) %}
 
-  {% if obj.synonym is defined or obj.comment is defined %}
+      {%- if obj.synonym is defined or obj.comment is defined -%}
 
-      {# single column case #}
-      {% if obj.synonym is defined and obj.synonym | trim != '' %}
-      WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
+          {%- if obj.synonym is defined and obj.synonym | trim != '' %}
+              {%- set syn_list = obj.synonym.split(',') | map('trim') | reject('equalto','') | list -%}
+              WITH SYNONYMS ('{{ syn_list | join("', '") }}')
+          {%- endif %}
+
+          {%- if obj.comment is defined and obj.comment | trim != '' %}
+          COMMENT = '{{ obj.comment }}'
+          {%- endif %}
+
+      {%- else -%}
+
+          {# grouped case (item.list) #}
+          {%- set synonyms = obj
+              | selectattr('synonym','defined')
+              | map(attribute='synonym')
+              | map('trim')
+              | reject('equalto','')
+              | unique
+              | list
+          -%}
+
+          {%- if synonyms %}
+          WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
+          {%- endif %}
+
+          {%- set comments = obj
+              | selectattr('comment','defined')
+              | map(attribute='comment')
+              | map('trim')
+              | reject('equalto','')
+              | unique
+              | list
+          -%}
+
+          {%- if comments %}
+          COMMENT = '{{ comments | join(', ') }}'
+          {%- endif %}
+
       {% endif %}
-
-      {% if obj.comment is defined and obj.comment | trim != '' %}
-      COMMENT = '{{ obj.comment }}'
-      {% endif %}
-
-  {% else %}
-
-      {# grouped case (item.list) #}
-      {%- set synonyms = obj
-          | selectattr('synonym','defined')
-          | map(attribute='synonym')
-          | map('trim')
-          | reject('equalto','')
-          | unique
-          | list
-      -%}
-
-      {%- if synonyms %}
-      WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
-      {%- endif %}
-
-      {%- set comments = obj
-          | selectattr('comment','defined')
-          | map(attribute='comment')
-          | map('trim')
-          | reject('equalto','')
-          | unique
-          | list
-      -%}
-
-      {%- if comments %}
-      COMMENT = '{{ comments | join(', ') }}'
-      {%- endif %}
-
-  {% endif %}
 
   {% endmacro %}
 name: macro
