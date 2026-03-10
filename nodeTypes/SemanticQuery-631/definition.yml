@@ -12,12 +12,58 @@ metadata:
     plural: Views
 
     config:
-    - groupName: Options
+    - groupName: Query Options
       items: 
+
       - type: materializationSelector
         options:
             - view
+            - table
         default: view
         isRequired: true
+
+      - displayName: Order By
+        attributeName: orderby
+        type: toggleButton
+        default: false
+        enableIf: ""
+
+      - type: tabular
+        displayName: ''
+        attributeName: orderbycolumn
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Sort Column
+             attributeName: sortColName
+
+          -  type: dropdownSelector
+             displayName: Sort Order
+             attributeName: sortOrder
+             default: DESC
+             options:
+             - DESC
+             - ASC
+           
+        isRequired: true
+        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
+
+      - type: columnSelector
+        displayName: FACTS
+        attributeName: isaFactColumn
+        isRequired: false
+        enableIf: 'true'
+
+      - type: columnSelector
+        displayName: DIMENSIONS
+        attributeName: isaDimColumn
+        isRequired: false
+        enableIf: 'true'
+
+      - type: columnSelector
+        displayName: METRICS
+        attributeName: isaMetricColumn
+        isRequired: false
+        enableIf: 'true'
 name: Semantic Query
 type: NodeType

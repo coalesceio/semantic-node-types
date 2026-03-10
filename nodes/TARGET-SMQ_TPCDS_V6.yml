@@ -1,0 +1,135 @@
+fileVersion: 1
+id: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+name: SMQ_TPCDS_V6
+operation:
+  config:
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: c7ffec21-2a40-4e35-9f83-18c323f8a851
+            stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+          sortOrder: DESC
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0093a268-f1ce-42ee-828d-2420ed5c54f7
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(50)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2017550f-54f3-4f57-a513-ece1c9664e13
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a011d51f-917b-4f65-8d9d-6c800ba795c0
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(50)
+        description: ""
+        name: CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f6dcdc70-09aa-44fa-b90a-2a8b8b4d2b76
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70255f04-3842-4595-b2a6-e8c7267b6259
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaDimColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6965a587-f625-4e2d-b432-0a1c1cb0fec6
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0f3a7353-b927-4972-a690-a6f4b3b0f56f
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaDimColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d34fdbf5-b63e-45c4-93cf-40ae64361df7
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 88e99690-8a0e-4a01-acca-dd7478ec8522
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(2)
+        description: ""
+        name: STATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86ccbff0-565f-4a69-9e30-e22159cbbcd9
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7ffec21-2a40-4e35-9f83-18c323f8a851
+          stepCounter: 49d85b6d-a7d2-458f-a817-7b54b9bdfb61
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TOTALSALESQUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1002992c-bd4c-478b-9f37-baca9b247dda
+                stepCounter: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_TPCDS_V6: c3344295-3b0c-4dad-b5e5-8eba446ce86e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_TPCDS_V6
+        join:
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'SMV_TPCDS_V6') }} "SMV_TPCDS_V6"
+            WHERE YEAR = '2025' and Month = '12'
+            LIMIT 10
+        name: SMQ_TPCDS_V6
+        noLinkRefs: []
+  name: SMQ_TPCDS_V6
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node
