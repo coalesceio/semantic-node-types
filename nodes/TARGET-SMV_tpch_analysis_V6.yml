@@ -68,6 +68,7 @@ operation:
             columnCounter: 5e941146-7e89-4b03-aa63-9ece7cbf452c
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -75,6 +76,7 @@ operation:
             columnCounter: 20e95251-8bce-4493-9227-5c6aad65fa53
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -82,21 +84,25 @@ operation:
             columnCounter: 85659f8e-37ec-420e-b321-de5899ad9aa5
             stepCounter: 2cff2432-80ab-4989-9377-b52d9194190c
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: lineitem.line_item_id
           factCol: null
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: CONCAT(l_orderkey, '-', l_linenumber)
         - factAlias: orders.count_line_items
           factCol: null
           factComment: ""
+          factLayer: "2"
           factSynonym: ""
           factTranform: COUNT(lineitem.line_item_id)
         - factAlias: customer.c_customer_order_count
           factCol: null
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: COUNT(orders.o_orderkey)
     factToggle: true
@@ -141,7 +147,7 @@ operation:
         - metricAlias: customer.customer_order_count
           metricCol: null
           metricComment: ""
-          metricLayer: "1"
+          metricLayer: "2"
           metricSynonym: ""
           metricTransform: SUM
           metricTransformExprn: c_customer_order_count
@@ -166,7 +172,7 @@ operation:
         - metricAlias: orders.average_line_items_per_order
           metricCol: null
           metricComment: ""
-          metricLayer: "1"
+          metricLayer: "3"
           metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: count_line_items

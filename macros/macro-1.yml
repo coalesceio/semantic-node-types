@@ -11,15 +11,22 @@ macroString: |2-
 
     **Output** - Returns a formatted SQL expression with the column name quoted and the table prefix removed.
      --------------------------------------------------------------------------------------------------------------------------------#}
-    {% macro build_expr(expr) -%}
-        {%- if expr and '.' in expr -%}
-        {%- set func = expr.split('(')[0] -%}
-        {%- set col = expr.split('.')[-1].replace(')','') -%}
-        {{- func ~ '("' ~ col ~ '")' -}}
-        {%- else -%}
-        {{- expr -}}
-        {%- endif -%}
-    {%- endmacro %}
+  {% macro build_expr(expr) -%}
+      {%- if expr and '(' in expr -%}
+          {%- set func = expr.split('(')[0] -%}
+          {%- set inner = expr.split('(')[1].replace(')','') -%}
+          {%- set col = inner.split('.')[-1] -%}
+
+          {%- if col == '*' -%}
+              {{ func ~ '(*)' }}
+          {%- else -%}
+              {{ func ~ '("' ~ col ~ '")' }}
+          {%- endif -%}
+
+      {%- else -%}
+          {{ expr }}
+      {%- endif -%}
+  {%- endmacro %}
 
   {# -----------------------------------------------------------------------------
   **Macro: build_alias(alias)
