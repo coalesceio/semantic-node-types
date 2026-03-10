@@ -105,18 +105,6 @@ metadata:
           isRequired: false
           enableIf: ""
 
-        - type: textBox
-          displayName: Synonym
-          attributeName: refSynonym
-          isRequired: false
-          enableIf: ""
-
-        - type: textBox
-          displayName: Comment
-          attributeName: refComment
-          isRequired: false
-          enableIf: ""
-
       - type: toggleButton
         displayName: Enable Facts
         attributeName: factToggle

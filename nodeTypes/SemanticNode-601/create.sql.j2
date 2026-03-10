@@ -86,8 +86,6 @@ does not permit copying or modification for any other purpose.
             "id": fk.id,
             "name": fk.name,
             "alias": col.refAlias,
-            "synonym": col.refSynonym,
-            "comment": col.refComment,
             "srcTablePath" : ref_no_link(srcTableLocName, srcTableName),
             "refTable": col.refTable
         }) %}
@@ -338,7 +336,6 @@ does not permit copying or modification for any other purpose.
             {% for item in nsSVvariables.foreignKey %}
                 {% if item.alias != '' %} {{ item.alias }} AS {% endif -%}
                  {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
-                {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
             {% endfor %}
         )
@@ -390,12 +387,11 @@ does not permit copying or modification for any other purpose.
         {% if desiredState.config.metricToggle %}
         METRICS
         (
-            {%- set metrics = desiredState.config.metricConfig.get('items') -%}
-            {%- for item in metrics %}
-                {%- if item.metricTransformExprn and item.metricTransformExprn != "" %}
-                    {{ item.metricAlias }} AS {{ item.metricTransform }}({{ item.metricTransformExprn }})
-                {%- elif item.metricTransform and item.metricCol %}
-                    {{ item.metricAlias }} AS {{ item.metricTransform }}({{ item.metricCol.name }})
+            {%- for item in nsSVvariables.metricDetails %}
+                {%- if item.derived and item.derived != "" %}
+                    {{ item.alias }} AS {{ item.metric }}({{ item.derived }})
+                {%- elif item.metric and item.name %}
+                    {{ item.alias }} AS {{ item.metric }}({{ item.name }})
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
