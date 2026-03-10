@@ -65,7 +65,7 @@ does not permit copying or modification for any other purpose.
 
     {% endfor %}
 
-    {% for col in desiredState.config.foreignKeyConfig.get('items') if desiredState.config.relationToggle %}
+    {% for col in desiredState.config.foreignKeyConfig.get('items') %}
 
         {% set fk = col.foreignKey %}
         {%- set srcTableName = desiredState.sources[0].columns 
@@ -353,7 +353,6 @@ does not permit copying or modification for any other purpose.
             {%- endfor %}
         )
 
-        {%- if desiredState.config.relationToggle %}
         RELATIONSHIPS
         (
             {%- for item in nsSVvariables.foreignKey -%}
@@ -362,7 +361,6 @@ does not permit copying or modification for any other purpose.
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
-        {%- endif %}
 
         {%- if desiredState.config.factToggle %}
         FACTS (
