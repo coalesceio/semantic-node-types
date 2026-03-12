@@ -12,7 +12,7 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
-        - dimAlias: customerID
+        - dimAlias: customer_Identity
           dimCol:
             columnCounter: 8c7dca0a-12ab-4b64-a9f8-848eb487a0da
             stepCounter: 5ac3c292-324e-4929-8a2e-e1d205aeb6e1

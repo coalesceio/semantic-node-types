@@ -32,6 +32,10 @@ does not permit copying or modification for any other purpose.
                                 | selectattr('name', 'equalto', desiredState.node.location.name)
                                 | map(attribute='database')
                                 | first %}
+    {% set desiredSchema = desiredState.storageLocations 
+                                | selectattr('name', 'equalto', desiredState.node.location.name)
+                                | map(attribute='schema')
+                                | first %}
 
     {% for col in desiredState.config.primaryKeyConfig.get('items') %}
 
@@ -252,6 +256,7 @@ does not permit copying or modification for any other purpose.
             INTO :target_type
             FROM {{desiredDatabase}}.information_schema.semantic_views
             WHERE name = '{{ desiredState.node.name }}'
+            AND schema = '{{ desiredSchema }}'
             LIMIT 1;
 
         -- 2. Drop the existing object based on its type
@@ -340,6 +345,7 @@ does not permit copying or modification for any other purpose.
             INTO :target_type
             FROM {{desiredDatabase}}.information_schema.tables
             WHERE table_name = '{{ desiredState.node.name }}'
+            AND table_schema = '{{ desiredSchema }}'
             LIMIT 1;
 
         -- 2. Drop the existing object based on its type

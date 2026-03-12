@@ -40,7 +40,7 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
-    deriveCol: true
+    deriveCol: false
     dimToggle: true
     factDetConfig:
       items:
@@ -81,7 +81,6 @@ operation:
             columnCounter: a1622099-55b8-4994-a826-37e542edee6a
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           metricComment: ""
-          metricLayer: "1"
           metricSynonym: total sales quantity
           metricTransform: SUM
           metricTransformExprn: ""
