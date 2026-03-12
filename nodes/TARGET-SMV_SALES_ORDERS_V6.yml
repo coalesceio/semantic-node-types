@@ -1,0 +1,239 @@
+fileVersion: 1
+id: c3f41358-5858-4c38-8457-73ab2a766a73
+name: SMV_SALES_ORDERS_V6
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 430918aa-ad45-4091-bfef-2de5ca4ba186
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: c7439a6c-f79e-4733-a52c-30983e5b00ee
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 350e368a-8823-46cd-a9b5-09b0988fc507
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 62e3263a-beb7-4e60-b975-33dc0f73d43b
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+    deriveCol: true
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: 8f7e775c-f02b-43a1-a8ed-b5f0a55b6ce6
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          factComment: ""
+          factLayer: "1"
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: 0e5d52f3-1ec0-48dd-ba22-75853ddf7b34
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          factComment: ""
+          factLayer: "1"
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: e875d7a8-c1c9-4b1f-8b3b-b9c0288991ca
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          factComment: ""
+          factLayer: "1"
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - foreignKey: null
+          refAlias: ""
+          refTable: ""
+    metricConfig:
+      items:
+        - metricAlias: total_sales
+          metricCol:
+            columnCounter: e875d7a8-c1c9-4b1f-8b3b-b9c0288991ca
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: ""
+        - metricAlias: avg_order_amount
+          metricCol:
+            columnCounter: e875d7a8-c1c9-4b1f-8b3b-b9c0288991ca
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: AVG
+          metricTransformExprn: ""
+        - metricAlias: sales_orders.total_orders
+          metricCol: null
+          metricComment: ""
+          metricLayer: "2"
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: "*"
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: ""
+          primComment: Table managing customer order information
+          primSynonym: Order Table, Sales Data, Purchase History, Transactions
+          primaryKey:
+            columnCounter: 430918aa-ad45-4091-bfef-2de5ca4ba186
+            stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+    semanticMaterialization: semantic view
+    tableOnlyToggle: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 430918aa-ad45-4091-bfef-2de5ca4ba186
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: db43d70e-12c7-4b0f-9ad4-1858b1162c4c
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7439a6c-f79e-4733-a52c-30983e5b00ee
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 41f3b1b5-513f-4c7c-b0ec-ee3dfb5dec4b
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 350e368a-8823-46cd-a9b5-09b0988fc507
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: DATE
+        description: ""
+        name: ORDER_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d287a656-44b1-4105-bf7f-f5ce2513b743
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 62e3263a-beb7-4e60-b975-33dc0f73d43b
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d658354-24bc-46e8-9117-4224115ba543
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f7e775c-f02b-43a1-a8ed-b5f0a55b6ce6
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6ff887c-f29a-46d8-8c43-0de3683b113a
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e5d52f3-1ec0-48dd-ba22-75853ddf7b34
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: UNIT_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 523f7a58-f49a-416a-8f1a-889f81ef125f
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e875d7a8-c1c9-4b1f-8b3b-b9c0288991ca
+          stepCounter: c3f41358-5858-4c38-8457-73ab2a766a73
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TOTAL_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff7bf4b9-9787-4dc4-a4d8-8b141e7ac7d2
+                stepCounter: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SALES_ORDERS: 15ddbddd-efeb-4fdc-8038-6a5ac918c5ab
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: SALES_ORDERS
+        join:
+          joinCondition: FROM {{ ref('SRC', 'SALES_ORDERS') }} "SALES_ORDERS"
+        name: SMV_SALES_ORDERS_V6
+        noLinkRefs: []
+  name: SMV_SALES_ORDERS_V6
+  overrideSQL: false
+  schema: ""
+  sqlType: "601"
+  type: sql
+  version: 1
+type: Node
