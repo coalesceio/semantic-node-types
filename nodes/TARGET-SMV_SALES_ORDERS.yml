@@ -42,7 +42,6 @@ operation:
             columnCounter: 7e0c3016-59d8-43e3-96ce-38fac8846ff2
             stepCounter: 5ac3c292-324e-4929-8a2e-e1d205aeb6e1
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -50,7 +49,6 @@ operation:
             columnCounter: 647e4c4d-d146-41cd-b339-e13eff8ac04f
             stepCounter: 5ac3c292-324e-4929-8a2e-e1d205aeb6e1
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -58,7 +56,6 @@ operation:
             columnCounter: 40e0cf2c-3ee0-4dbe-b51e-574324e795d2
             stepCounter: 5ac3c292-324e-4929-8a2e-e1d205aeb6e1
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
     factToggle: true

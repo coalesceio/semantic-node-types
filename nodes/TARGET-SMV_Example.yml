@@ -1,0 +1,542 @@
+fileVersion: 1
+id: d94f8d4f-774d-49a1-aba6-620e522678db
+name: SMV_Example
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: MONTH
+          dimCol:
+            columnCounter: f5d1b557-9d91-4376-9e05-ad1f9521a529
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: YEAR
+          dimCol:
+            columnCounter: 596f9ff4-d4e9-4202-ad96-f61bd79f83a3
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: BRAND
+          dimCol:
+            columnCounter: e5efd429-2575-4ffb-80fc-ad3b27442f79
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: CATEGORY
+          dimCol:
+            columnCounter: d4ee042f-7a6b-435e-a8cb-b6ce027a9787
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: STATE
+          dimCol:
+            columnCounter: c113aace-e06e-46b2-9796-7b0061badf49
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+    deriveCol: true
+    dimToggle: true
+    factDetConfig:
+      items:
+        - {}
+    factToggle: false
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: 8a0db073-64af-45a8-aeda-a582566af1ef
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          refAlias: SALESTOCUSTOMER
+          refTable: CUSTOMER
+        - foreignKey:
+            columnCounter: 87b11b40-dd6d-460e-84ea-fd70964310ee
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          refAlias: SALESTODATE
+          refTable: DATE
+        - foreignKey:
+            columnCounter: 07ae5b27-7e05-448b-a6d3-5c737c837adb
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          refAlias: SALESTODEMO
+          refTable: DEMO
+        - foreignKey:
+            columnCounter: ede4a6c1-4e86-449e-b4f1-438a6bde004e
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          refAlias: SALESTOITEM
+          refTable: ITEM
+        - foreignKey:
+            columnCounter: 337f7da5-5c85-46d2-80ba-d961f77944d3
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          refAlias: SALETOSTORE
+          refTable: STORE
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: TOTALSALESQUANTITY
+          metricCol:
+            columnCounter: a1622099-55b8-4994-a826-37e542edee6a
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: total sales quantity
+          metricTransform: SUM
+          metricTransformExprn: ""
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: CUSTOMER
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: e435dfa7-c46e-472a-b09d-ec8b28d421ca
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: DATE
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: e190d2e3-e0eb-4d3f-b821-ab099f3095fb
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: DEMO
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 0b2483c1-cc12-4808-935d-605163ff71c3
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: d26f7fc6-62fe-4014-a4cd-c9819325fb13
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: a1b0c659-9dd7-4456-86f7-157c3d107da7
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: STORESALES
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 87b11b40-dd6d-460e-84ea-fd70964310ee
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 07ae5b27-7e05-448b-a6d3-5c737c837adb
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: ede4a6c1-4e86-449e-b4f1-438a6bde004e
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 337f7da5-5c85-46d2-80ba-d961f77944d3
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 8a0db073-64af-45a8-aeda-a582566af1ef
+            stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e190d2e3-e0eb-4d3f-b821-ab099f3095fb
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: D_DATE_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8b6f7eba-4a49-497d-9bf2-80da84ef4027
+                stepCounter: 79efb531-7225-475b-910d-a37ae5767666
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 596f9ff4-d4e9-4202-ad96-f61bd79f83a3
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: D_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2f8843c9-4032-440a-8e2b-c60827598fd4
+                stepCounter: 79efb531-7225-475b-910d-a37ae5767666
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f5d1b557-9d91-4376-9e05-ad1f9521a529
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: D_MOY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2af4ecc-cddf-4732-9c51-92449e40aa96
+                stepCounter: 79efb531-7225-475b-910d-a37ae5767666
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d26f7fc6-62fe-4014-a4cd-c9819325fb13
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: I_ITEM_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dff6758e-1f52-4bfe-8394-e3f4b94002c0
+                stepCounter: 43d542f2-6e5e-4370-9fe0-753012a157a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e5efd429-2575-4ffb-80fc-ad3b27442f79
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: I_BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5cd6cd63-14f4-42c6-af3b-8562263f47cc
+                stepCounter: 43d542f2-6e5e-4370-9fe0-753012a157a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4ee042f-7a6b-435e-a8cb-b6ce027a9787
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: I_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 552c3328-d207-4b72-bb27-9ed3fd2a63ef
+                stepCounter: 43d542f2-6e5e-4370-9fe0-753012a157a5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b0c659-9dd7-4456-86f7-157c3d107da7
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: S_STORE_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5eaa9233-cd68-4de5-8cbf-39a1212ee096
+                stepCounter: 33a480ee-f677-4767-aab4-d4799b5cc863
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c113aace-e06e-46b2-9796-7b0061badf49
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(2)
+        description: ""
+        name: S_STATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1bec2b00-0bef-49b0-bf78-bc3abf585737
+                stepCounter: 33a480ee-f677-4767-aab4-d4799b5cc863
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b2483c1-cc12-4808-935d-605163ff71c3
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CD_DEMO_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f89623ec-5e25-4541-92cd-2b67abcb782f
+                stepCounter: 1c23f011-8ca7-4f87-af99-8d5cf67bd775
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 87b11b40-dd6d-460e-84ea-fd70964310ee
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_SOLD_DATE_SK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7db35cad-5617-49a0-a2a4-5f9840970864
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ede4a6c1-4e86-449e-b4f1-438a6bde004e
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_ITEM_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8b34a7a9-5acb-4f74-8f40-cf95a063a153
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8a0db073-64af-45a8-aeda-a582566af1ef
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_CUSTOMER_SK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8db1be58-9b00-4288-83af-33c6a07474cb
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 07ae5b27-7e05-448b-a6d3-5c737c837adb
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_CDEMO_SK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92a68af3-111d-416f-943d-74015b9e417b
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 337f7da5-5c85-46d2-80ba-d961f77944d3
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_STORE_SK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5629527f-99a3-4945-9332-8eebb27e3e77
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1622099-55b8-4994-a826-37e542edee6a
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SS_QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1c9586f5-295e-41c2-8012-d7908945f250
+                stepCounter: 164ab1c1-aa95-451a-90be-e430e53d9342
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e435dfa7-c46e-472a-b09d-ec8b28d421ca
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_CUSTOMER_SK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d67a54e7-2534-4914-b8eb-0f95b0eddf14
+                stepCounter: 8c63fcac-d48e-4fec-879c-16b1d435a8b2
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5c30ba80-508a-4c38-8c0d-8cc77f181d49
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: MONTH
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3f8fe1f-b223-44be-8229-6db7180c837f
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: YEAR
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea52844a-1b8e-4129-a823-a71a2c7c0225
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: BRAND
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9d12d02e-f701-4905-833c-e63fc5ca0f46
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: CATEGORY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3725575e-c44a-4196-b644-d1a7449ab207
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: VARCHAR(2)
+        defaultValue: ""
+        description: ""
+        name: STATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a04121c0-0659-4d33-af16-2d0082a97438
+          stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: TOTALSALESQUANTITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DATE_DIM: 79efb531-7225-475b-910d-a37ae5767666
+          ITEM: 43d542f2-6e5e-4370-9fe0-753012a157a5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: CUSTOMER_DEMOGRAPHICS
+          - locationName: SRC
+            nodeName: CUSTOMER_SK
+          - locationName: SRC
+            nodeName: DATE_DIM
+          - locationName: SRC
+            nodeName: ITEM
+          - locationName: SRC
+            nodeName: STORE
+          - locationName: SRC
+            nodeName: STORE_SALES
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'DATE_DIM') }} "DATE_DIM"
+            INNER JOIN {{ ref('SRC', 'ITEM') }} "ITEM"
+            ON "DATE_DIM"./*COLUMN*/ = "ITEM"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'STORE') }} "STORE"
+            ON "DATE_DIM"./*COLUMN*/ = "STORE"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'CUSTOMER_DEMOGRAPHICS') }} "CUSTOMER_DEMOGRAPHICS"
+            ON "DATE_DIM"./*COLUMN*/ = "CUSTOMER_DEMOGRAPHICS"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'STORE_SALES') }} "STORE_SALES"
+            ON "DATE_DIM"./*COLUMN*/ = "STORE_SALES"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'CUSTOMER_SK') }} "CUSTOMER_SK"
+            ON "DATE_DIM"./*COLUMN*/ = "CUSTOMER_SK"./*COLUMN*/
+        name: SMV_Example
+        noLinkRefs: []
+  name: SMV_Example
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node

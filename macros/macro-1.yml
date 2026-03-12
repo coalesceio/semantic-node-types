@@ -1,7 +1,7 @@
 fileVersion: 1
 id: "1"
-macroString: |2-
-    {# --------------------------------------------------------------------------------------------------------------------------------
+macroString: |-
+  {###########################################################################################
     **Macro: build_expr(expr)**
 
     **Description** Formats a transformation expression by removing any table prefix from a column reference and quoting the column name.
@@ -10,7 +10,8 @@ macroString: |2-
     **Input** expr (string) - A SQL transformation expression. It may contain a function with a table-qualified column reference such as `COUNT(orders.o_orderkey)
 
     **Output** - Returns a formatted SQL expression with the column name quoted and the table prefix removed.
-     --------------------------------------------------------------------------------------------------------------------------------#}
+      and/or triggers a stage-level warning UI notification for critical switches.
+  #############################################################################################}
   {% macro build_expr(expr) -%}
       {%- if expr and '(' in expr -%}
           {%- set func = expr.split('(')[0] -%}
@@ -28,7 +29,7 @@ macroString: |2-
       {%- endif -%}
   {%- endmacro %}
 
-  {# -----------------------------------------------------------------------------
+  {###########################################################################################
   **Macro: build_alias(alias)
 
   **Description** Extracts the final column name from a dot-separated alias.
@@ -36,19 +37,21 @@ macroString: |2-
 
   **Input** alias (string) - A column alias that may include a prefix such as customer.cust_name
   **Output** Returns the final column name without the prefix.
-  ------------------------------------------------------------------------------#}
+      and/or triggers a stage-level warning UI notification for critical switches.
+  #############################################################################################}
   {% macro build_alias(alias) -%}
       {{- alias.split('.')[-1] if alias else '' -}}
   {%- endmacro %}
 
-  {# -----------------------------------------------------------------------------
+  {###########################################################################################
   Description: Renders WITH SYNONYMS and COMMENT clauses if synonym or comment values exist.
 
   Input: obj – Object or list of objects containing optional synonym and comment fields.
 
   Output: WITH SYNONYMS ('value') if synonym exists
           COMMENT = 'value' if comment exists
-  ------------------------------------------------------------------------------#}
+      and/or triggers a stage-level warning UI notification for critical switches.
+  #############################################################################################}
   {% macro renderSynonymAndComment(obj) %}
 
       {%- if obj.synonym is defined or obj.comment is defined -%}
@@ -95,6 +98,15 @@ macroString: |2-
 
   {%- endmacro %}
 
+  {###########################################################################################
+  Description: Builds an SQL ORDER BY clause from the configured sort columns.
+
+  Input: config.orderby – enables ordering
+  config.orderbycolumn.items – list of columns with sortColName.name and sortOrder
+
+  Output: Returns a formatted ORDER BY clause or an empty string if no ordering is defined.
+      and/or triggers a stage-level warning UI notification for critical switches.
+  #############################################################################################}
   {%- macro sortOrderByColumn() -%}
 
       {%- set ns = namespace(sortCols="") -%}
@@ -122,6 +134,14 @@ macroString: |2-
 
   {%- endmacro -%}
 
+  {###########################################################################################
+  Description: Extracts the WHERE, GROUP BY, or ORDER BY clause from a SQL string.
+
+  Input: join – SQL text that may contain filtering or sorting clauses.
+
+  Output: Returns the SQL portion starting from WHERE, GROUP BY, or ORDER BY. Returns an empty string if none are found.
+      and/or triggers a stage-level warning UI notification for critical switches.
+  #############################################################################################}
   {%- macro extractClause(join) -%}
 
       {%- set sql = join | replace('\n',' ') -%}
@@ -153,6 +173,8 @@ macroString: |2-
           VIEW IF EXISTS
       {%- elif materialization | lower in ['dynamic table','transient dynamic table', 'dynamic iceberg table'] -%}
           DYNAMIC TABLE IF EXISTS
+      {%- elif materialization | lower == 'semantic view' -%}
+          SEMANTIC VIEW IF EXISTS
       {%- elif materialization | lower == 'materialized view' -%}
           MATERIALIZED VIEW IF EXISTS
       {%- elif materialization | lower == 'external table' -%}

@@ -453,5 +453,6 @@ does not permit copying or modification for any other purpose.
 
 {%- elif desiredState == undefined and currentState != undefined %}
     {{ stage('Drop ' + '{{currentState.node.materializationType}}') }}
-    DROP SEMANTIC VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+    {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+    DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 {%- endif %}
