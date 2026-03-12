@@ -12,13 +12,12 @@ metadata:
     plural: Views
 
     config:
-    - groupName: Query Options
+    - groupName: Semantic Query Options
       items: 
 
       - type: materializationSelector
         options:
             - view
-            - table
         default: view
         isRequired: true
 

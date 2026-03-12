@@ -18,7 +18,7 @@ metadata:
         items:
 
         -   type: label
-            displayName: ⚠️ Re-sync after creation to fetch columns for downstream node access
+            displayName: 🚨 Re-sync after creation to fetch columns for downstream node access
             attributeName: labelFactSourceColumnWarnig
             enableIf: "{% if config.deriveCol %} true {% else %} false {% endif %}"
 

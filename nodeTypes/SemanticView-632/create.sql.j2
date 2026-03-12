@@ -10,6 +10,22 @@ does not permit copying or modification for any other purpose.
 
 {% if desiredState and (currentState == undefined or (currentState != undefined and desiredState != currentState)) %}
 
+    {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
+        {%- set warningMsg = getNodeTypeSwitchWarning() | default('') %}
+
+        {# Warning display - Node type changes can impact related tasks, streams, or services. #}
+        {%- if warningMsg | trim | length > 0 -%}
+            {{ stage('Warning! Node Type Switching Detected', false) }}
+            {{ warningMsg }}
+            select 1=0
+        {%- endif -%}
+
+        {{ stage('Drop ' + ref_no_link(currentState.node.location.name, currentState.node.name)) }}
+        {%- set materialization = dropMaterialization(currentState.node.materializationType) %}
+        DROP {{ materialization }} {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+    {%- endif -%}
+
     {% set nsSVvariables = namespace(primKey=[], foreignKey=[], factDetails=[], dimDetails=[], metricDetails=[]) %}
     {% set objectFullPath = ref_no_link(desiredState.node.location.name, desiredState.node.name) %}
     {% set desiredDatabase = desiredState.storageLocations
