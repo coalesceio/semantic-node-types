@@ -232,11 +232,9 @@ Please review the documented limitations before performing a node type switch to
 ## Code
 
 ### Semantic View Code
-* [Node definition]()
-* [Create Template]()
-* [Run Template]()
+* [Node definition](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticView-632/definition.yml)
+* [Create Template](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticView-632/create.sql.j2)
 
 * ### Semantic Query Code
-* [Node definition]()
-* [Create Template]()
-* [Run Template]() 
+* [Node definition](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticQuery-631/definition.yml)
+* [Create Template](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticQuery-631/create.sql.j2)
