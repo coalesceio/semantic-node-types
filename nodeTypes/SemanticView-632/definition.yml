@@ -143,7 +143,7 @@ metadata:
                 enableIf: 'true'
 
             -   type: textBox
-                displayName: Alias Name
+                displayName: Alias
                 attributeName: factAlias
                 isRequired: false
                 enableIf: 'true'
@@ -198,7 +198,7 @@ metadata:
                 enableIf: 'true'
 
             -   type: textBox
-                displayName: Alias Name
+                displayName: Alias
                 attributeName: dimAlias
                 isRequired: false
                 enableIf: 'true'
@@ -265,7 +265,7 @@ metadata:
                 enableIf: 'true'
 
             -   type: textBox
-                displayName: Alias Name
+                displayName: Alias
                 attributeName: metricAlias
                 isRequired: false
                 enableIf: 'true'
