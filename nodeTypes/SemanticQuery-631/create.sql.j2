@@ -1,0 +1,47 @@
+{{ stage('Create Semantic Query Table/View') }}
+CREATE OR REPLACE {{ node.materializationType }} {{ ref_no_link(node.location.name, node.name) }}
+(
+    {% for col in columns %}
+        "{{ col.name }}"
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+AS
+SELECT * FROM SEMANTIC_VIEW
+(
+    {{ ref_no_link(sources[0].dependencies[0].node.location.name, sources[0].dependencies[0].node.name) }}
+
+    {% set factColumns = columns
+        | selectattr('isaFactColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {% if factColumns %}
+    FACTS
+    {{ factColumns | join(', ') }}
+    {% endif %}
+
+    {% set dimColumns = columns
+        | selectattr('isaDimColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {% if dimColumns %}
+    DIMENSIONS
+    {{ dimColumns | join(', ') }}
+    {% endif %}
+    
+    {% set metricColumns = columns
+        | selectattr('isaMetricColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {% if metricColumns %}
+    METRICS
+    {{ metricColumns | join(', ') }}
+    {% endif %}
+)
+{{ extractClause(sources[0].join) }}
+{{ sortOrderByColumn() }}

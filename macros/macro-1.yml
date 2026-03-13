@@ -1,0 +1,140 @@
+fileVersion: 1
+id: "1"
+macroString: |2-
+    {# --------------------------------------------------------------------------------------------------------------------------------
+    **Macro: build_expr(expr)**
+
+    **Description** Formats a transformation expression by removing any table prefix from a column reference and quoting the column name.
+    This is useful when dynamically generating SQL where expressions like `COUNT(table.column)` must become `COUNT("column")` in the final query.
+
+    **Input** expr (string) - A SQL transformation expression. It may contain a function with a table-qualified column reference such as `COUNT(orders.o_orderkey)
+
+    **Output** - Returns a formatted SQL expression with the column name quoted and the table prefix removed.
+     --------------------------------------------------------------------------------------------------------------------------------#}
+  {% macro build_expr(expr) -%}
+      {%- if expr and '(' in expr -%}
+          {%- set func = expr.split('(')[0] -%}
+          {%- set inner = expr.split('(')[1].replace(')','') -%}
+          {%- set col = inner.split('.')[-1] -%}
+
+          {%- if col == '*' -%}
+              {{ func ~ '(*)' }}
+          {%- else -%}
+              {{ func ~ '("' ~ col ~ '")' }}
+          {%- endif -%}
+
+      {%- else -%}
+          {{ expr }}
+      {%- endif -%}
+  {%- endmacro %}
+
+  {# -----------------------------------------------------------------------------
+  **Macro: build_alias(alias)
+
+  **Description** Extracts the final column name from a dot-separated alias.
+  If the alias is provided as `table.column`, the macro returns only column
+
+  **Input** alias (string) - A column alias that may include a prefix such as customer.cust_name
+  **Output** Returns the final column name without the prefix.
+  ------------------------------------------------------------------------------#}
+  {% macro build_alias(alias) -%}
+      {{- alias.split('.')[-1] if alias else '' -}}
+  {%- endmacro %}
+
+  {# -----------------------------------------------------------------------------
+  Description: Renders WITH SYNONYMS and COMMENT clauses if synonym or comment values exist.
+
+  Input: obj – Object or list of objects containing optional synonym and comment fields.
+
+  Output: WITH SYNONYMS ('value') if synonym exists
+          COMMENT = 'value' if comment exists
+  ------------------------------------------------------------------------------#}
+  {% macro renderSynonymAndComment(obj) %}
+
+      {%- if obj.synonym is defined or obj.comment is defined -%}
+
+          {%- if obj.synonym is defined and obj.synonym | trim != '' %}
+              {%- set syn_list = obj.synonym.split(',') | map('trim') | reject('equalto','') | list -%}
+              WITH SYNONYMS ('{{ syn_list | join("', '") }}')
+          {%- endif %}
+
+          {%- if obj.comment is defined and obj.comment | trim != '' %}
+          COMMENT = '{{ obj.comment }}'
+          {%- endif %}
+
+      {%- else -%}
+
+          {# grouped case (item.list) #}
+          {%- set synonyms = obj
+              | selectattr('synonym','defined')
+              | map(attribute='synonym')
+              | map('trim')
+              | reject('equalto','')
+              | unique
+              | list
+          -%}
+
+          {%- if synonyms %}
+          WITH SYNONYMS ({{ "'" ~ synonyms | join("', '") ~ "'" }})
+          {%- endif %}
+
+          {%- set comments = obj
+              | selectattr('comment','defined')
+              | map(attribute='comment')
+              | map('trim')
+              | reject('equalto','')
+              | unique
+              | list
+          -%}
+
+          {%- if comments %}
+          COMMENT = '{{ comments | join(', ') }}'
+          {%- endif %}
+
+      {%- endif %}
+
+  {%- endmacro %}
+
+  {%- macro sortOrderByColumn() -%}
+
+      {%- set ns = namespace(sortCols="") -%}
+
+      {%- if config.orderby -%}
+
+          {%- for item in config.orderbycolumn.get('items') -%}
+
+              {%- set colName  = item.sortColName.name -%}
+              {%- set colOrder = item.sortOrder -%}
+
+              {%- if loop.first -%}
+                  {%- set ns.sortCols = colName ~ ' ' ~ colOrder -%}
+              {%- else -%}
+                  {%- set ns.sortCols = ns.sortCols ~ ', ' ~ colName ~ ' ' ~ colOrder -%}
+              {%- endif -%}
+
+          {%- endfor -%}
+
+          {%- set ns.sortCols = 'ORDER BY ' ~ ns.sortCols -%}
+
+      {%- endif -%}
+
+      {{- ns.sortCols -}}
+
+  {%- endmacro -%}
+
+  {%- macro extractClause(join) -%}
+
+      {%- set sql = join | replace('\n',' ') -%}
+      {%- set lowerSql = sql | lower -%}
+
+      {%- set whereClause = lowerSql.find(' where ') -%}
+      {%- set groupByClause = lowerSql.find(' group by ') -%}
+      {%- set orderByClause = lowerSql.find(' order by ') -%}
+
+      {%- set idx = [whereClause, groupByClause, orderByClause] | reject('equalto', -1) | list | min if [whereClause, groupByClause, orderByClause] | reject('equalto', -1) | list else -1 -%}
+
+      {{ sql[idx:] | trim if idx != -1 else '' }}
+
+  {%- endmacro -%}
+name: macro
+type: Macro

@@ -1,0 +1,187 @@
+fileVersion: 1
+id: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+name: CUSTOMER_DEMOGRAPHICS
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e48eb37-1f9e-464f-b4e6-5e8791eeaa1e
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CD_DEMO_SK
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d9aceb73-dd69-4c52-840b-434323fba15a
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: ""
+        name: CD_GENDER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b4abc7a1-57d3-451f-b2b8-c81a579270a1
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: ""
+        name: CD_MARITAL_STATUS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6df36a3b-a200-40f2-a96f-27cc69f8c577
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: ""
+        name: CD_EDUCATION_STATUS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c250c79-af5e-41e5-95ff-8fe410abe14b
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CD_PURCHASE_ESTIMATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 082eb3c9-9b83-4b25-81de-ca3554366a7f
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: VARCHAR(10)
+        defaultValue: ""
+        description: ""
+        name: CD_CREDIT_RATING
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cf58e805-ca56-4a4e-8355-7f72946251ca
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CD_DEP_COUNT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4c7b893c-b852-4cd2-87a5-808961c3dba3
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CD_DEP_EMPLOYED_COUNT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d813ca17-f523-4f4d-9cbd-8857f280e706
+          stepCounter: 54600bef-4d4a-4b2a-bc39-14ef8c1f9d4c
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: CD_DEP_COLLEGE_COUNT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CUSTOMER_DEMOGRAPHICS
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node
