@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+name: PURCHASE_HEADER
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25ab0c65-5a42-4ba4-a4f6-4dafa4c2a765
+          stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: PH_PURCHASE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 669fc24a-482f-44d3-9b68-22b6dcbfbeed
+          stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: PH_PERSON_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fd540798-aeeb-4e99-a425-af85f6ff1e38
+          stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: PH_PURCHASE_DATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: PURCHASE_HEADER
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

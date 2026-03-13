@@ -1,0 +1,114 @@
+fileVersion: 1
+id: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+name: SMQ_RETAIL_ACTIVITY_V7_1
+operation:
+  config:
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1aedbad9-8833-4331-8e0e-43343f19625b
+          stepCounter: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_TITLE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f5cedf51-a298-4bd6-b7ac-c8abad0a565d
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 702a8532-37f6-421b-b17d-b25d8234d89f
+          stepCounter: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_GROUP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6031a1d3-dd1a-42e3-bcba-077b6fb18680
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 11d15e05-d1a4-46da-9832-6e6dc922980b
+          stepCounter: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: total_quantity
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9a81c78e-716a-4831-9892-87a7d8812b84
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d10976dd-8202-49b2-9b1c-3482b33148d1
+          stepCounter: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(10,2)
+        description: ""
+        name: total_sales
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f9c3515-069f-4597-b594-46b2ea7b871f
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 554d5c20-5aff-4796-9d89-7ced3c6b532f
+          stepCounter: b1384e6d-9977-4c97-9a3d-1a0470c368d8
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(10,2)
+        description: ""
+        name: avg_cost
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2082a992-6826-4ece-8c40-d8a97ce0af13
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_RETAIL_ACTIVITY_V7: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_RETAIL_ACTIVITY_V7
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'SMV_RETAIL_ACTIVITY_V7') }} "SMV_RETAIL_ACTIVITY_V7"
+        name: SMQ_RETAIL_ACTIVITY_V7_1
+        noLinkRefs: []
+  name: SMQ_RETAIL_ACTIVITY_V7_1
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node

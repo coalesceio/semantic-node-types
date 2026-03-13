@@ -1,0 +1,92 @@
+fileVersion: 1
+id: e3fac04d-adf2-46fa-8efa-e7fff7892461
+name: ITEM_CATALOG
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c1d254e-722c-4ea9-aad7-febaa26bc6b7
+          stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: IC_ITEM_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7db45467-1c74-478d-8e11-6a1b315f4e1d
+          stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: IC_ITEM_TITLE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3ee43b89-0945-409f-ba46-99b2f57fd2bf
+          stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: IC_ITEM_GROUP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a5560aa4-808d-4414-8867-9090c5f5104a
+          stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: IC_UNIT_COST
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: ITEM_CATALOG
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

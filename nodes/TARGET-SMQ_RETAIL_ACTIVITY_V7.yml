@@ -1,0 +1,84 @@
+fileVersion: 1
+id: f936c187-7109-4542-bf79-b027be1479ef
+name: SMQ_RETAIL_ACTIVITY_V7
+operation:
+  config:
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8781121-f57d-4f81-8cfc-e068a3438b22
+          stepCounter: f936c187-7109-4542-bf79-b027be1479ef
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_TITLE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f5cedf51-a298-4bd6-b7ac-c8abad0a565d
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c85254ca-3729-4cd1-9d13-1a9f7c5882be
+          stepCounter: f936c187-7109-4542-bf79-b027be1479ef
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_GROUP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6031a1d3-dd1a-42e3-bcba-077b6fb18680
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a15a3a89-2fbf-463e-b1fd-c48eac55c262
+          stepCounter: f936c187-7109-4542-bf79-b027be1479ef
+        config:
+          isaFactColumn: true
+        dataType: NUMBER(10,2)
+        description: ""
+        name: IC_UNIT_COST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d00a2be8-e0fa-4cd9-9b56-63ef60b1509c
+                stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_RETAIL_ACTIVITY_V7: 8018d446-9a92-4443-8dcb-e6a8afbda98d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_RETAIL_ACTIVITY_V7
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'SMV_RETAIL_ACTIVITY_V7') }} "SMV_RETAIL_ACTIVITY_V7"
+        name: SMQ_RETAIL_ACTIVITY_V7
+        noLinkRefs: []
+  name: SMQ_RETAIL_ACTIVITY_V7
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node

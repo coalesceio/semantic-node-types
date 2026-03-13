@@ -1,0 +1,58 @@
+{#
+    Copyright (c) 2026 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but
+does not permit copying or modification for any other purpose.
+#}
+{# == Node Type Name  : Semantic Query == #}
+{# == Node Type Description : This node creates view by fetching data from semantic view == #}
+
+{{ stage('Create Semantic Query View') }}
+CREATE OR REPLACE {{ node.materializationType }} {{ ref_no_link(node.location.name, node.name) }}
+(
+    {% for col in columns %}
+        "{{ col.name }}"
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+AS
+SELECT * FROM SEMANTIC_VIEW
+(
+    {{ ref_no_link(sources[0].dependencies[0].node.location.name, sources[0].dependencies[0].node.name) }}
+
+    {% set factColumns = columns
+        | selectattr('isaFactColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {%- if factColumns %}
+    FACTS
+    {{ factColumns | join(', ') }}
+    {%- endif %}
+
+    {% set dimColumns = columns
+        | selectattr('isaDimColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+
+    {%- if dimColumns %}
+    DIMENSIONS
+    {{ dimColumns | join(', ') }}
+    {%- endif %}
+    
+    {% set metricColumns = columns
+        | selectattr('isaMetricColumn', 'equalto', true)
+        | map(attribute='name')
+        | list
+    %}
+    {%- if metricColumns %}
+    METRICS
+    {{ metricColumns | join(', ') }}
+    {%- endif %}
+)
+{{ extractClause(sources[0].join) }}
+{{ sortOrderByColumn() }}

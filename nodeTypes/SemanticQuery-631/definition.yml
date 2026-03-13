@@ -1,0 +1,68 @@
+fileVersion: 1
+id: "631"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Semantic Query
+    short: SMQ
+    tagColor: '#A6A9D2'
+    isDisabled: true
+    plural: Views
+
+    config:
+    - groupName: Semantic Query Options
+      items: 
+
+      - type: materializationSelector
+        options:
+            - view
+        default: view
+        isRequired: true
+
+      - displayName: Order By
+        attributeName: orderby
+        type: toggleButton
+        default: false
+        enableIf: ""
+
+      - type: tabular
+        displayName: ''
+        attributeName: orderbycolumn
+        columns:
+
+          -  type: columnDropdownSelector
+             displayName: Sort Column
+             attributeName: sortColName
+
+          -  type: dropdownSelector
+             displayName: Sort Order
+             attributeName: sortOrder
+             default: DESC
+             options:
+             - DESC
+             - ASC
+           
+        isRequired: true
+        enableIf: "{% if config.orderby %} true {% else %} false {% endif %}"
+
+      - type: columnSelector
+        displayName: FACTS
+        attributeName: isaFactColumn
+        isRequired: false
+        enableIf: 'true'
+
+      - type: columnSelector
+        displayName: DIMENSIONS
+        attributeName: isaDimColumn
+        isRequired: false
+        enableIf: 'true'
+
+      - type: columnSelector
+        displayName: METRICS
+        attributeName: isaMetricColumn
+        isRequired: false
+        enableIf: 'true'
+name: Semantic Query
+type: NodeType
