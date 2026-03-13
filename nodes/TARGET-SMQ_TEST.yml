@@ -3,10 +3,13 @@ id: 30c09a82-2795-4eae-9022-0321708b4bab
 name: SMQ_TEST
 operation:
   config:
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: c9732def-2073-4573-8e5f-771796bbd805
+            stepCounter: 30c09a82-2795-4eae-9022-0321708b4bab
+          sortOrder: DESC
   database: ""
   deployEnabled: true
   description: ""
