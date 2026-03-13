@@ -57,7 +57,9 @@ operation:
           - locationName: TARGET
             nodeName: SMV_Example
         join:
-          joinCondition: FROM {{ ref('TARGET', 'SMV_Example') }} "SMV_Example"
+          joinCondition: |-
+            FROM {{ ref('TARGET', 'SMV_Example') }} "SMV_Example"
+            WHERE Year = '2002' AND Month = '12' AND State ='TX' AND Category = 'Books'
         name: SMQ_Example
         noLinkRefs: []
   name: SMQ_Example
