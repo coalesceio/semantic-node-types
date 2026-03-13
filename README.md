@@ -32,8 +32,6 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 
 ### Node properties
 
-
-
 | **Property** | **Description** |
 |-------------|-----------------|
 | **Storage Location** | (Required) Storage Location where the Semantic View will be created |
@@ -61,6 +59,7 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 
 1. **Enable "Create Schema Table"**
    - Turn **Create Schema Table** toggle **ON**.
+   - Set the Derived Stage dropdown to the appropriate level based on the columns used in the expression.
    - This creates an intermediate schema table that helps fetch and manage columns during configuration.
 
 2. **Configure Required Components**
@@ -89,6 +88,16 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 7. **Important Note for Deployment**
    - Before deploying to the **target environment**, ensure **Create Schema Table** is **OFF**.
    - If left **ON**, the process may recreate the schema table instead of the semantic view.
+
+### Limitations
+
+- This feature currently creates only **basic-level semantic nodes**.
+
+- Complex semantic models that require **advanced transformations or multi-step logic** may not be supported at this time. Support for these scenarios is planned in future updates.
+
+- **Validation must be completed before deployment** to ensure the semantic view definition is valid.
+
+- For the full set of **validation rules and constraints**, please refer to [the official Snowflake Semantic View documentation](https://docs.snowflake.com/en/user-guide/views-semantic/validation-rules).
 
 ## Semantic View  Deployment
 
