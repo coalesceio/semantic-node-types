@@ -1,0 +1,69 @@
+fileVersion: 1
+id: 53974fac-277e-467a-90b8-9218ba18eb46
+name: SMQ_Example
+operation:
+  config:
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2225b39-312e-4b80-910b-13a1e1ed96c1
+          stepCounter: 53974fac-277e-467a-90b8-9218ba18eb46
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(2)
+        description: ""
+        name: STATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3725575e-c44a-4196-b644-d1a7449ab207
+                stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d01b2f40-1b1f-4da9-93a6-ed27cd6939f8
+          stepCounter: 53974fac-277e-467a-90b8-9218ba18eb46
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TOTALSALESQUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a04121c0-0659-4d33-af16-2d0082a97438
+                stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_Example: d94f8d4f-774d-49a1-aba6-620e522678db
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_Example
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'SMV_Example') }} "SMV_Example"
+        name: SMQ_Example
+        noLinkRefs: []
+  name: SMQ_Example
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node
