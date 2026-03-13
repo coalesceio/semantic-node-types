@@ -204,8 +204,8 @@ A table will be dropped if all of these are true:
 #### Node Type Switching Logic
 | Current MaterializationType | Desired MaterializationType | Stage |
 |------------|--------|-------|
-| Semantic Query | Semantic Query | Follows existing redeployment stages |
-| Any Other | Semantic Query | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
+| Semantic View | Semantic View | Follows existing redeployment stages |
+| Any Other | Semantic View | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any  | View(Semantic Query) | May recreate with the default deployment strategy, but it might not work as expected |
 
 Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
