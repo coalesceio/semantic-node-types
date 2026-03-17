@@ -32,13 +32,17 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 
 ### Node properties
 
+<img width="634" height="361" alt="image" src="https://github.com/user-attachments/assets/9aec746b-7d2b-454f-a90b-a63d396af66e" />
+
 | **Property** | **Description** |
 |-------------|-----------------|
 | **Storage Location** | (Required) Storage Location where the Semantic View will be created |
 | **Node Type** | (Required) Name of template used to create node objects |
 | **Deploy Enabled** | If TRUE the node will be deployed/redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
-### Semantic View Options 
+### Semantic View Options
+
+<img width="1064" height="804" alt="image" src="https://github.com/user-attachments/assets/74e43657-dbb1-47e7-8daf-5a2b964da11a" />
 
 | **Property** | **Description** |
 |---------|-------------|
@@ -62,6 +66,8 @@ In a semantic view, these three elements have distinct roles, but metrics and di
    - Set the Derived Stage dropdown to the appropriate level based on the columns used in the expression.
    - This creates an intermediate schema table that helps fetch and manage columns during configuration.
 
+<img width="1072" height="344" alt="image" src="https://github.com/user-attachments/assets/197b4338-c3fb-4018-8b1c-e4b663bcd7e5" />
+
 2. **Configure Required Components**
    Enter the necessary configurations depending on your use case:
    - **Primary Keys** under *TABLES (Primary Key)*
@@ -78,9 +84,13 @@ In a semantic view, these three elements have distinct roles, but metrics and di
    - After successful table creation, click **Resync Columns**.
    - This fetches the generated columns and updates the node metadata.
 
+<img width="877" height="368" alt="image" src="https://github.com/user-attachments/assets/b530b9e2-8f5f-4844-84f9-c84fd67c984b" />
+
 5. **Disable "Create Schema Table"**
    - Turn **Create Schema Table** toggle **OFF**.
    - This switches the node to generate a **Semantic View** instead of a schema table.
+
+<img width="1032" height="434" alt="image" src="https://github.com/user-attachments/assets/490b84de-e77e-43cb-b5f0-1f3a7e231ca0" />
 
 6. **Create Semantic View**
    - Deploy or create the **Semantic View** using the same configuration already defined.
@@ -144,6 +154,9 @@ A table will be dropped if all of these are true:
 * [Semantic Query Options](#semantic-query-options)
 
 ### Node properties
+
+<img width="694" height="317" alt="image" src="https://github.com/user-attachments/assets/3668609e-5732-47b8-b227-fac5851bc729" />
+
 | **Property** | **Description** |
 |-------------|-----------------|
 | **Storage Location** | (Required) Storage Location where the Semantic Query will be created |
@@ -151,6 +164,8 @@ A table will be dropped if all of these are true:
 | **Deploy Enabled** | If TRUE the node will be deployed/redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
 
 ### Semantic Query Options 
+
+<img width="1036" height="751" alt="image" src="https://github.com/user-attachments/assets/020aefee-a774-4b52-82ac-4ad0406a8e53" />
 
 | **Property** | **Description** |
 |---------|-------------|
