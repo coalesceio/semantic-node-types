@@ -98,6 +98,7 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 7. **Important Note for Deployment**
    - Before deploying to the **target environment**, ensure **Create Schema Table** is **OFF**.
    - If left **ON**, the process may recreate the schema table instead of the semantic view.
+   - The same key can serve dual roles, such as a primary key and a dimension/fact attribute, so it appears as a single field by default             unless explicitly separated using an alias.
 
 ### Limitations
 
