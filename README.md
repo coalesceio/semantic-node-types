@@ -135,7 +135,7 @@ When deployed for the first time into an Environment, the Semantic View Node exe
 
 After initial deployment, subsequent deployments recreate the Semantic View.
 
-### Redeployment with no changes 
+### Redeployment With No Changes 
 
 If the Nodes are redeployed with no changes compared to previous deployment, then no stages are executed
 
@@ -203,7 +203,7 @@ When deployed for the first time into an Environment, the Semantic Query Node ex
 
 After initial deployment, subsequent deployments recreate the Semantic Query View with the default deployment strategy.
 
-### Redeployment with no changes 
+### Redeployment With No Changes 
 
 If the Nodes are redeployed with no changes compared to the previous deployment, then no stages are executed.
 
