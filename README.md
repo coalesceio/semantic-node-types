@@ -1,8 +1,12 @@
 # Semantic View Package
----
-## Semantic View and Semantic Query - Brief Summary
 
-A Semantic View is a logical layer built on top of multiple database tables to make data easier to understand and query. Instead of writing complex SQL with many joins and aggregations, users can query the semantic view using simple business terms like dimensions and metrics.
+The Coalesce Semantic View Package helps you build Semantic Views and Semantic Queries in Snowflake so analysts can query data using business terms instead of complex SQL.
+
+---
+
+## About Semantic Views
+
+A Semantic View is a logical layer built on top of multiple database tables to make data easier to understand and query. Instead of writing complex SQL with many joins and aggregations, you can query the Semantic View using simple business terms like dimensions and metrics.
 
 It defines how tables are related, which columns represent descriptive attributes (dimensions), and which represent measurable values (metrics or facts). The semantic view hides the underlying complexity of joins, keys, and calculations, and presents a clean analytical model.
 
@@ -10,27 +14,34 @@ In simple terms, a semantic view acts like a business-friendly data model that a
 
 Within a semantic view, you define logical tables that typically correspond to business entities, such as customers, orders, or suppliers. You can define relationships between logical tables through joins on shared keys, enabling you to analyze data across entities (as you would when joining database tables).
 
-Using logical tables, you can define:
+Using logical tables, you can define Facts, Metrics, and Dimensions:
 
-**Facts**: Facts are row-level attributes in your data model that represent specific business events or transactions. While facts can be defined using aggregates from more detailed levels of data (such as SUM(t.x) where t represents data at a more detailed level), they are always presented as attributes at the individual row level of the logical table. Facts capture “how much” or “how many” at the most granular level, such as individual sales amounts, quantities purchased, or costs. It’s important to note that facts typically function as “helper” concepts within the semantic view to help construct dimensions and metrics.
+### Facts
 
-**Metrics**: Metrics are quantifiable measures of business performance calculated by aggregating facts or other columns from the same table (using functions like SUM, AVG, and COUNT) across multiple rows. They transform raw data into meaningful business indicators, often combining multiple calculations in complex formulas. Examples include Total Revenue or Profit Margin Percentage. Metrics represent the KPIs in reports and dashboards that drive business decision-making.
+Facts are row-level attributes in your data model that represent specific business events or transactions. While facts can be defined using aggregates from more detailed levels of data, such as `SUM(t.x)` where `t` represents data at a more detailed level, they are always presented as attributes at the individual row level of the logical table. Facts capture "how much" or "how many" at the most granular level, such as individual sales amounts, quantities purchased, or costs. Facts typically function as helper concepts within the Semantic View to help construct dimensions and metrics.
 
-**Dimensions**: Dimensions represent categorical attributes. They provide the contextual framework that gives meaning to metrics by grouping data into meaningful categories. They answer “who,” “what,” “where,” and “when” questions, such as purchase date, customer details, product category, or location. Typically text-based or hierarchical, dimensions enable users to filter, group, and analyze data from multiple perspectives.
+### Metrics
 
-In a semantic view, these three elements have distinct roles, but metrics and dimensions are the primary elements that you interact with when analyzing data through the semantic view. Facts provide the underlying row-level numerical data, metrics transform data into actionable insights through aggregation and calculation, and dimensions determine viewing perspectives.
+Metrics are quantifiable measures of business performance calculated by aggregating facts or other columns from the same table using functions like SUM, AVG, and COUNT across multiple rows. They transform raw data into meaningful business indicators, often combining multiple calculations in complex formulas. Examples include Total Revenue or Profit Margin Percentage. Metrics represent the KPIs in reports and dashboards that drive business decision-making.
 
-### Package Includes
+### Dimensions
+
+Dimensions represent categorical attributes. They provide the contextual framework that gives meaning to metrics by grouping data into meaningful categories. They answer "who," "what," "where," and "when" questions, such as purchase date, customer details, product category, or location. Typically text-based or hierarchical, dimensions enable you to filter, group, and analyze data from multiple perspectives.
+
+In a Semantic View, these 3 elements have distinct roles, but metrics and dimensions are the primary elements that you interact with when analyzing data through the Semantic View. Facts provide the underlying row-level numerical data, metrics transform data into actionable insights through aggregation and calculation, and dimensions determine viewing perspectives.
+
+## Package Includes
 * [Semantic View](#semantic-view)
 * [Semantic Query](#semantic-query)
 
 ## Semantic View 
 
 ### Semantic View Node Configuration
-* [Node properties](#semantic-view-node-properties)
+
+* [Node Properties](#node-properties)
 * [Semantic View Options](#semantic-view-options)
 
-### Node properties
+### Node Properties
 
 <img width="634" height="361" alt="image" src="https://github.com/user-attachments/assets/9aec746b-7d2b-454f-a90b-a63d396af66e" />
 
@@ -38,7 +49,7 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 |-------------|-----------------|
 | **Storage Location** | (Required) Storage Location where the Semantic View will be created |
 | **Node Type** | (Required) Name of template used to create node objects |
-| **Deploy Enabled** | If TRUE the node will be deployed/redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Deploy Enabled** | If TRUE the Node will be deployed or redeployed when changes are detected<br/>If FALSE the Node will not be deployed or will be dropped during redeployment |
 
 ### Semantic View Options
 
@@ -96,7 +107,7 @@ In a semantic view, these three elements have distinct roles, but metrics and di
    - Deploy or create the **Semantic View** using the same configuration already defined.
 
 7. **Important Note for Deployment**
-   - Before deploying to the **target environment**, ensure **Create Schema Table** is **OFF**.
+   - Before deploying to the **target Environment**, ensure **Create Schema Table** is **OFF**.
    - If left **ON**, the process may recreate the schema table instead of the semantic view.
    - The same key can serve dual roles, such as a primary key and a dimension/fact attribute, so it appears as a single field by default             unless explicitly separated using an alias.
 
@@ -108,53 +119,54 @@ In a semantic view, these three elements have distinct roles, but metrics and di
 
 - **Validation must be completed before deployment** to ensure the semantic view definition is valid.
 
-- For the full set of **validation rules and constraints**, please refer to [the official Snowflake Semantic View documentation](https://docs.snowflake.com/en/user-guide/views-semantic/validation-rules).
+- For the full set of validation rules and constraints, refer to the [Snowflake Semantic View documentation](https://docs.snowflake.com/en/user-guide/views-semantic/validation-rules).
 
-## Semantic View  Deployment
+## Semantic View Deployment
 
-### Semantic View  Initial Deployment
+### Semantic View Initial Deployment
 
-When deployed for the first time into an environment the Semantic View  node will execute the following stage:
+When deployed for the first time into an Environment, the Semantic View Node executes the following stage:
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| Create  Semantic View | This stage will execute a `CREATE OR REPLACE` statement and create a Semantic View in the target environment. |
+| **Create Semantic View** | This stage executes a `CREATE OR REPLACE` statement and creates a Semantic View in the target Environment. |
 
-#### Semantic View  Redeployment
+#### Semantic View Redeployment
 
-After initial deployment, subsequent deployments recreates the Semantic View.
+After initial deployment, subsequent deployments recreate the Semantic View.
 
 ### Redeployment with no changes 
 
-If the nodes are redeployed with no changes compared to previous deployment,then no stages are executed
+If the Nodes are redeployed with no changes compared to previous deployment, then no stages are executed
 
 ### Node Type Switching
 
 Node Type switching is supported starting from Coalesce version **7.28+**.
 
-From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+From this version onward, a Node's materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
-### Semantic View  Undeployment
+### Semantic View Undeployment
 
-A table will be dropped if all of these are true:
+A table is dropped if all of these are true:
 
-* The Semantic View Node is deleted from a space.
-* The space is committed to Git.
-* The space committed to Git is deployed to a higher level environment.
+* The Semantic View Node is deleted from a Workspace.
+* The Workspace is committed to Git.
+* The Workspace committed to Git is deployed to a higher-level Environment.
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Drop Semantic View** | Removes object from target environment |
+| **Drop Semantic View** | Removes object from target Environment |
 
 ------
 
 ### Semantic Query Node Configuration
-* [Node properties](#semantic-query-node-properties)
+
+* [Node Properties](#semantic-query-node-properties)
 * [Semantic Query Options](#semantic-query-options)
 
-### Node properties
+### Node Properties
 
 <img width="694" height="317" alt="image" src="https://github.com/user-attachments/assets/3668609e-5732-47b8-b227-fac5851bc729" />
 
@@ -162,7 +174,7 @@ A table will be dropped if all of these are true:
 |-------------|-----------------|
 | **Storage Location** | (Required) Storage Location where the Semantic Query will be created |
 | **Node Type** | (Required) Name of template used to create node objects |
-| **Deploy Enabled** | If TRUE the node will be deployed/redeployed when changes are detected<br/>If FALSE the node will not be deployed or will be dropped during redeployment |
+| **Deploy Enabled** | If TRUE the Node will be deployed or redeployed when changes are detected<br/>If FALSE the Node will not be deployed or will be dropped during redeployment |
 
 ### Semantic Query Options 
 
@@ -177,43 +189,43 @@ A table will be dropped if all of these are true:
 | DIMENSIONS | Column selector used to choose dimension columns from the semantic view for the query output. |
 | METRICS | Column selector used to choose metric columns from the semantic view for the query output. |
 
-## Semantic Query  Deployment
+## Semantic Query Deployment
 
-### Semantic Query  Initial Deployment
+### Semantic Query Initial Deployment
 
-When deployed for the first time into an environment the Semantic Query  node will execute the following stage:
+When deployed for the first time into an Environment, the Semantic Query Node executes the following stage:
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| Create Semantic Query View | This stage will execute a `CREATE OR REPLACE` statement and create a view in the target environment. |
+| **Create Semantic Query View** | This stage executes a `CREATE OR REPLACE` statement and creates a view in the target Environment. |
 
-#### Semantic Query  Redeployment
+#### Semantic Query Redeployment
 
-After initial deployment, subsequent deployments recreates the Semantic Query View with default deployment startegy
+After initial deployment, subsequent deployments recreate the Semantic Query View with the default deployment strategy.
 
 ### Redeployment with no changes 
 
-If the nodes are redeployed with no changes compared to previous deployment, then no stages are executed
+If the Nodes are redeployed with no changes compared to the previous deployment, then no stages are executed.
 
 ### Node Type Switching
 
 Node Type switching is supported starting from Coalesce version **7.28+**.
 
-From this version onward, a node’s materialization type can be switched from one supported type to another, subject to certain limitations.
+From this version onward, a Node's materialization type can be switched from one supported type to another, subject to certain limitations.
 
-For more info click here - [Node Type Switching Logic and Limitations](#node-type-switching-logic)
+For more information, see [Node Type Switching Logic and Limitations](#node-type-switching-logic)
 
-### Semantic Query  Undeployment
+### Semantic Query Undeployment
 
-A table will be dropped if all of these are true:
+A table is dropped if all of these are true:
 
-* The Semantic Query Node is deleted from a space.
-* The space is committed to Git.
-* The space committed to Git is deployed to a higher level environment.
+* The Semantic Query Node is deleted from a Workspace.
+* The Workspace is committed to Git.
+* The Workspace committed to Git is deployed to a higher-level Environment.
 
 | **Stage** | **Description** |
 |-----------|----------------|
-| **Drop Semantic Query** | Removes object from target environment |
+| **Drop Semantic Query** | Removes object from target Environment |
 
 ---
 
@@ -224,23 +236,23 @@ A table will be dropped if all of these are true:
 | Any Other | Semantic View | 1. Warning (if applicable)<br/>2. Drop <br/> 3. Create |
 | Any  | View(Semantic Query) | May recreate with the default deployment strategy, but it might not work as expected |
 
-Please review the documented limitations before performing a node type switch to ensure compatibility and avoid unintended deployment issues.
+Review the documented limitations before performing a Node type switch to ensure compatibility and avoid unintended deployment issues.
 
 #### ⚠ Limitations of Node Type Switching (Current)
 
 | # | Current Materialization | Desired Materialization | Limitation |
 |---|--------------------------|--------------------------|------------|
 | 1 | Older Version Iceberg Table | Table | Results in `ALTER` failure. Iceberg tables require `ALTER ICEBERG TABLE`. Works only if latest package (with switching support) is already used. |
-| 2 | Older Version<br/>Create or Alter-View<br/>Data Quality-DMF | Any(except View) | Switch fails unless current node uses latest package supporting node type switching. |
-| 3 | First Node in Pipeline | Any | Not supported. First node is foundational and switching may disrupt the pipeline. |
-| 4 | External Packages | Any | Not supported as they typically act as first nodes in the pipeline. |
+| 2 | Older Version<br/>Create or Alter-View<br/>Data Quality-DMF | Any(except View) | Switch fails unless the current Node uses the latest package that supports Node type switching. |
+| 3 | First Node in Pipeline | Any | Not supported. First Node is foundational and switching may disrupt the pipeline. |
+| 4 | External Packages | Any | Not supported as they typically act as first Nodes in the pipeline. |
 | 5 | Functional Packages | Any | Not supported due to column re-sync behavior which may cause schema inconsistencies. |
 | 6 | Dynamic Dimension / LRV | Any | System columns must be manually dropped before redeployment. |
-| 7 | Any | Any Other | After performing node switching, the `Create/Run` in Workspace browser may not work as expected due to changes in the node’s materialization type. |
+| 7 | Any | Any Other | After performing node switching, the `Create/Run` in Workspace browser may not work as expected due to changes in the Node's materialization type. |
 | 8 | Table(Data Profiling) | Table | This may result in ALTER failure unless latest package is used(with system column removal support)**(Pending Release)** |
 | 9 | Any | Any Stream-based Node (Stream, Stream & I/M, Delta Merge, or Directory Stream) | When switching to a Stream-based node, do not select **'Create At Existing Stream'** from the Redeployment Behavior; this causes deployment errors. Use **'Create or Replace'** or **'Create If Not Exists'**. |
 | 10 | Stream | Stream for Directory Table (and vice versa) | Metadata columns are not automatically synchronized. Specific directory columns (e.g., `relative_path`, `size`, `md5`) are not added when switching to Directory Table, nor are they removed when switching back to a standard Stream. |
-| 11 | Stream | Any Other (and vice versa) | Snowflake CDC metadata columns (`METADATA$ACTION`, `METADATA$ISUPDATE`, `METADATA$ROW_ID`) are not automatically managed. They are neither removed nor added when there's a node type switch |
+| 11 | Stream | Any Other (and vice versa) | Snowflake CDC metadata columns (`METADATA$ACTION`, `METADATA$ISUPDATE`, `METADATA$ROW_ID`) are not automatically managed. They are neither removed nor added during a Node type switch |
 | 12 | Any | View(Semantic Query) | May recreate it with the default deployment strategy, but it might not work as expected since semantic queries are only valid when the source is a Semantic Query. |
 
 --------------
@@ -251,6 +263,7 @@ Please review the documented limitations before performing a node type switch to
 * [Node definition](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticView-632/definition.yml)
 * [Create Template](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticView-632/create.sql.j2)
 
-* ### Semantic Query Code
+### Semantic Query Code
+
 * [Node definition](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticQuery-631/definition.yml)
 * [Create Template](https://github.com/coalesceio/semantic-node-types/blob/main/nodeTypes/SemanticQuery-631/create.sql.j2)
