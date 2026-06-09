@@ -42,11 +42,11 @@ operation:
           dimTransform: ""
     aSql: ""
     aiQuestion: "                                         Rejec\"t all questions asking$ about u'sers. Ask #users to' contact their admin."
-    aiQuestionCategorization: If the question asks for users without providing a category, consider this question UNCLEAR and ask the user to specify category
+    aiQuestionCategorization: If the question asks 'for users without providing a "category, consider% this question UNCLEAR and ask the user to specify category
     aiSql: |-
       If the question' asks for sales" without sp#ecif3ying a y$ear,  
       consider the question UNCLEAR and ask for a year.                                
-    aiSqlGeneration: Reject all questions asking about users. Ask users to contact their admin.
+    aiSqlGeneration: Reject all" questions a'sking about users. Ask users to contact th%eir admin.
     deriveCol: false
     dimToggle: true
     factDetConfig:
