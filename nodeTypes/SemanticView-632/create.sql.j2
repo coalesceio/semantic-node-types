@@ -453,7 +453,16 @@ does not permit copying or modification for any other purpose.
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
-        {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'{% endif %}
+        {%- endif %}
+
+        {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}' {% endif %}
+
+        {%- if desiredState.config.aiSqlGeneration | default('') | trim | length > 0 %}
+            AI_SQL_GENERATION '{{ desiredState.config.aiSqlGeneration | trim | escape }}'
+        {%- endif %}
+
+        {%- if desiredState.config.aiQuestionCategorization | default('') | trim | length > 0 %}
+            AI_QUESTION_CATEGORIZATION '{{ desiredState.config.aiQuestionCategorization | trim | escape }}'
         {%- endif %}
     {%- endif %}
 

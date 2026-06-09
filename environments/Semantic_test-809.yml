@@ -1,0 +1,11 @@
+fileVersion: 1
+id: "809"
+mappingDefinitions:
+  SRC:
+    database: TANVI_DEV
+    schema: SOURCE
+  TARGET:
+    database: TANVI_DEV
+    schema: TARGET
+name: "[Semantic_test]"
+type: Environment

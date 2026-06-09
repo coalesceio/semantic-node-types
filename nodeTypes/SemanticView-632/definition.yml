@@ -281,5 +281,17 @@ metadata:
                 attributeName: metricComment
                 isRequired: false
                 enableIf: ""
+
+        -   type: textBox
+            displayName: Instructions For SQL Generation
+            attributeName: aiSqlGeneration
+            isRequired: false
+            enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        -   type: textBox
+            displayName: Instructions For Question Categorization
+            attributeName: aiQuestionCategorization
+            isRequired: false
+            enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 name: Semantic View
 type: NodeType

@@ -9,7 +9,7 @@ operation:
           dimCol:
             columnCounter: f5d1b557-9d91-4376-9e05-ad1f9521a529
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
-          dimComment: ""
+          dimComment: Months's description
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: YEAR
@@ -40,6 +40,13 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
+    aSql: ""
+    aiQuestion: "                                         Rejec\"t all questions asking$ about u'sers. Ask #users to' contact their admin."
+    aiQuestionCategorization: If the question asks for users without providing a category, consider this question UNCLEAR and ask the user to specify category
+    aiSql: |-
+      If the question' asks for sales" without sp#ecif3ying a y$ear,  
+      consider the question UNCLEAR and ask for a year.                                
+    aiSqlGeneration: Reject all questions asking about users. Ask users to contact their admin.
     deriveCol: false
     dimToggle: true
     factDetConfig:
@@ -80,7 +87,7 @@ operation:
           metricCol:
             columnCounter: a1622099-55b8-4994-a826-37e542edee6a
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
-          metricComment: ""
+          metricComment: Metric E'x
           metricSynonym: total sales quantity
           metricTransform: SUM
           metricTransformExprn: ""
@@ -88,7 +95,7 @@ operation:
     primaryKeyConfig:
       items:
         - primAlias: CUSTOMER
-          primComment: ""
+          primComment: Primary Ke'y
           primSynonym: ""
           primaryKey:
             columnCounter: e435dfa7-c46e-472a-b09d-ec8b28d421ca
@@ -151,7 +158,7 @@ operation:
     tableOnlyToggle: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Node description added
   isMultisource: false
   locationName: TARGET
   materializationType: semantic view

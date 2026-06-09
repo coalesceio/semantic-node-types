@@ -62,7 +62,7 @@ macroString: |-
           {%- endif %}
 
           {%- if obj.comment is defined and obj.comment | trim != '' %}
-          COMMENT = '{{ obj.comment }}'
+          COMMENT = '{{ obj.comment | escape }}'
           {%- endif %}
 
       {%- else -%}
@@ -91,7 +91,7 @@ macroString: |-
           -%}
 
           {%- if comments %}
-          COMMENT = '{{ comments | join(', ') }}'
+          COMMENT = '{{ comments | join(', ') | escape }}'
           {%- endif %}
 
       {%- endif %}
