@@ -69,6 +69,8 @@ In a Semantic View, these 3 elements have distinct roles, but metrics and dimens
 | DIMENSIONS | Tabular configuration for defining dimension attributes.<br/>- `Derived Stage`: Processing stage for derived columns (1, 2, or 3). Visible only when schema table creation is enabled.<br/>- `Source Column`: Column selected from the source table.<br/>- `Transform`: Expression applied to the column.<br/>- `Alias`: Name used in the semantic model.<br/>- `Synonym`: Optional alternative names.<br/>- `Comment`: Optional description. |
 | Enable Metrics | Toggle: True/False<br/>`True`: Enables the METRICS configuration section.<br/>`False`: Metrics configuration remains hidden. |
 | METRICS | Tabular configuration for defining aggregated metrics.<br/>- `Derived Stage`: Processing stage for derived columns (1, 2, or 3). Visible only when schema table creation is enabled.<br/>- `Metric Applied`: Aggregation function applied to the column (COUNT, SUM, AVG, MIN, MAX).<br/>- `Source Column`: Column used for aggregation.<br/>- `Derived Column`: Optional custom expression for metric calculation.<br/>- `Alias`: Name used for the metric in the semantic model.<br/>- `Synonym`: Optional alternative names.<br/>- `Comment`: Optional description. |
+| Instructions For SQL Generation | Embeds custom instructions for Cortex Analyst, guiding how it generates SQL from natural-language questions |
+| Instructions For Question Categorization | Governs how Cortex Analyst classifies incoming questions before SQL generation - used to reject out-of-scope or sensitive question categories |
 
 ### Semantic View Browser Creation Steps
 
