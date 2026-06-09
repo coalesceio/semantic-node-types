@@ -49,7 +49,6 @@ operation:
             columnCounter: b928207e-4b0b-4e38-9a1b-8ba7cda7a301
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -57,7 +56,6 @@ operation:
             columnCounter: d00a2be8-e0fa-4cd9-9b56-63ef60b1509c
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
     factToggle: true

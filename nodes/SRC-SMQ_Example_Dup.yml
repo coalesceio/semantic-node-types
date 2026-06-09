@@ -1,0 +1,84 @@
+fileVersion: 1
+id: f22904bb-6319-4e27-98dc-08f432c199ae
+name: SMQ_Example_Dup
+operation:
+  config:
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 955e2d80-a1fa-44e9-8901-7cd3dafad169
+          stepCounter: f22904bb-6319-4e27-98dc-08f432c199ae
+        config:
+          isaMetricColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: TOTALSALESQUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 252f5f52-356c-4efa-9bbc-9cf3bf52ce58
+                stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: df9c55b3-ae9b-4feb-94e6-a11b3fd0007b
+          stepCounter: f22904bb-6319-4e27-98dc-08f432c199ae
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(2)
+        description: ""
+        name: STATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aac961fb-a559-4db5-a1ab-fce248a8f15b
+                stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94c9cf70-d52a-447c-9a39-d9c674c19503
+          stepCounter: f22904bb-6319-4e27-98dc-08f432c199ae
+        config:
+          isaDimColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_SK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c6c53d90-e006-44e1-97c3-d4f8c5fd72f0
+                stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_Example_Dup: a3c72f25-d505-48bf-a47d-7036830db226
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_Example_Dup
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'SMV_Example_Dup') }} "SMV_Example_Dup"
+        name: SMQ_Example_Dup
+        noLinkRefs: []
+  name: SMQ_Example_Dup
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node
