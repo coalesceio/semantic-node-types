@@ -1,5 +1,11 @@
 fileVersion: 1
 id: "738"
-mappingDefinitions: {}
+mappingDefinitions:
+  SRC:
+    database: ANANDHIS_DEV
+    schema: SOURCE_DATA
+  TARGET:
+    database: ANANDHIS_DEV
+    schema: TARGET
 name: QA_Test
 type: Environment

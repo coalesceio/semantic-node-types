@@ -1,0 +1,47 @@
+{# ============================================================ #}
+{# Node Type: Agent Node                                        #}
+{# Create Template — generates CREATE OR REPLACE AGENT DDL      #}
+{# ============================================================ #}
+
+{{ stage('Create Agent') }}
+
+CREATE OR REPLACE AGENT {{ ref_no_link(node.location.name, node.name) }}
+  COMMENT = '{{ node.description | escape }}'
+  FROM SPECIFICATION $$
+models:
+  orchestration: {{ config.orchestrationModel }}
+orchestration:
+  budget:
+    seconds: {{ config.orchestrationBudgetSeconds }}
+    tokens: {{ config.orchestrationBudgetTokens }}
+instructions:
+  system: "{{ config.instructionsSystem | escape }}"
+  orchestration: "{{ config.instructionsOrchestration | escape }}"
+{%- if config.instructionsResponse | length > 0 %}
+  response: "{{ config.instructionsResponse | escape }}"
+{%- endif %}
+tools:
+{%- for tool in config.toolSpecs %}
+  - tool_spec:
+      type: "{{ tool.toolType }}"
+      name: "{{ tool.toolName }}"
+{%- if tool.toolDescription | length > 0 %}
+      description: "{{ tool.toolDescription | escape }}"
+{%- endif %}
+{%- endfor %}
+tool_resources:
+{%- for res in config.toolResources %}
+  {{ res.resourceToolName }}:
+{%- if res.resourceTarget | length > 0 %}
+    {% if 'search' in res.resourceToolName | lower or 'search' in res.resourceTarget | lower %}name{% else %}semantic_view{% endif %}: "{{ res.resourceTarget }}"
+{%- endif %}
+{%- if res.resourceEnvType == 'warehouse' %}
+    execution_environment:
+      type: "warehouse"
+      warehouse: "{{ res.resourceWarehouse }}"
+{%- endif %}
+{%- if res.resourceMaxResults | length > 0 %}
+    max_results: "{{ res.resourceMaxResults }}"
+{%- endif %}
+{%- endfor %}
+$$;

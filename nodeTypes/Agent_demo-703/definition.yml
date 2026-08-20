@@ -1,0 +1,163 @@
+fileVersion: 1
+id: "703"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: 'Agent Node'
+    short: 'AGT'
+    plural: 'Agent Nodes'
+    tagColor: '#7B61FF'
+    deployStrategy: default
+    isColumnResyncEnabled: true
+
+    config:
+      - groupName: 'Models'
+        description: 'Model used for orchestration/routing'
+        enableIf: 'true'
+        items:
+          - type: dropdownSelector
+            displayName: 'Orchestration Model'
+            attributeName: 'orchestrationModel'
+            default: 'claude-sonnet-4-6'
+            options:
+              - 'claude-sonnet-4-6'
+              - 'claude-opus-4-1'
+              - 'claude-haiku-4-5'
+            isRequired: true
+            enableIf: 'true'
+
+      - groupName: 'Orchestration'
+        description: 'Budget and routing controls for the agent'
+        enableIf: 'true'
+        items:
+          - type: textBox
+            displayName: 'Budget - Seconds'
+            attributeName: 'orchestrationBudgetSeconds'
+            syntax: 'none'
+            isRequired: true
+            enableIf: 'true'
+
+          - type: textBox
+            displayName: 'Budget - Tokens'
+            attributeName: 'orchestrationBudgetTokens'
+            syntax: 'none'
+            isRequired: true
+            enableIf: 'true'
+
+          - type: textBox
+            displayName: 'Orchestration Logic'
+            attributeName: 'orchestrationLogic'
+            syntax: 'none'
+            isRequired: false
+            enableIf: 'true'
+
+      - groupName: 'Instructions'
+        description: 'System, orchestration, and response instructions'
+        enableIf: 'true'
+        items:
+          - type: textBox
+            displayName: 'System Instructions'
+            attributeName: 'instructionsSystem'
+            syntax: 'none'
+            isRequired: true
+            enableIf: 'true'
+
+          - type: textBox
+            displayName: 'Orchestration Instructions'
+            attributeName: 'instructionsOrchestration'
+            syntax: 'none'
+            isRequired: true
+            enableIf: 'true'
+
+          - type: textBox
+            displayName: 'Response Instructions'
+            attributeName: 'instructionsResponse'
+            syntax: 'none'
+            isRequired: false
+            enableIf: 'true'
+
+      - groupName: 'Tools'
+        description: 'Tool specs available to this agent node'
+        enableIf: 'true'
+        items:
+          - type: tabular
+            displayName: 'Tool Specs'
+            attributeName: 'toolSpecs'
+            isRequired: false
+            enableIf: 'true'
+            columns:
+              - type: dropdownSelector
+                displayName: 'Type'
+                attributeName: 'toolType'
+                options:
+                  - 'cortex_analyst_text_to_sql'
+                  - 'cortex_search'
+                  - 'generic'
+                isRequired: true
+                enableIf: 'true'
+
+              - type: textBox
+                displayName: 'Name'
+                attributeName: 'toolName'
+                syntax: 'none'
+                isRequired: true
+                enableIf: 'true'
+
+              - type: textBox
+                displayName: 'Description'
+                attributeName: 'toolDescription'
+                syntax: 'none'
+                isRequired: false
+                enableIf: 'true'
+
+      - groupName: 'Tool Resources'
+        description: 'Backing resources for each tool (semantic views, search services, warehouses)'
+        enableIf: 'true'
+        items:
+          - type: tabular
+            displayName: 'Tool Resource Bindings'
+            attributeName: 'toolResources'
+            isRequired: false
+            enableIf: 'true'
+            columns:
+              - type: textBox
+                displayName: 'Tool Name'
+                attributeName: 'resourceToolName'
+                syntax: 'none'
+                isRequired: true
+                enableIf: 'true'
+
+              - type: textBox
+                displayName: 'Semantic View / Search Service'
+                attributeName: 'resourceTarget'
+                syntax: 'none'
+                isRequired: false
+                enableIf: 'true'
+
+              - type: dropdownSelector
+                displayName: 'Execution Environment Type'
+                attributeName: 'resourceEnvType'
+                options:
+                  - 'warehouse'
+                  - 'none'
+                default: 'warehouse'
+                isRequired: false
+                enableIf: 'true'
+
+              - type: textBox
+                displayName: 'Warehouse'
+                attributeName: 'resourceWarehouse'
+                syntax: 'none'
+                isRequired: false
+                enableIf: "{% if resourceEnvType == 'warehouse' %} true {% else %} false {% endif %}"
+
+              - type: textBox
+                displayName: 'Max Results'
+                attributeName: 'resourceMaxResults'
+                syntax: 'none'
+                isRequired: false
+                enableIf: 'true'
+name: Agent_demo
+type: NodeType

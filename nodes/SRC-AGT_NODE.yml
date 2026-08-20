@@ -1,0 +1,57 @@
+fileVersion: 1
+id: 8789036c-ad20-467b-baf3-859582f273d7
+name: AGT_NODE
+operation:
+  config:
+    instructionsOrchestration: Use Analyst for any question about sales, revenue, quantities, or metrics. Use Search for product documentation, troubleshooting, or how-to questions.
+    instructionsResponse: ""
+    instructionsSystem: You are a helpful assistant for a retail business. You can answer questions about sales data and product documentation.
+    orchestrationBudgetSeconds: "30"
+    orchestrationBudgetTokens: "16000"
+    orchestrationLogic: ""
+    orchestrationModel: claude-sonnet-4-6
+    toolResources:
+      items:
+        - resourceEnvType: warehouse
+          resourceMaxResults: ""
+          resourceTarget: CORTEX_AGENTS_LAB.TUTORIAL.SALES_SEMANTIC_VIEW
+          resourceToolName: Analyst
+        - resourceEnvType: warehouse
+          resourceMaxResults: "3"
+          resourceTarget: CORTEX_AGENTS_LAB.TUTORIAL.PRODUCT_SEARCH_SERVICE
+          resourceToolName: Search
+    toolSpecs:
+      items:
+        - toolDescription: Queries structured sales data by converting natural language to SQL
+          toolName: Analyst
+          toolType: cortex_analyst_text_to_sql
+        - toolDescription: Searches product documentation and troubleshooting guides
+          toolName: Search
+          toolType: cortex_search
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: AGT_NODE
+        noLinkRefs: []
+  name: AGT_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "703"
+  type: sql
+  version: 1
+type: Node
