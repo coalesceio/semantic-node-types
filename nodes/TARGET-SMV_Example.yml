@@ -8,6 +8,7 @@ operation:
         - dimAlias: MONTH
           dimCol:
             columnCounter: f5d1b557-9d91-4376-9e05-ad1f9521a529
+            name: D_MOY
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           dimComment: ""
           dimSynonym: ""
@@ -15,6 +16,7 @@ operation:
         - dimAlias: YEAR
           dimCol:
             columnCounter: 596f9ff4-d4e9-4202-ad96-f61bd79f83a3
+            name: D_YEAR
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           dimComment: ""
           dimSynonym: ""
@@ -22,6 +24,7 @@ operation:
         - dimAlias: BRAND
           dimCol:
             columnCounter: e5efd429-2575-4ffb-80fc-ad3b27442f79
+            name: I_BRAND
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           dimComment: ""
           dimSynonym: ""
@@ -29,6 +32,7 @@ operation:
         - dimAlias: CATEGORY
           dimCol:
             columnCounter: d4ee042f-7a6b-435e-a8cb-b6ce027a9787
+            name: I_CATEGORY
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           dimComment: ""
           dimSynonym: ""
@@ -36,6 +40,7 @@ operation:
         - dimAlias: STATE
           dimCol:
             columnCounter: c113aace-e06e-46b2-9796-7b0061badf49
+            name: S_STATE
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           dimComment: ""
           dimSynonym: ""
@@ -52,26 +57,31 @@ operation:
       items:
         - foreignKey:
             columnCounter: 8a0db073-64af-45a8-aeda-a582566af1ef
+            name: SS_CUSTOMER_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           refAlias: SALESTOCUSTOMER
           refTable: CUSTOMER
         - foreignKey:
             columnCounter: 87b11b40-dd6d-460e-84ea-fd70964310ee
+            name: SS_SOLD_DATE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           refAlias: SALESTODATE
           refTable: DATE
         - foreignKey:
             columnCounter: 07ae5b27-7e05-448b-a6d3-5c737c837adb
+            name: SS_CDEMO_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           refAlias: SALESTODEMO
           refTable: DEMO
         - foreignKey:
             columnCounter: ede4a6c1-4e86-449e-b4f1-438a6bde004e
+            name: SS_ITEM_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           refAlias: SALESTOITEM
           refTable: ITEM
         - foreignKey:
             columnCounter: 337f7da5-5c85-46d2-80ba-d961f77944d3
+            name: SS_STORE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           refAlias: SALETOSTORE
           refTable: STORE
@@ -81,6 +91,7 @@ operation:
         - metricAlias: TOTALSALESQUANTITY
           metricCol:
             columnCounter: a1622099-55b8-4994-a826-37e542edee6a
+            name: SS_QUANTITY
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
           metricComment: ""
           metricSynonym: total sales quantity
@@ -94,60 +105,70 @@ operation:
           primSynonym: ""
           primaryKey:
             columnCounter: e435dfa7-c46e-472a-b09d-ec8b28d421ca
+            name: C_CUSTOMER_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: DATE
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: e190d2e3-e0eb-4d3f-b821-ab099f3095fb
+            name: D_DATE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: DEMO
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 0b2483c1-cc12-4808-935d-605163ff71c3
+            name: CD_DEMO_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: d26f7fc6-62fe-4014-a4cd-c9819325fb13
+            name: I_ITEM_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: a1b0c659-9dd7-4456-86f7-157c3d107da7
+            name: S_STORE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: STORESALES
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 87b11b40-dd6d-460e-84ea-fd70964310ee
+            name: SS_SOLD_DATE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 07ae5b27-7e05-448b-a6d3-5c737c837adb
+            name: SS_CDEMO_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: ede4a6c1-4e86-449e-b4f1-438a6bde004e
+            name: SS_ITEM_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 337f7da5-5c85-46d2-80ba-d961f77944d3
+            name: SS_STORE_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 8a0db073-64af-45a8-aeda-a582566af1ef
+            name: SS_CUSTOMER_SK
             stepCounter: d94f8d4f-774d-49a1-aba6-620e522678db
     semanticMaterialization: semantic view
     tableOnlyToggle: false
