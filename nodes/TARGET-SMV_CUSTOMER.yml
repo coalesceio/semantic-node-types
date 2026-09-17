@@ -16,16 +16,7 @@ operation:
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
     aiVerifiedQueries:
-      items:
-        - name: customer_lookup
-          question: What is the name of the customer with customer key 600012?
-          sql: |-
-            SELECT CUSTOMER.C_NAME
-            FROM CUSTOMER
-            WHERE CUSTOMER.C_CUSTKEY = 600012
-          useAsOnboardingQuestion: true
-          verifiedAt: "1714497970"
-          verifiedBy: ( purpose = email )
+      items: []
     deriveCol: false
     dimToggle: true
     factDetConfig:
