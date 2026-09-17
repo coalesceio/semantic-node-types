@@ -7,5 +7,5 @@ mappingDefinitions:
   TARGET:
     database: SNOWFLAKE_LEARNING_DB
     schema: TARGET_QA
-name: QA_Test
+name: QA_SV
 type: Environment

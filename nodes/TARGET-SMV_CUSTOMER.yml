@@ -26,6 +26,15 @@ operation:
           useAsOnboardingQuestion: true
           verifiedAt: "1714497970"
           verifiedBy: Roshni
+        - name: cust_test
+          question: What is the name of the customer with customer key 600014?
+          sql: |-
+            SELECT CUSTOMER.C_NAME
+            FROM CUSTOMER
+            WHERE CUSTOMER.C_CUSTKEY = 600014
+          useAsOnboardingQuestion: false
+          verifiedAt: ""
+          verifiedBy: (purpose = contact)
     deriveCol: false
     dimToggle: true
     factDetConfig:
