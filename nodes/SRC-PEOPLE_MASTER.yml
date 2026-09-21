@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+name: PEOPLE_MASTER
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  locationName: SRC
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c52249a-4d4d-4b7b-a5ad-5af7e6ec91ff
+          stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: pmPersonId
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 919e4a2f-27bd-45b0-806d-8f9f0bc52886
+          stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: pmFullName
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 11da3f1e-37ac-4e9a-97d6-63ff2d19a294
+          stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: pmRegion
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: PEOPLE_MASTER
+  schema: ""
+  sqlType: Source
+  type: sourceInput
+  version: 1
+type: Node

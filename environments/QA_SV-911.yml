@@ -5,7 +5,7 @@ mappingDefinitions:
     database: SOURCE
     schema: SRC
   TARGET:
-    database: SNOWFLAKE_LEARNING_DB
+    database: TARGET
     schema: TARGET_QA
 name: QA_SV
 type: Environment
