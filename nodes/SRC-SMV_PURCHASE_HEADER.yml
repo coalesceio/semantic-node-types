@@ -1,0 +1,534 @@
+fileVersion: 1
+id: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+name: SMV_PURCHASE_HEADER
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 108a6bcb-cc8d-4ba9-aa84-d7e8fd7cff4b
+            name: pmFullName
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 043115a9-e6c3-45ff-93ff-21cac3b6e922
+            name: pmRegion
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 629e29f1-2f00-41dd-a80f-8f8289f7c9aa
+            name: icItemTitle
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 4ea51a7e-94c3-447d-80f5-bb0108a1fd23
+            name: phPurchaseDate
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 19960572-ea93-40f3-876b-0764ecb82cee
+            name: icItemGroup
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - {}
+    aiVerifiedQueriesEnabled: false
+    deriveCol: true
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: e194ecbc-b3e9-402a-8a1b-57c4697056b9
+            name: icUnitCost
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          factComment: ""
+          factLayer: "1"
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: c5809610-4a5c-4e92-bab6-56c886cb8b75
+            name: pdUnits
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          factComment: ""
+          factLayer: "1"
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: 115df71d-26ba-461c-bc20-0feffbccd3ca
+            name: phPersonId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          refAlias: ""
+          refTable: people_master
+        - foreignKey:
+            columnCounter: 92e72b8d-c5d8-41a8-bbb3-dc678b0c5317
+            name: pdPurchaseId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          refAlias: ""
+          refTable: purchase_header
+        - foreignKey:
+            columnCounter: 071b7f18-58fc-4841-b0fa-0362ff3e7692
+            name: pdItemId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          refAlias: ""
+          refTable: item_catalog
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: total_quantity
+          metricCol:
+            columnCounter: c5809610-4a5c-4e92-bab6-56c886cb8b75
+            name: pdUnits
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: ""
+        - metricAlias: total_sales
+          metricCol:
+            columnCounter: e194ecbc-b3e9-402a-8a1b-57c4697056b9
+            name: icUnitCost
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: ""
+        - metricAlias: avg_cost
+          metricCol:
+            columnCounter: e194ecbc-b3e9-402a-8a1b-57c4697056b9
+            name: icUnitCost
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: AVG
+          metricTransformExprn: ""
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 551391f6-f1a4-4f92-b6ed-afd5f2541988
+            name: pmPersonId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 20dc1a35-29f7-45a6-a1a3-8bdc2c7e0608
+            name: phPurchaseId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: caff3c1a-e0f5-4086-bf0b-cf3b30a72c8d
+            name: pdDetailId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: c6a90d33-6675-4ce8-8ef3-8f30686c8378
+            name: icItemId
+            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 20dc1a35-29f7-45a6-a1a3-8bdc2c7e0608
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: phPurchaseId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c1e874d-825b-406f-9742-4749ea0f7c84
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 115df71d-26ba-461c-bc20-0feffbccd3ca
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: phPersonId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78a42290-4501-417a-a491-7bcac51b81c0
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4ea51a7e-94c3-447d-80f5-bb0108a1fd23
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: DATE
+        description: ""
+        name: phPurchaseDate
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0e644525-e178-4698-a5ba-f63cf9e1d34f
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c6a90d33-6675-4ce8-8ef3-8f30686c8378
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: icItemId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03096a54-ef0a-48a8-b374-9bb8e0ffc69d
+                stepCounter: 12915021-63ae-4f7d-988a-9ef7f642d9b8
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 629e29f1-2f00-41dd-a80f-8f8289f7c9aa
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: icItemTitle
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 892b69df-e436-4b12-89c9-9b0faae4e079
+                stepCounter: 12915021-63ae-4f7d-988a-9ef7f642d9b8
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 19960572-ea93-40f3-876b-0764ecb82cee
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: icItemGroup
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b68715c9-6f44-4ace-8e50-b61143e7db88
+                stepCounter: 12915021-63ae-4f7d-988a-9ef7f642d9b8
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e194ecbc-b3e9-402a-8a1b-57c4697056b9
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: icUnitCost
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1634ebfd-57f1-474c-a48e-f4ac0a9f0f42
+                stepCounter: 12915021-63ae-4f7d-988a-9ef7f642d9b8
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: caff3c1a-e0f5-4086-bf0b-cf3b30a72c8d
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pdDetailId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2033fc4-4d2e-47d8-a0b1-f086544809e2
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 92e72b8d-c5d8-41a8-bbb3-dc678b0c5317
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pdPurchaseId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 694165af-9826-4b2a-8f41-96d238119e1c
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 071b7f18-58fc-4841-b0fa-0362ff3e7692
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pdItemId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5aad0e9d-9d6d-476c-bb0d-76fb34e20bce
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c5809610-4a5c-4e92-bab6-56c886cb8b75
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pdUnits
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92e3791e-e603-4493-922b-9bf21f6c4b1d
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 551391f6-f1a4-4f92-b6ed-afd5f2541988
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pmPersonId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9c52249a-4d4d-4b7b-a5ad-5af7e6ec91ff
+                stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 108a6bcb-cc8d-4ba9-aa84-d7e8fd7cff4b
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pmFullName
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 919e4a2f-27bd-45b0-806d-8f9f0bc52886
+                stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 043115a9-e6c3-45ff-93ff-21cac3b6e922
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: pmRegion
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 11da3f1e-37ac-4e9a-97d6-63ff2d19a294
+                stepCounter: 2f1d22ea-29a1-4cab-b2d2-e35adbc5140e
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02c6c52d-6f99-4f5b-9a2b-d37d8cd7b0da
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: total_quantity
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4f6c675-9a63-4e9c-9a7b-00582e80fced
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: total_sales
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59292cf8-1ed2-435b-9ea9-a383e1d4368b
+          stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: avg_cost
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ITEM_CATALOG: 12915021-63ae-4f7d-988a-9ef7f642d9b8
+          PURCHASE_HEADER: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: ITEM_CATALOG
+          - locationName: SRC
+            nodeName: PEOPLE_MASTER
+          - locationName: SRC
+            nodeName: PURCHASE_DETAIL
+          - locationName: SRC
+            nodeName: PURCHASE_HEADER
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'PURCHASE_HEADER') }} "PURCHASE_HEADER"
+            INNER JOIN {{ ref('SRC', 'ITEM_CATALOG') }} "ITEM_CATALOG"
+            ON "PURCHASE_HEADER"./*COLUMN*/ = "ITEM_CATALOG"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'PURCHASE_DETAIL') }} "PURCHASE_DETAIL"
+            ON "PURCHASE_HEADER"./*COLUMN*/ = "PURCHASE_DETAIL"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'PEOPLE_MASTER') }} "PEOPLE_MASTER"
+            ON "PURCHASE_HEADER"./*COLUMN*/ = "PEOPLE_MASTER"./*COLUMN*/
+            FROM {{ ref('SRC', 'PURCHASE_HEADER') }} "PURCHASE_HEADER"
+        name: SMV_PURCHASE_HEADER
+        noLinkRefs: []
+  name: SMV_PURCHASE_HEADER
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node

@@ -294,11 +294,18 @@ metadata:
             isRequired: false
             enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
 
-        -   type: tabular
+        -   type: toggleButton
             displayName: AI Verified Queries
+            attributeName: aiVerifiedQueriesEnabled
+            isRequired: false
+            default: false
+            enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        -   type: tabular
+            displayName: Verified Queries
             attributeName: aiVerifiedQueries
             isRequired: false
-            enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+            enableIf: "{% if config.aiVerifiedQueriesEnabled %} true {% else %} false {% endif %}"
 
             columns:
             -   type: textBox

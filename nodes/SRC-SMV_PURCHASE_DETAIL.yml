@@ -1,0 +1,154 @@
+fileVersion: 1
+id: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+name: SMV_PURCHASE_DETAIL
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 15c93a46-7ad3-4c76-ba88-929d14050f7d
+            name: pdItemId
+            stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - {}
+    aiVerifiedQueriesEnabled: false
+    deriveCol: false
+    dimToggle: false
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: 1af1fed6-80e8-4180-bd92-c8a5035eab10
+            name: pdUnits
+            stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+          factComment: ""
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items: []
+    foreignToggle: false
+    metricConfig:
+      items:
+        - metricAlias: ""
+          metricCol:
+            columnCounter: 15c93a46-7ad3-4c76-ba88-929d14050f7d
+            name: pdItemId
+            stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+          metricComment: ""
+          metricLayer: "1"
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: ""
+    metricToggle: false
+    primaryKeyConfig:
+      items:
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 76679a13-fcb3-4c58-894c-5ef11bffd7d6
+            name: pdDetailId
+            stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 15c93a46-7ad3-4c76-ba88-929d14050f7d
+            name: pdItemId
+            stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76679a13-fcb3-4c58-894c-5ef11bffd7d6
+          stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: pdDetailId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2033fc4-4d2e-47d8-a0b1-f086544809e2
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d22ac0e0-6a48-4068-a340-21359cebecc9
+          stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: pdPurchaseId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 694165af-9826-4b2a-8f41-96d238119e1c
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 15c93a46-7ad3-4c76-ba88-929d14050f7d
+          stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: pdItemId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5aad0e9d-9d6d-476c-bb0d-76fb34e20bce
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1af1fed6-80e8-4180-bd92-c8a5035eab10
+          stepCounter: 10be331e-2dcf-42a8-b9f7-59f9698ebcbf
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: pdUnits
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92e3791e-e603-4493-922b-9bf21f6c4b1d
+                stepCounter: 3e903bb5-6db4-43b8-b22a-678183738c69
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PURCHASE_DETAIL: 3e903bb5-6db4-43b8-b22a-678183738c69
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: PURCHASE_DETAIL
+        join:
+          joinCondition: FROM {{ ref('SRC', 'PURCHASE_DETAIL') }} "PURCHASE_DETAIL"
+        name: SMV_PURCHASE_DETAIL
+        noLinkRefs: []
+  name: SMV_PURCHASE_DETAIL
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node

@@ -367,7 +367,7 @@ does not permit copying or modification for any other purpose.
 
             {%- if desiredState.config.tableOnlyToggle == false %}
             PRIMARY KEY (
-                {{ item.list | map(attribute='name') | join(', ') }}
+                "{{ item.list | map(attribute='name') | join('", "') }}"
             )
             {%- endif %}
             {{ renderSynonymAndComment(item.list) }}
@@ -380,7 +380,7 @@ does not permit copying or modification for any other purpose.
         (
             {%- for item in nsSVvariables.foreignKey -%}
                 {%- if item.alias != '' %} {{ item.alias }} AS {% endif -%}
-                 {{ ns.aliasMap[item.srcTablePath] }} ({{ item.name }}) REFERENCES {{ item.refTable }}
+                 {{ ns.aliasMap[item.srcTablePath] }} ("{{ item.name }}") REFERENCES {{ item.refTable }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
@@ -398,12 +398,12 @@ does not permit copying or modification for any other purpose.
                         {%- if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
                         {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '.' + col.alias }}
+                            {{ ns.aliasMap[col.srcTablePath] }}."{{ col.alias }}"
                         {%- endif %}
                     {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '.' + col.name }}
+                        {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                     {%- endif %}
-                    AS {{ ns.aliasMap[col.srcTablePath] }}.{{ col.name }}
+                    AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                 {%- endif %}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
@@ -423,12 +423,12 @@ does not permit copying or modification for any other purpose.
                         {%- if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
                         {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '.' + col.alias }}
+                            {{ ns.aliasMap[col.srcTablePath] }}."{{ col.alias }}"
                         {%- endif %}
                     {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '.' + col.name }}
+                        {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                     {%- endif %}
-                    AS {{ ns.aliasMap[col.srcTablePath] }}.{{ col.name }}
+                    AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                 {%- endif %}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
@@ -446,8 +446,8 @@ does not permit copying or modification for any other purpose.
                     {%- if item.alias.split('.') | length == 2 %}
                     {{ item.alias }}
                     {%- else %}
-                    {{ ns.aliasMap[item.srcTablePath] + '.' + item.alias }}
-                    {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}.{{ item.name }})
+                    {{ ns.aliasMap[item.srcTablePath] }}."{{ item.alias }}"
+                    {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}."{{ item.name }}")
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}
@@ -464,6 +464,28 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.aiQuestionCategorization | default('') | trim | length > 0 %}
             AI_QUESTION_CATEGORIZATION '{{ desiredState.config.aiQuestionCategorization | trim | escape }}'
         {%- endif %}
+		
+		{%- if desiredState.config.aiVerifiedQueriesEnabled %}
+    {%- if desiredState.config.aiVerifiedQueries.get('items') %}
+        AI_VERIFIED_QUERIES (
+            {%- for item in desiredState.config.aiVerifiedQueries.get('items') %}
+                {{ item.name | trim }} AS (
+                    QUESTION '{{ item.question | trim | replace("'", "''") }}'
+                    {%- if item.verifiedAt | default('') | trim | length > 0 %}
+                        VERIFIED_AT {{ item.verifiedAt | trim }}
+                    {%- endif %}
+                    {%- if item.useAsOnboardingQuestion %}
+                        ONBOARDING_QUESTION TRUE
+                    {%- endif %}
+                    {%- if item.verifiedBy | default('') | trim | length > 0 %}
+                        VERIFIED_BY '{{ item.verifiedBy | trim | replace("'", "''") }}'
+                    {%- endif %}
+                    SQL '{{ item.sql | trim | replace("'", "''") }}'
+                ){% if not loop.last %},{% endif %}
+            {%- endfor %}
+        )
+    {%- endif %}
+{%- endif %}
     {%- endif %}
 
 {%- elif desiredState == undefined and currentState != undefined %}
