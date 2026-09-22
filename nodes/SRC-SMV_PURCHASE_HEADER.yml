@@ -11,7 +11,6 @@ operation:
             name: pmFullName
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -20,7 +19,6 @@ operation:
             name: pmRegion
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -29,7 +27,6 @@ operation:
             name: icItemTitle
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -38,7 +35,6 @@ operation:
             name: phPurchaseDate
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -47,16 +43,28 @@ operation:
             name: icItemGroup
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
     aiVerifiedQueries:
       items:
-        - {}
-    aiVerifiedQueriesEnabled: false
-    deriveCol: true
+        - name: Test_query
+          question: What is the total quantity purchased for each item?
+          sql: |-
+            SELECT
+                ITEM_CATALOG."icItemTitle",
+                SUM(PURCHASE_DETAIL."pdUnits") AS total_quantity
+            FROM PURCHASE_DETAIL
+            JOIN ITEM_CATALOG
+                ON PURCHASE_DETAIL."pdItemId" = ITEM_CATALOG."icItemId"
+            GROUP BY ITEM_CATALOG."icItemTitle"
+            ORDER BY total_quantity DESC;
+          useAsOnboardingQuestion: true
+          verifiedAt: ""
+          verifiedBy: ( purpose = email )
+    aiVerifiedQueriesEnabled: true
+    deriveCol: false
     dimToggle: true
     factDetConfig:
       items:
@@ -66,7 +74,6 @@ operation:
             name: icUnitCost
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -75,7 +82,6 @@ operation:
             name: pdUnits
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
     factToggle: true
@@ -108,7 +114,6 @@ operation:
             name: pdUnits
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           metricComment: ""
-          metricLayer: "1"
           metricSynonym: ""
           metricTransform: SUM
           metricTransformExprn: ""
@@ -118,7 +123,6 @@ operation:
             name: icUnitCost
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           metricComment: ""
-          metricLayer: "1"
           metricSynonym: ""
           metricTransform: SUM
           metricTransformExprn: ""
@@ -128,7 +132,6 @@ operation:
             name: icUnitCost
             stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
           metricComment: ""
-          metricLayer: "1"
           metricSynonym: ""
           metricTransform: AVG
           metricTransformExprn: ""
