@@ -302,7 +302,7 @@ does not permit copying or modification for any other purpose.
             (
                 SELECT
         {%- for col in desiredState.sources[0].columns if col.id in all_ids %}
-                    {{ col.name }} AS "{{ col.name }}"
+                    "{{ col.name }}" AS "{{ col.name }}"
         {%- if not loop.last %},{% endif %}
         {%- endfor %}
 
@@ -311,7 +311,7 @@ does not permit copying or modification for any other purpose.
         {%- set alias = build_alias(col.alias) -%}
 
         {%- if col.id and col.alias|trim != '' %}
-        , {{ col.name }} AS "{{ alias }}"
+        , "{{ col.name }}" AS "{{ alias }}"
 
         {%- elif col.id is none %}
         {%- set expr = build_expr(col.transform) | replace('"', '') -%}
@@ -464,27 +464,6 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.aiQuestionCategorization | default('') | trim | length > 0 %}
             AI_QUESTION_CATEGORIZATION '{{ desiredState.config.aiQuestionCategorization | trim | escape }}'
         {%- endif %}
-
-        {%- if desiredState.config.aiVerifiedQueries.get('items') %}
-            AI_VERIFIED_QUERIES (
-        {%- for item in desiredState.config.aiVerifiedQueries.get('items') %}
-            {{ item.name | trim }} AS (
-                QUESTION '{{ item.question | trim | replace("'", "''") }}'
-                {%- if item.verifiedAt | default('') | trim | length > 0 %}
-                    VERIFIED_AT {{ item.verifiedAt | trim }}
-                {%- endif %}
-                {%- if item.useAsOnboardingQuestion %}
-                    ONBOARDING_QUESTION TRUE
-                {%- endif %}
-                {%- if item.verifiedBy | default('') | trim | length > 0 %}
-                    VERIFIED_BY '{{ item.verifiedBy | trim | replace("'", "''") }}'
-                {%- endif %}
-                SQL '{{ item.sql | trim | replace("'", "''") }}'
-            ){% if not loop.last %},{% endif %}
-        {%- endfor %}
-    )
-{%- endif %}
-
     {%- endif %}
 
 {%- elif desiredState == undefined and currentState != undefined %}
