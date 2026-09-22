@@ -11,7 +11,6 @@ operation:
             name: pmFullName
             stepCounter: 6d0a9d2e-ba19-4ce9-81b5-51b68f01b93e
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -20,15 +19,13 @@ operation:
             name: pmRegion
             stepCounter: 6d0a9d2e-ba19-4ce9-81b5-51b68f01b93e
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
     aiVerifiedQueries:
-      items:
-        - {}
-    deriveCol: true
+      items: []
+    deriveCol: false
     dimToggle: true
     factDetConfig:
       items:
