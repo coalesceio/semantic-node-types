@@ -5,14 +5,31 @@ operation:
   config:
     DimConfig:
       items:
-        - {}
+        - dimAlias: ""
+          dimCol:
+            columnCounter: beb40cc8-cf65-43a0-8599-11551280536c
+            name: pmFullName
+            stepCounter: 6d0a9d2e-ba19-4ce9-81b5-51b68f01b93e
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 8962bf8e-a37b-413e-af68-a6be66b5f4d0
+            name: pmRegion
+            stepCounter: 6d0a9d2e-ba19-4ce9-81b5-51b68f01b93e
+          dimComment: ""
+          dimLayer: "1"
+          dimSynonym: ""
+          dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
     aiVerifiedQueries:
       items:
         - {}
     deriveCol: true
-    dimToggle: false
+    dimToggle: true
     factDetConfig:
       items:
         - {}
