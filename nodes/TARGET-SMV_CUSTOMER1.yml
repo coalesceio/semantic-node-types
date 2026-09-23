@@ -11,7 +11,6 @@ operation:
             name: customer_name
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -20,7 +19,6 @@ operation:
             name: customerEmail
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -29,7 +27,6 @@ operation:
             name: order_status
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -38,7 +35,6 @@ operation:
             name: product_name
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
         - dimAlias: ""
@@ -47,7 +43,6 @@ operation:
             name: ProductCategory
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           dimComment: ""
-          dimLayer: "1"
           dimSynonym: ""
           dimTransform: ""
     aiQuestionCategorization: ""
@@ -66,7 +61,6 @@ operation:
             name: ORDER_DATE
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -75,7 +69,6 @@ operation:
             name: OrderAmount
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -84,7 +77,6 @@ operation:
             name: QUANTITY
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -93,7 +85,6 @@ operation:
             name: unitprice
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
         - factAlias: ""
@@ -102,7 +93,6 @@ operation:
             name: CreatedDate
             stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
           factComment: ""
-          factLayer: "1"
           factSynonym: ""
           factTranform: ""
     factToggle: true
@@ -112,8 +102,16 @@ operation:
     foreignToggle: false
     metricConfig:
       items:
-        - {}
-    metricToggle: false
+        - metricAlias: total_amount
+          metricCol:
+            columnCounter: 0cf2c5c7-9f13-4153-aeb1-d89fdd3b323e
+            name: OrderAmount
+            stepCounter: a770d09b-1b29-4dab-a08b-3f489da48133
+          metricComment: ""
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: ""
+    metricToggle: true
     primaryKeyConfig:
       items:
         - primAlias: ""
