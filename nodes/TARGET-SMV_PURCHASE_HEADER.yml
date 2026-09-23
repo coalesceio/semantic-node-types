@@ -37,14 +37,6 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
-        - dimAlias: ""
-          dimCol:
-            columnCounter: 19960572-ea93-40f3-876b-0764ecb82cee
-            name: icItemGroup
-            stepCounter: 93dc4e98-2ab8-497f-a10f-1f0a3a4815b0
-          dimComment: ""
-          dimSynonym: ""
-          dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
     aiVerifiedQueries:
@@ -172,7 +164,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: SRC
+  locationName: TARGET
   materializationType: semantic view
   metadata:
     appliedNodeTests: []
