@@ -17,15 +17,16 @@ operation:
     aiSqlGeneration: ""
     aiVerifiedQueries:
       items:
-        - name: customer_name_by_key_600020
-          question: What is the customer name for customer key 600020?
+        - name: customer_lookup
+          question: What is the customer name with
           sql: |-
             SELECT CUSTOMER.C_NAME
             FROM CUSTOMER
             WHERE CUSTOMER.C_CUSTKEY = 600020
           useAsOnboardingQuestion: true
-          verifiedAt: "1720000000"
+          verifiedAt: "1714497970"
           verifiedBy: ( purpose = contact)
+    aiVerifiedQueriesEnabled: true
     deriveCol: false
     dimToggle: true
     factDetConfig:
