@@ -311,13 +311,13 @@ metadata:
             -   type: textBox
                 displayName: Name
                 attributeName: name
-                isRequired: true
+                isRequired: false
                 enableIf: 'true'
 
             -   type: textBox
                 displayName: Question
                 attributeName: question
-                isRequired: true
+                isRequired: false
                 enableIf: 'true'
 
             -   type: textBox
