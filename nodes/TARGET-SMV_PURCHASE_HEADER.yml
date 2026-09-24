@@ -41,20 +41,18 @@ operation:
     aiSqlGeneration: ""
     aiVerifiedQueries:
       items:
-        - name: Test_query
-          question: What is the total quantity purchased for each item?
-          sql: |-
-            SELECT
-                ITEM_CATALOG."icItemTitle",
-                SUM(PURCHASE_DETAIL."pdUnits") AS total_quantity
-            FROM PURCHASE_DETAIL
-            JOIN ITEM_CATALOG
-                ON PURCHASE_DETAIL."pdItemId" = ITEM_CATALOG."icItemId"
-            GROUP BY ITEM_CATALOG."icItemTitle"
-            ORDER BY total_quantity DESC;
+        - name: purchase_order_by_key_10001
+          question: What is the purchase order number for purchase key 10001?
+          sql: SELECT P_O_ORDERKEY FROM PURCHASE_HEADER WHERE P_O_ORDERKEY = 10001
           useAsOnboardingQuestion: true
-          verifiedAt: ""
-          verifiedBy: ( purpose = email )
+          verifiedAt: "1720000200"
+          verifiedBy: ""
+        - name: purchase_order_by_key_10002
+          question: What is the purchase order number for purchase key 10002?
+          sql: SELECT P_O_ORDERKEY FROM PURCHASE_HEADER WHERE P_O_ORDERKEY = 10002
+          useAsOnboardingQuestion: false
+          verifiedAt: "1720000300"
+          verifiedBy: ""
     aiVerifiedQueriesEnabled: true
     deriveCol: false
     dimToggle: true

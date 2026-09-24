@@ -398,10 +398,10 @@ does not permit copying or modification for any other purpose.
                         {%- if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
                         {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] }}."{{ col.alias }}"
+                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias + '"'}}
                         {%- endif %}
                     {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
+                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
                     {%- endif %}
                     AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                 {%- endif %}
@@ -423,10 +423,10 @@ does not permit copying or modification for any other purpose.
                         {%- if col.alias.split('.') | length == 2 %}
                             {{ col.alias }}
                         {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] }}."{{ col.alias }}"
+                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias +'"'}}
                         {%- endif %}
                     {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
+                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
                     {%- endif %}
                     AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
                 {%- endif %}
@@ -446,7 +446,7 @@ does not permit copying or modification for any other purpose.
                     {%- if item.alias.split('.') | length == 2 %}
                     {{ item.alias }}
                     {%- else %}
-                    {{ ns.aliasMap[item.srcTablePath] }}."{{ item.alias }}"
+                    {{ ns.aliasMap[item.srcTablePath] + '."' + item.alias +'"'}}
                     {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}."{{ item.name }}")
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}

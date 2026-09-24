@@ -45,16 +45,22 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
-    aiQuestionCategorization: ""
-    aiSqlGeneration: ""
+    aiQuestionCategorization: test
+    aiSqlGeneration: Test
     aiVerifiedQueries:
       items:
-        - name: customer_lookup
-          question: test_question
-          sql: SELECT COUNT(*) FROM CUSTOMERS
+        - name: customer_name_by_key_600020
+          question: What is the customer name for customer key 600020?
+          sql: SELECT CUSTOMER.C_NAME FROM CUSTOMER WHERE CUSTOMER.C_CUSTKEY = 600020
           useAsOnboardingQuestion: true
-          verifiedAt: ""
-          verifiedBy: (steward = done)
+          verifiedAt: "1720000000"
+          verifiedBy: ( purpose = contact )
+        - name: customer_name_by_key_600021
+          question: What is the customer name for customer key 600021?
+          sql: SELECT CUSTOMER.C_NAME FROM CUSTOMER WHERE CUSTOMER.C_CUSTKEY = 600021
+          useAsOnboardingQuestion: false
+          verifiedAt: "1720000100"
+          verifiedBy: ""
     aiVerifiedQueriesEnabled: true
     deriveCol: false
     dimToggle: true

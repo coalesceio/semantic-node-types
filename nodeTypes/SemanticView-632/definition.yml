@@ -305,7 +305,7 @@ metadata:
             displayName: Verified Queries
             attributeName: aiVerifiedQueries
             isRequired: false
-            enableIf: "{% if config.aiVerifiedQueriesEnabled %} true {% else %} false {% endif %}"
+            enableIf: "{% if config.deriveCol %} false {% elif config.aiVerifiedQueriesEnabled %} true {% else %} false {% endif %}"
 
             columns:
             -   type: textBox
