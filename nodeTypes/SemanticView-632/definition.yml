@@ -293,5 +293,56 @@ metadata:
             attributeName: aiQuestionCategorization
             isRequired: false
             enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        -   type: toggleButton
+            displayName: AI Verified Queries
+            attributeName: aiVerifiedQueriesEnabled
+            isRequired: false
+            default: false
+            enableIf: "{% if config.deriveCol %} false {% else %} true {% endif %}"
+
+        -   type: tabular
+            displayName: Verified Queries
+            attributeName: aiVerifiedQueries
+            isRequired: false
+            enableIf: "{% if config.deriveCol %} false {% elif config.aiVerifiedQueriesEnabled %} true {% else %} false {% endif %}"
+
+            columns:
+            -   type: textBox
+                displayName: Name
+                attributeName: name
+                isRequired: false
+                enableIf: 'true'
+
+            -   type: textBox
+                displayName: Question
+                attributeName: question
+                isRequired: false
+                enableIf: 'true'
+
+            -   type: textBox
+                displayName: Verified At
+                attributeName: verifiedAt
+                isRequired: false
+                enableIf: 'true'
+
+            -   type: textBox
+                displayName: Verified By
+                attributeName: verifiedBy
+                isRequired: false
+                enableIf: 'true'
+
+            -   type: toggleButton
+                displayName: Use as Onboarding Question
+                attributeName: useAsOnboardingQuestion
+                isRequired: false
+                default: false
+                enableIf: 'true'
+
+            -   type: textBox
+                displayName: SQL
+                attributeName: sql
+                isRequired: true
+                enableIf: 'true'
 name: Semantic View
 type: NodeType

@@ -47,6 +47,8 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
     deriveCol: false
     dimToggle: true
     factDetConfig:

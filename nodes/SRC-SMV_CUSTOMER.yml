@@ -1,0 +1,246 @@
+fileVersion: 1
+id: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+name: SMV_CUSTOMER
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 04685c53-6fe5-454b-acfa-ce65e9dd77bc
+            name: C_NAME
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: b37cbc39-0815-489b-aad5-3fd002a462f1
+            name: C_ADDRESS
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 6ad93219-2846-4129-aa2a-0c0b7674838b
+            name: C_PHONE
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 456b43cf-9034-4cb0-bd45-38c54e287683
+            name: C_MKTSEGMENT
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 8598eb14-fce5-4519-baca-dcfe1a120462
+            name: C_COMMENT
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - name: customer_name_by_key_600020
+          question: What is the customer name for customer key 600020?
+          sql: SELECT CUSTOMER.C_NAME FROM CUSTOMER WHERE CUSTOMER.C_CUSTKEY = 600020
+          useAsOnboardingQuestion: true
+          verifiedAt: "1720000000"
+          verifiedBy: ( purpose = contact )
+        - name: customer_name_by_key_600021
+          question: What is the customer name for customer key 600021?
+          sql: SELECT CUSTOMER.C_NAME FROM CUSTOMER WHERE CUSTOMER.C_CUSTKEY = 600021
+          useAsOnboardingQuestion: false
+          verifiedAt: "1720000100"
+          verifiedBy: ""
+    aiVerifiedQueriesEnabled: true
+    deriveCol: false
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: 64574b8b-79b7-40f4-976e-b32061d82268
+            name: C_NATIONKEY
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          factComment: ""
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: 3fc5136e-39a6-4591-bd12-2d97b8dd8711
+            name: C_ACCTBAL
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+          factComment: ""
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - {}
+    foreignToggle: false
+    metricConfig:
+      items:
+        - {}
+    metricToggle: false
+    primaryKeyConfig:
+      items:
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 603ecfa4-2807-49d1-89f9-4bd4b2ce9e9e
+            name: C_CUSTKEY
+            stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 603ecfa4-2807-49d1-89f9-4bd4b2ce9e9e
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_CUSTKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2b9294d8-880a-4311-8f3b-62355f29ece8
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04685c53-6fe5-454b-acfa-ce65e9dd77bc
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: C_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 69faca17-a47b-4a37-9460-ffe40e79bc53
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b37cbc39-0815-489b-aad5-3fd002a462f1
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: C_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7903d14e-4b56-48a9-8c08-29f9cd81027a
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 64574b8b-79b7-40f4-976e-b32061d82268
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5198c9df-8a4c-481a-9bbe-a9490f4fc5ca
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ad93219-2846-4129-aa2a-0c0b7674838b
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5a30b7d2-e887-4189-b8bd-3056d21fb070
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3fc5136e-39a6-4591-bd12-2d97b8dd8711
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: C_ACCTBAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f8547b3f-f521-4e76-93dc-4054639fc9e1
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 456b43cf-9034-4cb0-bd45-38c54e287683
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 72649303-2ae5-47e6-b066-56b44f6fac79
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8598eb14-fce5-4519-baca-dcfe1a120462
+          stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        config: {}
+        dataType: VARCHAR(117)
+        description: ""
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4c41ce2a-3a9f-4dd4-9251-7f30e53aba1c
+                stepCounter: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CUSTOMER: a2f5bf8e-b7c7-4753-a404-50a92aa19322
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('SRC', 'CUSTOMER') }} "CUSTOMER"
+        name: SMV_CUSTOMER
+        noLinkRefs: []
+  name: SMV_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node
