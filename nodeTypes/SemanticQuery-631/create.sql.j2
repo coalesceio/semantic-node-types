@@ -30,7 +30,7 @@ SELECT * FROM SEMANTIC_VIEW
     %}
     {%- if factColumns %}
     FACTS
-    {{ factColumns | join(', ') }}
+    "{{ factColumns | join('", "') }}"
     {%- endif %}
 
     {% set dimColumns = columns
@@ -41,7 +41,7 @@ SELECT * FROM SEMANTIC_VIEW
 
     {%- if dimColumns %}
     DIMENSIONS
-    {{ dimColumns | join(', ') }}
+    "{{ dimColumns | join('", "') }}"
     {%- endif %}
     
     {% set metricColumns = columns
@@ -51,7 +51,7 @@ SELECT * FROM SEMANTIC_VIEW
     %}
     {%- if metricColumns %}
     METRICS
-    {{ metricColumns | join(', ') }}
+    "{{ metricColumns | join('", "') }}"
     {%- endif %}
 )
 {{ extractClause(sources[0].join) }}

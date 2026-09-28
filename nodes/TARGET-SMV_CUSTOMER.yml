@@ -45,8 +45,8 @@ operation:
           dimComment: ""
           dimSynonym: ""
           dimTransform: ""
-    aiQuestionCategorization: test
-    aiSqlGeneration: Test
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
     aiVerifiedQueries:
       items:
         - name: customer_name_by_key_600020
@@ -106,7 +106,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: SRC
+  locationName: TARGET
   materializationType: semantic view
   metadata:
     appliedNodeTests: []
