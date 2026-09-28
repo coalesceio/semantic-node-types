@@ -254,7 +254,7 @@ does not permit copying or modification for any other purpose.
         -- 1. Use INTO to capture the result
         SELECT count(*) 
             INTO :target_type
-            FROM {{desiredDatabase}}.information_schema.semantic_views
+            FROM "{{desiredDatabase}}".information_schema.semantic_views
             WHERE name = '{{ desiredState.node.name }}'
             AND schema = '{{ desiredSchema }}'
             LIMIT 1;
@@ -343,7 +343,7 @@ does not permit copying or modification for any other purpose.
         -- 1. Use INTO to capture the result
         SELECT table_type 
             INTO :target_type
-            FROM {{desiredDatabase}}.information_schema.tables
+            FROM "{{desiredDatabase}}".information_schema.tables
             WHERE table_name = '{{ desiredState.node.name }}'
             AND table_schema = '{{ desiredSchema }}'
             LIMIT 1;
@@ -363,7 +363,7 @@ does not permit copying or modification for any other purpose.
         (
             {%- for item in nsSVvariables.primKey | groupby('srcTablePath') -%}
 
-            {{ ns.aliasMap[item.grouper] }} AS {{ item.grouper | replace('"','') }}
+            {{ ns.aliasMap[item.grouper] }} AS {{ item.grouper }}
 
             {%- if desiredState.config.tableOnlyToggle == false %}
             PRIMARY KEY (
@@ -469,7 +469,7 @@ does not permit copying or modification for any other purpose.
     {%- if desiredState.config.aiVerifiedQueries.get('items') %}
         AI_VERIFIED_QUERIES (
             {%- for item in desiredState.config.aiVerifiedQueries.get('items') %}
-                {{ item.name | trim }} AS (
+                "{{ item.name | trim }}" AS (
                     QUESTION '{{ item.question | trim | replace("'", "''") }}'
                     {%- if item.verifiedAt | default('') | trim | length > 0 %}
                         VERIFIED_AT {{ item.verifiedAt | trim }}

@@ -1,0 +1,114 @@
+fileVersion: 1
+id: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+name: SMQ_CUSTOMER
+operation:
+  config:
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 19aab52f-08f5-4e62-828a-d46805628e1c
+          stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(25)
+        description: ""
+        name: C_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 04685c53-6fe5-454b-acfa-ce65e9dd77bc
+                stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a264323f-e205-4ae1-bfee-2d5e7c7acc8b
+          stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(40)
+        description: ""
+        name: C_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b37cbc39-0815-489b-aad5-3fd002a462f1
+                stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f292445-0ab6-4b95-8987-bbfdab2e5f19
+          stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+        config:
+          isaFactColumn: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_NATIONKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 64574b8b-79b7-40f4-976e-b32061d82268
+                stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a735b82c-52b1-4c40-a98a-8b832dcdb613
+          stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+        config:
+          isaDimColumn: true
+        dataType: VARCHAR(15)
+        description: ""
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ad93219-2846-4129-aa2a-0c0b7674838b
+                stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 966f6356-93f2-44e3-9b29-557f881e00b4
+          stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+        config:
+          isaFactColumn: true
+        dataType: NUMBER(12,2)
+        description: ""
+        name: C_ACCTBAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3fc5136e-39a6-4591-bd12-2d97b8dd8711
+                stepCounter: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_CUSTOMER: 3da71b11-64b2-47d3-b8f7-957e3ba548e2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: SMV_CUSTOMER
+        join:
+          joinCondition: "{{ ref('SRC', 'SMV_CUSTOMER') }} \"SMV_CUSTOMER\""
+        name: SMQ_CUSTOMER
+        noLinkRefs: []
+  name: SMQ_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node
