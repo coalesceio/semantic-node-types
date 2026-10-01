@@ -106,7 +106,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET
+  locationName: SRC
   materializationType: semantic view
   metadata:
     appliedNodeTests: []

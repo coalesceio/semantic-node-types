@@ -1,6 +1,6 @@
 fileVersion: 1
-id: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
-name: PEOPLE_MASTER
+id: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+name: FACT_SALES
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: fbfe6cdd-c84f-4722-aa41-9d110455f93e
-          stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+          columnCounter: 31274998-92cd-4f2d-a241-8e967f502aa6
+          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PM_PERSON_ID
+        name: SALE_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: f8b23a8a-553d-4015-82df-187dfe8f4271
-          stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+          columnCounter: 601c08dd-ddf6-4c45-8b72-b0331a67f99d
+          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER(10,2)
         defaultValue: ""
         description: ""
-        name: PM_FULL_NAME
+        name: AMOUNT
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0f2c3fc1-5f6d-4774-89c3-69ba35cff503
-          stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+          columnCounter: 1b19fbf8-9a50-4ef0-a18e-6980116b480b
+          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
         config: {}
-        dataType: VARCHAR(16777216)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PM_REGION
+        name: SALE_CUSTOMER_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: PEOPLE_MASTER
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a759978-d205-48b2-9d82-c9a8b52dcb0f
+          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SALE_DATE_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: FACT_SALES
   schema: ""
   sqlType: Source
   type: sourceInput
