@@ -8,6 +8,32 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name  : Semantic View == #}
 {# == Node Type Description : This node creates basic semantic view == #}
 
+{#
+    quoteIdent(name): wraps an identifier in double quotes to preserve case.
+    Any quotes the user already typed are stripped first, so "sales" and sales both become "sales".
+#}
+{% macro quoteIdent(name) -%}
+    "{{ name | trim | replace('"', '') }}"
+{%- endmacro %}
+
+{#
+    qualifiedName(name, tableAlias): builds the quoted <table>.<name> identifier that
+    FACTS, DIMENSIONS and METRICS require.
+      sales.amount_with_tax  ->  "sales"."amount_with_tax"   (table given by the user)
+      amount_with_tax        ->  <tableAlias>."amount_with_tax" (table of the selected source column)
+      amount_with_tax        ->  "amount_with_tax"           (no source column, e.g. a view-level derived metric)
+#}
+{% macro qualifiedName(name, tableAlias) -%}
+    {%- set plain = name | trim | replace('"', '') -%}
+    {%- if '.' in plain -%}
+        {{- quoteIdent(plain.split('.', 1)[0]) ~ '.' ~ quoteIdent(plain.split('.', 1)[1]) -}}
+    {%- elif tableAlias -%}
+        {{- tableAlias ~ '.' ~ quoteIdent(plain) -}}
+    {%- else -%}
+        {{- quoteIdent(plain) -}}
+    {%- endif -%}
+{%- endmacro %}
+
 {% if desiredState and (currentState == undefined or (currentState != undefined and desiredState != currentState)) %}
 
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
@@ -384,8 +410,8 @@ does not permit copying or modification for any other purpose.
         RELATIONSHIPS
         (
             {%- for item in nsSVvariables.foreignKey -%}
-                {%- if item.alias != '' %} "{{ item.alias }}" AS {% endif -%}
-                 {{ ns.aliasMap[item.srcTablePath] }} ("{{ item.name }}") REFERENCES "{{ item.refTable }}"
+                {%- if item.alias != '' %} {{ quoteIdent(item.alias) }} AS {% endif -%}
+                 {{ ns.aliasMap[item.srcTablePath] }} ("{{ item.name }}") REFERENCES {{ quoteIdent(item.refTable) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
@@ -394,22 +420,9 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.factToggle | default(false) %}
         FACTS (
             {%- for col in nsSVvariables.factDetails -%}
-                {%- if col.transform %}
-                    "{{ col.alias if col.alias 
-                                else col.name }}"
-                    AS {{ col.transform }}
-                {%- else %}
-                    {% if col.alias != '' %}
-                        {%- if col.alias.split('.') | length == 2 %}
-                            "{{ col.alias }}"
-                        {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias + '"'}}
-                        {%- endif %}
-                    {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
-                    {%- endif %}
-                    AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
-                {%- endif %}
+                {%- set tblAlias = ns.aliasMap.get(col.srcTablePath, '') %}
+                    {{ qualifiedName(col.alias if col.alias else col.name, tblAlias) }}
+                    AS {{ col.transform if col.transform else tblAlias ~ '."' ~ col.name ~ '"' }}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
@@ -419,22 +432,9 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.dimToggle | default(false) %}
         DIMENSIONS (
             {%- for col in nsSVvariables.dimDetails -%}
-                {%- if col.transform != '' %}
-                    "{{ col.alias if col.alias 
-                                else col.name }}"
-                    AS {{ col.transform }}
-                {%- else %}
-                    {% if col.alias != '' %}
-                        {%- if col.alias.split('.') | length == 2 %}
-                            "{{ col.alias }}"
-                        {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias +'"'}}
-                        {%- endif %}
-                    {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
-                    {%- endif %}
-                    AS {{ns.aliasMap[col.srcTablePath]}}."{{ col.name }}"
-                {%- endif %}
+                {%- set tblAlias = ns.aliasMap.get(col.srcTablePath, '') %}
+                    {{ qualifiedName(col.alias if col.alias else col.name, tblAlias) }}
+                    AS {{ col.transform if col.transform else tblAlias ~ '."' ~ col.name ~ '"' }}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
@@ -445,14 +445,11 @@ does not permit copying or modification for any other purpose.
         METRICS
         (
             {%- for item in nsSVvariables.metricDetails -%}
+                {%- set tblAlias = ns.aliasMap.get(item.srcTablePath, '') %}
                 {%- if item.derived and item.derived != "" %}
-                    "{{ item.alias }}" AS {{ item.metric }}({{ item.derived }})
+                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ item.derived }})
                 {%- elif item.metric and item.name %}
-                    {%- if item.alias.split('.') | length == 2 %}
-                    "{{ item.alias }}"
-                    {%- else %}
-                    {{ ns.aliasMap[item.srcTablePath] + '."' + item.alias +'"'}}
-                    {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}."{{ item.name }}")
+                    {{ qualifiedName(item.alias if item.alias else item.name, tblAlias) }} AS {{ item.metric }}({{ tblAlias }}."{{ item.name }}")
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}

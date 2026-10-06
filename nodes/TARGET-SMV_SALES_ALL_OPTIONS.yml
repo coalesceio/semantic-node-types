@@ -51,19 +51,19 @@ operation:
       items:
         - name: total_sales_overall
           question: What is the total sales amount?
-          sql: SELECT SUM(s."sale_amount") AS total_sales FROM __sales AS s
+          sql: SELECT SUM(s."sale_amount") AS total_sales FROM "__sales" AS s
           useAsOnboardingQuestion: true
           verifiedAt: "1759708800"
           verifiedBy: anandhi.sekaran
         - name: sales_by_customer
           question: What is the total sales amount for each customer?
-          sql: SELECT c."customer_name", SUM(s."sale_amount") AS total_sales FROM __sales AS s JOIN __customers AS c ON s.sale_customer_id = c.customer_id GROUP BY c."customer_name" ORDER BY total_sales DESC
+          sql: SELECT c."customer_name", SUM(s."sale_amount") AS total_sales FROM "__sales" AS s JOIN "__customers" AS c ON s.sale_customer_id = c.customer_id GROUP BY c."customer_name" ORDER BY total_sales DESC
           useAsOnboardingQuestion: true
           verifiedAt: "1759708800"
           verifiedBy: anandhi.sekaran
         - name: sales_by_year_month
           question: How many sales were made in each year and month?
-          sql: SELECT d."sale_year", d.month, COUNT(s.sale_id) AS sales_count FROM __sales AS s JOIN __dates AS d ON s.sale_date_id = d.date_id GROUP BY d."sale_year", d.month ORDER BY d."sale_year", d.month
+          sql: SELECT d."sale_year", d.month, COUNT(s.sale_id) AS sales_count FROM "__sales" AS s JOIN "__dates" AS d ON s.sale_date_id = d.date_id GROUP BY d."sale_year", d.month ORDER BY d."sale_year", d.month
           useAsOnboardingQuestion: false
           verifiedAt: ""
           verifiedBy: ""
@@ -88,7 +88,7 @@ operation:
           factComment: Unique identifier of the sale
           factSynonym: transaction id
           factTranform: ""
-        - factAlias: sales_amount_with_tax
+        - factAlias: amount_with_tax
           factCol:
             columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
             name: AMOUNT
@@ -176,7 +176,7 @@ operation:
           metricComment: Sum of sale amounts including tax
           metricSynonym: revenue incl tax
           metricTransform: SUM
-          metricTransformExprn: sales_amount_with_tax
+          metricTransformExprn: "\"sales\".\"amount_with_tax\""
     metricToggle: true
     primaryKeyConfig:
       items:
