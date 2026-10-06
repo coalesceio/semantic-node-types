@@ -395,13 +395,13 @@ does not permit copying or modification for any other purpose.
         FACTS (
             {%- for col in nsSVvariables.factDetails -%}
                 {%- if col.transform %}
-                    {{ col.alias if col.alias 
-                                else col.name }}
+                    "{{ col.alias if col.alias 
+                                else col.name }}"
                     AS {{ col.transform }}
                 {%- else %}
                     {% if col.alias != '' %}
                         {%- if col.alias.split('.') | length == 2 %}
-                            {{ col.alias }}
+                            "{{ col.alias }}"
                         {%- else %}
                             {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias + '"'}}
                         {%- endif %}
@@ -420,8 +420,8 @@ does not permit copying or modification for any other purpose.
         DIMENSIONS (
             {%- for col in nsSVvariables.dimDetails -%}
                 {%- if col.transform != '' %}
-                    {{ "col.alias" if "col.alias" 
-                                else "col.name" }}
+                    "{{ col.alias if col.alias 
+                                else col.name }}"
                     AS {{ col.transform }}
                 {%- else %}
                     {% if col.alias != '' %}
