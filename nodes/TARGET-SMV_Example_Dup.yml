@@ -57,7 +57,7 @@ operation:
           useAsOnboardingQuestion: false
           verifiedAt: ""
           verifiedBy: ""
-    aiVerifiedQueriesEnabled: true
+    aiVerifiedQueriesEnabled: false
     deriveCol: false
     dimToggle: true
     factDetConfig:
@@ -75,7 +75,7 @@ operation:
             columnCounter: 8aad61a6-ebfe-4fe0-9ec4-aa3ae7ad670c
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
           refAlias: SalesTODate
-          refTable: DATE
+          refTable: DaTe
         - foreignKey:
             columnCounter: 7876b1ec-6e54-4413-af84-97f02e1ae895
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226

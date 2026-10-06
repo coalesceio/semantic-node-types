@@ -8,31 +8,6 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name  : Semantic View == #}
 {# == Node Type Description : This node creates basic semantic view == #}
 
-{#
-    quoteIdent(name): wraps an identifier in double quotes to preserve case.
-    Any quotes the user already typed are stripped first, so "sales" and sales both become "sales".
-#}
-{% macro quoteIdent(name) -%}
-    "{{ name | trim | replace('"', '') }}"
-{%- endmacro %}
-
-{#
-    qualifiedName(name, tableAlias): builds the quoted <table>.<name> identifier that
-    FACTS, DIMENSIONS and METRICS require.
-      sales.amount_with_tax  ->  "sales"."amount_with_tax"   (table given by the user)
-      amount_with_tax        ->  <tableAlias>."amount_with_tax" (table of the selected source column)
-      amount_with_tax        ->  "amount_with_tax"           (no source column, e.g. a view-level derived metric)
-#}
-{% macro qualifiedName(name, tableAlias) -%}
-    {%- set plain = name | trim | replace('"', '') -%}
-    {%- if '.' in plain -%}
-        {{- quoteIdent(plain.split('.', 1)[0]) ~ '.' ~ quoteIdent(plain.split('.', 1)[1]) -}}
-    {%- elif tableAlias -%}
-        {{- tableAlias ~ '.' ~ quoteIdent(plain) -}}
-    {%- else -%}
-        {{- quoteIdent(plain) -}}
-    {%- endif -%}
-{%- endmacro %}
 
 {% if desiredState and (currentState == undefined or (currentState != undefined and desiredState != currentState)) %}
 
