@@ -49,6 +49,15 @@ operation:
           dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - name: ""
+          question: ""
+          sql: ""
+          useAsOnboardingQuestion: false
+          verifiedAt: ""
+          verifiedBy: ""
+    aiVerifiedQueriesEnabled: true
     deriveCol: false
     dimToggle: true
     factDetConfig:
@@ -65,13 +74,13 @@ operation:
         - foreignKey:
             columnCounter: 8aad61a6-ebfe-4fe0-9ec4-aa3ae7ad670c
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
-          refAlias: SALESTODATE
+          refAlias: SalesTODate
           refTable: DATE
         - foreignKey:
             columnCounter: 7876b1ec-6e54-4413-af84-97f02e1ae895
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
           refAlias: SALESTODEMO
-          refTable: DEMO
+          refTable: Demo
         - foreignKey:
             columnCounter: 0865544b-15f4-4855-8ceb-be643d17fd24
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
@@ -101,60 +110,70 @@ operation:
           primSynonym: ""
           primaryKey:
             columnCounter: 533806af-690d-42df-a34a-a988666d1d19
+            name: C_CUSTOMER_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
-        - primAlias: DATE
+        - primAlias: DaTe
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 4d87baa5-c2c2-4754-be6b-74e9f3644d86
+            name: D_DATE_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
-        - primAlias: DEMO
+        - primAlias: Demo
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 065186d7-d76f-46ea-a4e2-152b58f85bfb
+            name: CD_DEMO_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 88a3f557-ecd5-4164-8087-15f342042e16
+            name: I_ITEM_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: d4f732d5-b932-4150-80a0-3b3fc3b9521f
+            name: S_STORE_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: STORESALES
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 8aad61a6-ebfe-4fe0-9ec4-aa3ae7ad670c
+            name: SS_SOLD_DATE_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 7876b1ec-6e54-4413-af84-97f02e1ae895
+            name: SS_CDEMO_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 0865544b-15f4-4855-8ceb-be643d17fd24
+            name: SS_ITEM_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: fc5176bf-cce3-4d51-bd27-23a994be567b
+            name: SS_STORE_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
         - primAlias: ""
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 1305e93f-3306-4959-9209-a15bdd51fa45
+            name: SS_CUSTOMER_SK
             stepCounter: a3c72f25-d505-48bf-a47d-7036830db226
     semanticMaterialization: semantic view
     tableOnlyToggle: false

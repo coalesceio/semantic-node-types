@@ -42,6 +42,15 @@ operation:
           dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - name: ""
+          question: ""
+          sql: ""
+          useAsOnboardingQuestion: false
+          verifiedAt: ""
+          verifiedBy: ""
+    aiVerifiedQueriesEnabled: true
     deriveCol: false
     dimToggle: true
     factDetConfig:
