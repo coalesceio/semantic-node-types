@@ -1,0 +1,493 @@
+fileVersion: 1
+id: 6e796d49-8140-49ed-868a-a729549e38dc
+name: SMV_PURCHASE_ALL_OPTIONS_V2
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: '"Person"."FullName"'
+          dimCol:
+            columnCounter: 315a745e-2eb8-4f93-80db-9cb2fc77375a
+            name: PM_FULL_NAME
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Person name - alias typed with quotes by the user
+          dimSynonym: full name, shopper
+          dimTransform: ""
+        - dimAlias: regionUpper
+          dimCol:
+            columnCounter: 3ae15795-7204-4e9f-bbd8-403489609112
+            name: PM_REGION
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Region normalised to upper case
+          dimSynonym: REGION, sales territory
+          dimTransform: UPPER("Person"."PM_REGION")
+        - dimAlias: ""
+          dimCol:
+            columnCounter: ae39c96f-e1e2-4496-8407-eeea2958b24c
+            name: IC_ITEM_TITLE
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ITEM_CATALOG.ItemGroup
+          dimCol:
+            columnCounter: 14802c51-e8eb-4eab-bfb5-136b1b757222
+            name: IC_ITEM_GROUP
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Item group with an explicit table name
+          dimSynonym: category
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+            name: phPurchaseDate
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Raw purchase date with no alias
+          dimSynonym: purchased on
+          dimTransform: ""
+        - dimAlias: purchaseWeekday
+          dimCol:
+            columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+            name: phPurchaseDate
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Day of the week of the purchase
+          dimSynonym: weekday, day of week
+          dimTransform: DAYNAME("Header"."phPurchaseDate")
+        - dimAlias: PURCHASE_DETAIL.unitsBucket
+          dimCol:
+            columnCounter: 39c0a8ef-c8b5-440d-844f-007997639bd4
+            name: PD_UNITS
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          dimComment: Bulk when a line has 10 or more units
+          dimSynonym: order size, bulk flag
+          dimTransform: CASE WHEN "PURCHASE_DETAIL"."PD_UNITS" >= 10 THEN 'Bulk' ELSE 'Single' END
+    aiQuestionCategorization: This view covers purchases by people across item groups and weekdays. Ask a clarifying question when the user does not say whether they mean units or purchases.
+    aiSqlGeneration: Use the unitsBucket dimension for any question about bulk or single orders. Use distinctBuyers instead of counting people directly. Sort weekdays Monday to Sunday.
+    aiVerifiedQueries:
+      items:
+        - name: bulk_vs_single_units
+          question: How do bulk and single orders compare by units?
+          sql: SELECT d."unitsBucket", SUM(d."PD_UNITS") AS total_units FROM "__PURCHASE_DETAIL" AS d GROUP BY d."unitsBucket"
+          useAsOnboardingQuestion: true
+          verifiedAt: "1759881600"
+          verifiedBy: anandhi.sekaran
+        - name: buyers_by_weekday
+          question: How many distinct buyers purchase on each weekday?
+          sql: SELECT h."purchaseWeekday", COUNT(DISTINCT h."phPersonId") AS distinct_buyers FROM "__Header" AS h GROUP BY h."purchaseWeekday"
+          useAsOnboardingQuestion: true
+          verifiedAt: ""
+          verifiedBy: anandhi.sekaran
+        - name: avg_cost_by_group
+          question: What's the average item cost in cents for each item group?
+          sql: SELECT i."ItemGroup", AVG(i."costCents") AS avg_cost_cents FROM "__ITEM_CATALOG" AS i GROUP BY i."ItemGroup" ORDER BY avg_cost_cents DESC
+          useAsOnboardingQuestion: false
+          verifiedAt: "1759881600"
+          verifiedBy: ""
+    aiVerifiedQueriesEnabled: true
+    deriveCol: false
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: 39c0a8ef-c8b5-440d-844f-007997639bd4
+            name: PD_UNITS
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          factComment: Units on the line - no alias so the column name is used
+          factSynonym: units, quantity
+          factTranform: ""
+        - factAlias: costCents
+          factCol:
+            columnCounter: 93d83d87-d7ca-4089-9ff2-245a35fc6fd7
+            name: IC_UNIT_COST
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          factComment: Unit cost converted to cents
+          factSynonym: cost in cents
+          factTranform: '"ITEM_CATALOG"."IC_UNIT_COST" * 100'
+        - factAlias: '"Header".daysSincePurchase'
+          factCol:
+            columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+            name: phPurchaseDate
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          factComment: Days between the purchase and today
+          factSynonym: age in days, days ago
+          factTranform: DATEDIFF('day', "Header"."phPurchaseDate", CURRENT_DATE())
+        - factAlias: personKey
+          factCol:
+            columnCounter: 3f1c505b-406a-481a-affd-8066dba1c717
+            name: PM_PERSON_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          factComment: ""
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: 70ee6896-1ca0-4664-b0f5-c42c064a7b1c
+            name: PD_PURCHASE_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          refAlias: ""
+          refTable: '"Header"'
+        - foreignKey:
+            columnCounter: 315edbe8-fe33-40fd-afba-9429f0ed6734
+            name: PD_ITEM_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          refAlias: lineItem
+          refTable: ITEM_CATALOG
+        - foreignKey:
+            columnCounter: eb69390c-e603-4d33-85cf-b94dab377a71
+            name: phPersonId
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          refAlias: '"buyer"'
+          refTable: Person
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: ""
+          metricCol:
+            columnCounter: 315edbe8-fe33-40fd-afba-9429f0ed6734
+            name: PD_ITEM_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: ""
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: ""
+        - metricAlias: PURCHASE_DETAIL.distinctPurchases
+          metricCol:
+            columnCounter: 70ee6896-1ca0-4664-b0f5-c42c064a7b1c
+            name: PD_PURCHASE_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Distinct purchases that have at least one line
+          metricSynonym: unique orders
+          metricTransform: COUNT
+          metricTransformExprn: DISTINCT "PURCHASE_DETAIL"."PD_PURCHASE_ID"
+        - metricAlias: distinctBuyers
+          metricCol:
+            columnCounter: eb69390c-e603-4d33-85cf-b94dab377a71
+            name: phPersonId
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Distinct people with a purchase
+          metricSynonym: unique buyers, active customers
+          metricTransform: COUNT
+          metricTransformExprn: DISTINCT "Header"."phPersonId"
+        - metricAlias: '"Header"."latestPurchase"'
+          metricCol:
+            columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+            name: phPurchaseDate
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Most recent purchase date
+          metricSynonym: last purchase date
+          metricTransform: MAX
+          metricTransformExprn: ""
+        - metricAlias: firstPurchase
+          metricCol:
+            columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+            name: phPurchaseDate
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Earliest purchase date
+          metricSynonym: first purchase date
+          metricTransform: MIN
+          metricTransformExprn: ""
+        - metricAlias: avgUnitsPerLine
+          metricCol:
+            columnCounter: 39c0a8ef-c8b5-440d-844f-007997639bd4
+            name: PD_UNITS
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Average units per line
+          metricSynonym: average quantity
+          metricTransform: AVG
+          metricTransformExprn: ""
+        - metricAlias: maxItemCost
+          metricCol:
+            columnCounter: 93d83d87-d7ca-4089-9ff2-245a35fc6fd7
+            name: IC_UNIT_COST
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Highest catalog unit cost
+          metricSynonym: most expensive item
+          metricTransform: MAX
+          metricTransformExprn: ""
+        - metricAlias: catalogValueCents
+          metricCol:
+            columnCounter: 93d83d87-d7ca-4089-9ff2-245a35fc6fd7
+            name: IC_UNIT_COST
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+          metricComment: Sum of catalog unit cost in cents
+          metricSynonym: catalog value
+          metricTransform: SUM
+          metricTransformExprn: '"ITEM_CATALOG"."costCents"'
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: ""
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 32797f7c-439e-4146-b6b9-976c2408127d
+            name: PD_DETAIL_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        - primAlias: '"Header"'
+          primComment: Purchase header with a user-quoted alias
+          primSynonym: purchase
+          primaryKey:
+            columnCounter: 89c1cc04-c09c-4422-8da3-f3d75505a494
+            name: phPurchaseId
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        - primAlias: Person
+          primComment: People master
+          primSynonym: shopper
+          primaryKey:
+            columnCounter: 3f1c505b-406a-481a-affd-8066dba1c717
+            name: PM_PERSON_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        - primAlias: ""
+          primComment: ""
+          primSynonym: product
+          primaryKey:
+            columnCounter: 36a2ab4c-f551-4267-ad25-0b51f8c78b2e
+            name: IC_ITEM_ID
+            stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: Second purchase semantic view on the same sources - covers default table aliases, user-quoted aliases, unaliased relationships and metrics, COUNT DISTINCT and CASE or DATEDIFF transforms
+  isMultisource: false
+  locationName: TARGET
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32797f7c-439e-4146-b6b9-976c2408127d
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PD_DETAIL_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b5bb7f2b-1ac5-4478-9f1a-3f7b9268720a
+                stepCounter: f010ec20-c4bf-4ec5-898b-8749e576ecc9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70ee6896-1ca0-4664-b0f5-c42c064a7b1c
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PD_PURCHASE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87715e25-a7b3-4b63-9c92-d82967ce0513
+                stepCounter: f010ec20-c4bf-4ec5-898b-8749e576ecc9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 315edbe8-fe33-40fd-afba-9429f0ed6734
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PD_ITEM_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5b9220fc-c9f8-480b-8e7e-e924a05269a6
+                stepCounter: f010ec20-c4bf-4ec5-898b-8749e576ecc9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39c0a8ef-c8b5-440d-844f-007997639bd4
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PD_UNITS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fb19f624-20ad-4840-915b-1df5f6f1a18f
+                stepCounter: f010ec20-c4bf-4ec5-898b-8749e576ecc9
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 89c1cc04-c09c-4422-8da3-f3d75505a494
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: phPurchaseId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c1e874d-825b-406f-9742-4749ea0f7c84
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb69390c-e603-4d33-85cf-b94dab377a71
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: phPersonId
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78a42290-4501-417a-a491-7bcac51b81c0
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4fff59be-360a-41d3-86d3-50a755c37179
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: DATE
+        description: ""
+        name: phPurchaseDate
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0e644525-e178-4698-a5ba-f63cf9e1d34f
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f1c505b-406a-481a-affd-8066dba1c717
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PM_PERSON_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fbfe6cdd-c84f-4722-aa41-9d110455f93e
+                stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 315a745e-2eb8-4f93-80db-9cb2fc77375a
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PM_FULL_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f8b23a8a-553d-4015-82df-187dfe8f4271
+                stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3ae15795-7204-4e9f-bbd8-403489609112
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PM_REGION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0f2c3fc1-5f6d-4774-89c3-69ba35cff503
+                stepCounter: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 36a2ab4c-f551-4267-ad25-0b51f8c78b2e
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: IC_ITEM_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c1d254e-722c-4ea9-aad7-febaa26bc6b7
+                stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae39c96f-e1e2-4496-8407-eeea2958b24c
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_TITLE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7db45467-1c74-478d-8e11-6a1b315f4e1d
+                stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 14802c51-e8eb-4eab-bfb5-136b1b757222
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: IC_ITEM_GROUP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3ee43b89-0945-409f-ba46-99b2f57fd2bf
+                stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93d83d87-d7ca-4089-9ff2-245a35fc6fd7
+          stepCounter: 6e796d49-8140-49ed-868a-a729549e38dc
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: IC_UNIT_COST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5560aa4-808d-4414-8867-9090c5f5104a
+                stepCounter: e3fac04d-adf2-46fa-8efa-e7fff7892461
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          ITEM_CATALOG: e3fac04d-adf2-46fa-8efa-e7fff7892461
+          PEOPLE_MASTER: ef076bc6-11ab-4f71-a424-4f71ac7c8fd0
+          PURCHASE_DETAIL: f010ec20-c4bf-4ec5-898b-8749e576ecc9
+          PURCHASE_HEADER: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: ITEM_CATALOG
+          - locationName: SRC
+            nodeName: PEOPLE_MASTER
+          - locationName: SRC
+            nodeName: PURCHASE_DETAIL
+          - locationName: SRC
+            nodeName: PURCHASE_HEADER
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'PURCHASE_DETAIL') }} "PURCHASE_DETAIL"
+            INNER JOIN {{ ref('SRC', 'PURCHASE_HEADER') }} "PURCHASE_HEADER"
+            ON "PURCHASE_DETAIL"."PD_PURCHASE_ID" = "PURCHASE_HEADER"."phPurchaseId"
+            INNER JOIN {{ ref('SRC', 'PEOPLE_MASTER') }} "PEOPLE_MASTER"
+            ON "PURCHASE_HEADER"."phPersonId" = "PEOPLE_MASTER"."PM_PERSON_ID"
+            INNER JOIN {{ ref('SRC', 'ITEM_CATALOG') }} "ITEM_CATALOG"
+            ON "PURCHASE_DETAIL"."PD_ITEM_ID" = "ITEM_CATALOG"."IC_ITEM_ID"
+        name: SMV_PURCHASE_ALL_OPTIONS_V2
+        noLinkRefs: []
+  name: SMV_PURCHASE_ALL_OPTIONS_V2
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node
