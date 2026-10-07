@@ -1,0 +1,10 @@
+fileVersion: 1
+id: 4b2df3d4-1b82-4df7-9da3-1c3ff199df48
+name: ALL_OPTION_SUBGRAPH
+steps:
+  - 0228d6a6-02fd-4565-97c8-3a379dced318
+  - 263affd5-30a4-438d-99e0-650019f03724
+  - 5f58ad8f-391f-4066-b1ea-019e89cab0c8
+  - 969ac1d3-f14e-493f-8a3e-6898699e5434
+  - 9c66b428-f8ed-4356-8673-40d49efc2269
+type: Subgraph

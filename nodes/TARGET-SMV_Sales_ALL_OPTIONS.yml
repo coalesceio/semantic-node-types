@@ -176,7 +176,7 @@ operation:
           metricComment: Sum of sale amounts including tax
           metricSynonym: revenue incl tax
           metricTransform: SUM
-          metricTransformExprn: "\"sales\".\"amount_with_tax\""
+          metricTransformExprn: amount_with_tax
     metricToggle: true
     primaryKeyConfig:
       items:

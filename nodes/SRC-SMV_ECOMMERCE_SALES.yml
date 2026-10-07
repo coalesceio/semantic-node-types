@@ -1,0 +1,704 @@
+fileVersion: 1
+id: 9c66b428-f8ed-4356-8673-40d49efc2269
+name: SMV_ECOMMERCE_SALES
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: cname
+          dimCol:
+            columnCounter: d1214540-e06c-4af6-8a81-64b368343265
+            name: CUSTOMER_NAME
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ccity
+          dimCol:
+            columnCounter: 03ce0abb-0381-45f2-b78b-a183935fa592
+            name: Customer_city
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: csegment
+          dimCol:
+            columnCounter: 309237b5-93cb-47f9-8b1b-c65f4807b4ca
+            name: CUSTOMER_SEGMENT
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: pname
+          dimCol:
+            columnCounter: 3c55b536-839d-417f-8f7e-cbb204e57fd0
+            name: PRODUCT_NAME
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: pcategory
+          dimCol:
+            columnCounter: 55cad639-dbe7-49bf-9760-2cc57f344ff4
+            name: category
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: brand
+          dimCol:
+            columnCounter: 642cb5d5-bc83-4dd6-8555-81a975e130d4
+            name: BRAND
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+        - dimAlias: ostatus
+          dimCol:
+            columnCounter: a826814c-8043-4533-af8f-cda35bf71038
+            name: ORDER_STATUS
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          dimComment: ""
+          dimSynonym: ""
+          dimTransform: ""
+    aiQuestionCategorization: ""
+    aiSqlGeneration: ""
+    aiVerifiedQueries:
+      items:
+        - {}
+    aiVerifiedQueriesEnabled: false
+    deriveCol: false
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: quantity
+          factCol:
+            columnCounter: 70dc8a10-68c7-4b8a-8418-207770953ae8
+            name: QUANTITY
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          factComment: Number of units purchased
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: unit_price
+          factCol:
+            columnCounter: 0b0bc8d0-4f33-4fd9-b0ab-f6a9093a7c12
+            name: UNIT_PRICE
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          factComment: Selling price per unit
+          factSynonym: ""
+          factTranform: ""
+        - factAlias: cost
+          factCol:
+            columnCounter: eb7c87a2-530b-4f70-905f-e020d5079db2
+            name: PRODUCT_COST
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          factComment: Product cost
+          factSynonym: ""
+          factTranform: ""
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: 6a880b40-9914-4f23-8808-afdfa84e1d35
+            name: od_CUSTOMER_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          refAlias: ""
+          refTable: customers
+        - foreignKey:
+            columnCounter: 93f21d24-5206-4689-9527-51b4a7d62e1f
+            name: ORDER_LINE_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          refAlias: ""
+          refTable: orders
+        - foreignKey:
+            columnCounter: 45f9d825-9ffe-4eac-bda2-f29e810de45f
+            name: product_id
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          refAlias: ""
+          refTable: products
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: total_quantity
+          metricCol:
+            columnCounter: 70dc8a10-68c7-4b8a-8418-207770953ae8
+            name: QUANTITY
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          metricComment: ""
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: ""
+        - metricAlias: order_count
+          metricCol:
+            columnCounter: 929507c0-dd9c-4da7-9afd-2a50acbc2a53
+            name: ORDER_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          metricComment: ""
+          metricSynonym: ""
+          metricTransform: COUNT
+          metricTransformExprn: DISTINCT "orders"."ORDER_ID"
+        - metricAlias: sales_amount
+          metricCol:
+            columnCounter: 0b0bc8d0-4f33-4fd9-b0ab-f6a9093a7c12
+            name: UNIT_PRICE
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+          metricComment: ""
+          metricSynonym: ""
+          metricTransform: SUM
+          metricTransformExprn: |2-
+             "order_items"."QUANTITY"
+                        * "order_items"."UNIT_PRICE"
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: customers
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: fabae5a6-5522-4a67-ba04-99de5c99596b
+            name: CUSTOMER_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        - primAlias: products
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: e2a27c45-4920-4ac1-bfac-ab6f6d0f8bce
+            name: PRODUCT_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        - primAlias: orders
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 929507c0-dd9c-4da7-9afd-2a50acbc2a53
+            name: ORDER_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        - primAlias: order_items
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 93f21d24-5206-4689-9527-51b4a7d62e1f
+            name: ORDER_LINE_ID
+            stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SRC
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fabae5a6-5522-4a67-ba04-99de5c99596b
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 48dfa307-f632-4e0a-b22c-d0269f29c78a
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d1214540-e06c-4af6-8a81-64b368343265
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: CUSTOMER_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ee86cee-0417-4750-bc9e-314109f4888b
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 309237b5-93cb-47f9-8b1b-c65f4807b4ca
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: CUSTOMER_SEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5fce53f9-0d0c-4a23-85bf-075e10452375
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03ce0abb-0381-45f2-b78b-a183935fa592
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: Customer_city
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0b5cec47-bc68-4d65-bfc6-98f644d8f3e5
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e2a27c45-4920-4ac1-bfac-ab6f6d0f8bce
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 27812920-35ef-4836-a4d0-43d6863fbead
+                stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3c55b536-839d-417f-8f7e-cbb204e57fd0
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7b27827c-0e2b-4cec-9207-93189cf7e147
+                stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 642cb5d5-bc83-4dd6-8555-81a975e130d4
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b5fc061d-4e8d-49be-9689-f65487459107
+                stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb7c87a2-530b-4f70-905f-e020d5079db2
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: PRODUCT_COST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 796585fa-55d8-45d8-bf8e-d14fc980a8f1
+                stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 55cad639-dbe7-49bf-9760-2cc57f344ff4
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: category
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b05c5ab5-57f6-4a4d-adee-497e900341c6
+                stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 929507c0-dd9c-4da7-9afd-2a50acbc2a53
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ae13ee5b-2e8e-4fa7-9eb9-222feb826e7a
+                stepCounter: 5f58ad8f-391f-4066-b1ea-019e89cab0c8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a826814c-8043-4533-af8f-cda35bf71038
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(30)
+        description: ""
+        name: ORDER_STATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4fcf1fda-46c7-44a5-81c3-de8c4d0ad324
+                stepCounter: 5f58ad8f-391f-4066-b1ea-019e89cab0c8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93f21d24-5206-4689-9527-51b4a7d62e1f
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDER_LINE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f9a9851-f566-48e8-bba2-6878179f6e8b
+                stepCounter: 263affd5-30a4-438d-99e0-650019f03724
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70dc8a10-68c7-4b8a-8418-207770953ae8
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: QUANTITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 602683de-114c-4df0-9e0b-8ef82466d5db
+                stepCounter: 263affd5-30a4-438d-99e0-650019f03724
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b0bc8d0-4f33-4fd9-b0ab-f6a9093a7c12
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: UNIT_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c72d424-4209-4bf4-96dc-35df9b613cac
+                stepCounter: 263affd5-30a4-438d-99e0-650019f03724
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ba175a72-4813-480c-9aed-aee5f5aa45c6
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: quantity
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 18b5f300-7e6e-4f87-b0c5-cdd57b6f7415
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: unit_price
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74fc326b-6f70-4b6d-8b37-e362fe0ec30f
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: cost
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ebd2a55b-4df7-4ae7-ad64-dc00d42a900b
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: cname
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 25e5cd53-af34-4b5e-8873-b7e0dab038ff
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: ccity
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ef99d3c-e90d-4d7c-834d-4b7d81968614
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: csegment
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59bd2fb9-81f8-431a-82c8-976d6b2c79b8
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: pname
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ac8565c-07e3-4e9f-a4f9-641187ccd112
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: pcategory
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b150bf04-c055-4d55-945c-565c3e957039
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: brand
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e5f9111-e6e3-4ad8-9da0-f7ac8da48c76
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(30)
+        defaultValue: ""
+        description: ""
+        name: ostatus
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a039dc06-349a-4029-b6a7-11eaa8b44ade
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: total_quantity
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3ffaa89-62d5-4299-b90d-03e076f64d44
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: order_count
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70f6d335-c081-403b-bd0a-11c08337b9f5
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: sales_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6a880b40-9914-4f23-8808-afdfa84e1d35
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: od_CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff780e3d-cf9f-4834-8211-f74691b23a59
+                stepCounter: 5f58ad8f-391f-4066-b1ea-019e89cab0c8
+            transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 45f9d825-9ffe-4eac-bda2-f29e810de45f
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: product_id
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c73c7a08-a3db-4e62-b003-bec0862827bc
+                stepCounter: 263affd5-30a4-438d-99e0-650019f03724
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CUSTOMER_MASTER: 0228d6a6-02fd-4565-97c8-3a379dced318
+          PRODUCT_MASTER: 969ac1d3-f14e-493f-8a3e-6898699e5434
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: CUSTOMER_MASTER
+          - locationName: SRC
+            nodeName: ORDER_HEADER
+          - locationName: SRC
+            nodeName: ORDER_LINE
+          - locationName: SRC
+            nodeName: PRODUCT_MASTER
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'CUSTOMER_MASTER') }} "CUSTOMER_MASTER"
+            INNER JOIN {{ ref('SRC', 'PRODUCT_MASTER') }} "PRODUCT_MASTER"
+            ON "CUSTOMER_MASTER"./*COLUMN*/ = "PRODUCT_MASTER"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'ORDER_HEADER') }} "ORDER_HEADER"
+            ON "CUSTOMER_MASTER"./*COLUMN*/ = "ORDER_HEADER"./*COLUMN*/
+            INNER JOIN {{ ref('SRC', 'ORDER_LINE') }} "ORDER_LINE"
+            ON "CUSTOMER_MASTER"./*COLUMN*/ = "ORDER_LINE"./*COLUMN*/
+        name: SMV_ECOMMERCE_SALES
+        noLinkRefs: []
+  name: SMV_ECOMMERCE_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node

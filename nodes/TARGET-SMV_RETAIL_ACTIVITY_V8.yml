@@ -49,6 +49,7 @@ operation:
         - factAlias: ""
           factCol:
             columnCounter: 1e71add5-77df-4091-a3ae-e68ee2835244
+            name: PH_PURCHASE_DATE
             stepCounter: 679d1d3d-963b-4c04-a89c-661a5bc33513
           factComment: ""
           factSynonym: ""
@@ -106,6 +107,7 @@ operation:
           primSynonym: ""
           primaryKey:
             columnCounter: 74011cc5-a15b-4c1a-b2d4-1c4a3c9fc465
+            name: PH_PERSON_ID
             stepCounter: 679d1d3d-963b-4c04-a89c-661a5bc33513
     semanticMaterialization: semantic view
     tableOnlyToggle: false
@@ -143,8 +145,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 669fc24a-482f-44d3-9b68-22b6dcbfbeed
-                stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+              - columnCounter: a8af9b19-e96c-4f74-be88-8cede907b472
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -157,8 +159,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fd540798-aeeb-4e99-a425-af85f6ff1e38
-                stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+              - columnCounter: 385a96f8-f29b-45ad-b126-c24bfa06fb31
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
         columnReference:

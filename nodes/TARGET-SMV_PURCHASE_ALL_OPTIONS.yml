@@ -37,30 +37,6 @@ operation:
           dimComment: Catalog grouping of the item
           dimSynonym: product category, item category
           dimTransform: ""
-        - dimAlias: purchaseDate
-          dimCol:
-            columnCounter: 5ba4e29f-84bc-4751-9c27-993b3594c6b5
-            name: phPurchaseDate
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          dimComment: Date the purchase was made
-          dimSynonym: order date, transaction date
-          dimTransform: ""
-        - dimAlias: purchaseHeader.purchaseYear
-          dimCol:
-            columnCounter: 5ba4e29f-84bc-4751-9c27-993b3594c6b5
-            name: phPurchaseDate
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          dimComment: Calendar year of the purchase
-          dimSynonym: year, order year
-          dimTransform: YEAR("purchaseHeader"."phPurchaseDate")
-        - dimAlias: purchaseMonth
-          dimCol:
-            columnCounter: 5ba4e29f-84bc-4751-9c27-993b3594c6b5
-            name: phPurchaseDate
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          dimComment: Calendar month of the purchase
-          dimSynonym: month, order month
-          dimTransform: MONTH("purchaseHeader"."phPurchaseDate")
     aiQuestionCategorization: Answer questions about purchases, purchased units, items and the people who bought them. Reject questions about pricing strategy, suppliers or employees.
     aiSqlGeneration: Treat units as whole numbers. Round costs to 2 decimal places. When the user says customer, use the people table. Default to grouping by region when no grouping is given.
     aiVerifiedQueries:
@@ -119,28 +95,16 @@ operation:
             stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
           factComment: Unit cost including a 25 percent markup
           factSynonym: marked up cost, list price
-          factTranform: '"items"."IC_UNIT_COST" * 1.25'
+          factTranform: "\"items\".\"IC_UNIT_COST\" * 1.25"
     factToggle: true
     foreignKeyConfig:
       items:
-        - foreignKey:
-            columnCounter: 01e09795-1c37-48bc-be01-818b08d6ede2
-            name: PD_PURCHASE_ID
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          refAlias: detailToHeader
-          refTable: purchaseHeader
         - foreignKey:
             columnCounter: 1d1bba43-1c99-4f55-a25b-28e09e8ee70c
             name: PD_ITEM_ID
             stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
           refAlias: detailToItem
           refTable: items
-        - foreignKey:
-            columnCounter: 1e649e53-35e3-4948-b90a-bfa0f73ef578
-            name: phPersonId
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          refAlias: headerToPerson
-          refTable: people
     foreignToggle: true
     metricConfig:
       items:
@@ -160,15 +124,6 @@ operation:
             stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
           metricComment: Number of purchase lines
           metricSynonym: number of lines, line items
-          metricTransform: COUNT
-          metricTransformExprn: ""
-        - metricAlias: purchaseCount
-          metricCol:
-            columnCounter: 0a74ed50-97e8-42c9-b67b-69ac5620915a
-            name: phPurchaseId
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-          metricComment: Number of purchases
-          metricSynonym: number of purchases, order count
           metricTransform: COUNT
           metricTransformExprn: ""
         - metricAlias: avgUnitCost
@@ -215,7 +170,7 @@ operation:
           metricComment: Average unit cost including markup
           metricSynonym: average list price
           metricTransform: AVG
-          metricTransformExprn: '"items"."costWithMarkup"'
+          metricTransformExprn: "\"items\".\"costWithMarkup\""
     metricToggle: true
     primaryKeyConfig:
       items:
@@ -225,13 +180,6 @@ operation:
           primaryKey:
             columnCounter: 8dff158e-335c-42da-b00d-5210d487273f
             name: PD_DETAIL_ID
-            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
-        - primAlias: purchaseHeader
-          primComment: Purchase header - one row per purchase
-          primSynonym: orders
-          primaryKey:
-            columnCounter: 0a74ed50-97e8-42c9-b67b-69ac5620915a
-            name: phPurchaseId
             stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
         - primAlias: people
           primComment: People who make purchases
@@ -246,6 +194,13 @@ operation:
           primaryKey:
             columnCounter: 823af54e-ca61-4321-861b-372c089a34a9
             name: IC_ITEM_ID
+            stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
+        - primAlias: purchaseHeader
+          primComment: ""
+          primSynonym: ""
+          primaryKey:
+            columnCounter: 01e09795-1c37-48bc-be01-818b08d6ede2
+            name: PD_PURCHASE_ID
             stepCounter: 8fdf411a-f00f-47fa-84aa-cdb24e3361f9
     semanticMaterialization: semantic view
     tableOnlyToggle: false
@@ -321,11 +276,11 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: phPurchaseId
+        name: PH_PURCHASE_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6c1e874d-825b-406f-9742-4749ea0f7c84
+              - columnCounter: 618470e8-940a-4b42-96c2-9b6caa8325e0
                 stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
@@ -335,11 +290,11 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: phPersonId
+        name: PH_PERSON_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 78a42290-4501-417a-a491-7bcac51b81c0
+              - columnCounter: a8af9b19-e96c-4f74-be88-8cede907b472
                 stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
@@ -349,11 +304,11 @@ operation:
         config: {}
         dataType: DATE
         description: ""
-        name: phPurchaseDate
+        name: PH_PURCHASE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 0e644525-e178-4698-a5ba-f63cf9e1d34f
+              - columnCounter: 385a96f8-f29b-45ad-b126-c24bfa06fb31
                 stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}

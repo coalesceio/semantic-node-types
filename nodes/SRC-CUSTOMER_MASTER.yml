@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 5cd552d7-3801-44d8-90cb-6d1c98977b18
-name: PURCHASE_HEADER
+id: 0228d6a6-02fd-4565-97c8-3a379dced318
+name: CUSTOMER_MASTER
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 618470e8-940a-4b42-96c2-9b6caa8325e0
-          stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+          columnCounter: 48dfa307-f632-4e0a-b22c-d0269f29c78a
+          stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: PH_PURCHASE_ID
+        name: CUSTOMER_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: a8af9b19-e96c-4f74-be88-8cede907b472
-          stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+          columnCounter: 0ee86cee-0417-4750-bc9e-314109f4888b
+          stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(100)
         defaultValue: ""
         description: ""
-        name: PH_PERSON_ID
+        name: CUSTOMER_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 385a96f8-f29b-45ad-b126-c24bfa06fb31
-          stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
+          columnCounter: 5fce53f9-0d0c-4a23-85bf-075e10452375
+          stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
         config: {}
-        dataType: DATE
+        dataType: VARCHAR(50)
         defaultValue: ""
         description: ""
-        name: PH_PURCHASE_DATE
+        name: CUSTOMER_SEGMENT
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -65,7 +65,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: PURCHASE_HEADER
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b5cec47-bc68-4d65-bfc6-98f644d8f3e5
+          stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: Customer_city
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: CUSTOMER_MASTER
   schema: ""
   sqlType: Source
   type: sourceInput
