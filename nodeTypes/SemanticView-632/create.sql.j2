@@ -8,6 +8,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name  : Semantic View == #}
 {# == Node Type Description : This node creates basic semantic view == #}
 
+
 {% if desiredState and (currentState == undefined or (currentState != undefined and desiredState != currentState)) %}
 
     {%- if currentState != undefined and currentState.node.nodeType != desiredState.node.nodeType %}
@@ -78,8 +79,13 @@ does not permit copying or modification for any other purpose.
         %}
 
         {# fallback to table name if alias missing #}
-        {% set tbl_alias = aliases[0] if aliases else item.grouper.split('.')[-1] | replace('"','') %}
+        {# alias if present, else table name from the grouper #}
+        {% set tbl_alias = aliases[0] if aliases else item.grouper.split('.')[-1] %}
 
+        {# wrap in "" only if not already quoted #}
+        {% if not (tbl_alias.startswith('"') and tbl_alias.endswith('"')) %}
+            {% set tbl_alias = '"' ~ tbl_alias ~ '"' %}
+        {% endif %}
         {# store in alias map #}
         {% set _ = ns.aliasMap.update({ item.grouper: tbl_alias }) %}
 
@@ -379,8 +385,8 @@ does not permit copying or modification for any other purpose.
         RELATIONSHIPS
         (
             {%- for item in nsSVvariables.foreignKey -%}
-                {%- if item.alias != '' %} {{ item.alias }} AS {% endif -%}
-                 {{ ns.aliasMap[item.srcTablePath] }} ("{{ item.name }}") REFERENCES {{ item.refTable }}
+                {%- if item.alias != '' %} {{ quoteIdent(item.alias) }} AS {% endif -%}
+                 {{ ns.aliasMap[item.srcTablePath] }} ("{{ item.name }}") REFERENCES {{ quoteIdent(item.refTable) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
         )
@@ -389,22 +395,9 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.factToggle | default(false) %}
         FACTS (
             {%- for col in nsSVvariables.factDetails -%}
-                {%- if col.transform %}
-                    {{ col.alias if col.alias 
-                                else col.name }}
-                    AS {{ col.transform }}
-                {%- else %}
-                    {% if col.alias != '' %}
-                        {%- if col.alias.split('.') | length == 2 %}
-                            {{ col.alias }}
-                        {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias + '"'}}
-                        {%- endif %}
-                    {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
-                    {%- endif %}
-                    AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
-                {%- endif %}
+                {%- set tblAlias = ns.aliasMap.get(col.srcTablePath, '') %}
+                    {{ qualifiedName(col.alias if col.alias else col.name, tblAlias) }}
+                    AS {{ col.transform if col.transform else tblAlias ~ '."' ~ col.name ~ '"' }}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
@@ -414,22 +407,9 @@ does not permit copying or modification for any other purpose.
         {%- if desiredState.config.dimToggle | default(false) %}
         DIMENSIONS (
             {%- for col in nsSVvariables.dimDetails -%}
-                {%- if col.transform != '' %}
-                    {{ col.alias if col.alias 
-                                else col.name }}
-                    AS {{ col.transform }}
-                {%- else %}
-                    {% if col.alias != '' %}
-                        {%- if col.alias.split('.') | length == 2 %}
-                            {{ col.alias }}
-                        {%- else %}
-                            {{ ns.aliasMap[col.srcTablePath] + '."' + col.alias +'"'}}
-                        {%- endif %}
-                    {%- else %}
-                        {{ ns.aliasMap[col.srcTablePath] + '."' + col.name +'"'}}
-                    {%- endif %}
-                    AS {{ ns.aliasMap[col.srcTablePath] }}."{{ col.name }}"
-                {%- endif %}
+                {%- set tblAlias = ns.aliasMap.get(col.srcTablePath, '') %}
+                    {{ qualifiedName(col.alias if col.alias else col.name, tblAlias) }}
+                    AS {{ col.transform if col.transform else tblAlias ~ '."' ~ col.name ~ '"' }}
                 {{ renderSynonymAndComment(col) }}
                 {%- if not loop.last %},{% endif %}
             {%- endfor %}
@@ -440,14 +420,19 @@ does not permit copying or modification for any other purpose.
         METRICS
         (
             {%- for item in nsSVvariables.metricDetails -%}
+                {%- set tblAlias = ns.aliasMap.get(item.srcTablePath, '') %}
                 {%- if item.derived and item.derived != "" %}
-                    {{ item.alias }} AS {{ item.metric }}({{ item.derived }})
-                {%- elif item.metric and item.name %}
-                    {%- if item.alias.split('.') | length == 2 %}
-                    {{ item.alias }}
+                    {%- set derivedExpr = item.derived | trim %}
+                    {# already quoted ("costCents" / "items"."costCents") or an expression (DISTINCT ..., a * b): use as typed #}
+                    {%- if '"' in derivedExpr or ' ' in derivedExpr or '(' in derivedExpr
+                            or '*' in derivedExpr or '+' in derivedExpr or '-' in derivedExpr or '/' in derivedExpr %}
+                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ derivedExpr }})
                     {%- else %}
-                    {{ ns.aliasMap[item.srcTablePath] + '."' + item.alias +'"'}}
-                    {%- endif %} AS {{ item.metric }}({{ ns.aliasMap[item.srcTablePath] }}."{{ item.name }}")
+                    {# bare name: costCents -> "costCents", items.costCents -> "items"."costCents" #}
+                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ qualifiedName(derivedExpr, '') }})
+                    {%- endif %}
+                {%- elif item.metric and item.name %}
+                    {{ qualifiedName(item.alias if item.alias else item.name, tblAlias) }} AS {{ item.metric }}({{ tblAlias }}."{{ item.name }}")
                 {%- endif %}
                 {{ renderSynonymAndComment(item) }}
                 {%- if not loop.last %},{% endif %}

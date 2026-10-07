@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
-name: FACT_SALES
+id: 969ac1d3-f14e-493f-8a3e-6898699e5434
+name: PRODUCT_MASTER
 operation:
   database: ""
   deployEnabled: true
@@ -13,13 +13,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 1b19fbf8-9a50-4ef0-a18e-6980116b480b
-          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+          columnCounter: 27812920-35ef-4836-a4d0-43d6863fbead
+          stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: SALE_CUSTOMER_ID
+        name: PRODUCT_ID
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -32,13 +32,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0a759978-d205-48b2-9d82-c9a8b52dcb0f
-          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+          columnCounter: 7b27827c-0e2b-4cec-9207-93189cf7e147
+          stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(100)
         defaultValue: ""
         description: ""
-        name: SALE_DATE_ID
+        name: PRODUCT_NAME
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -51,13 +51,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 10e60aee-2771-49dc-b7fe-32fb0a0baed3
-          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+          columnCounter: b5fc061d-4e8d-49be-9689-f65487459107
+          stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: VARCHAR(50)
         defaultValue: ""
         description: ""
-        name: Sale_ID
+        name: BRAND
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -70,13 +70,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: be02fd62-7e52-4f4b-84b7-5b8f569649ac
-          stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+          columnCounter: 796585fa-55d8-45d8-bf8e-d14fc980a8f1
+          stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
         config: {}
         dataType: NUMBER(10,2)
         defaultValue: ""
         description: ""
-        name: Amount
+        name: PRODUCT_COST
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -84,7 +84,26 @@ operation:
             transform: ""
         transform: ""
         uniqueKey: false
-  name: FACT_SALES
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b05c5ab5-57f6-4a4d-adee-497e900341c6
+          stepCounter: 969ac1d3-f14e-493f-8a3e-6898699e5434
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: category
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  name: PRODUCT_MASTER
   schema: ""
   sqlType: Source
   type: sourceInput

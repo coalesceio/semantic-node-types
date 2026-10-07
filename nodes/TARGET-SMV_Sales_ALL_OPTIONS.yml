@@ -1,0 +1,614 @@
+fileVersion: 1
+id: 68c7d669-ca31-4e39-b4af-93b3db453031
+name: SMV_Sales_ALL_OPTIONS
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: customer_name
+          dimCol:
+            columnCounter: f8fe3abc-2a59-409b-8177-1acfa50b6f37
+            name: CUSTOMER_NAME
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          dimComment: Full name of the customer
+          dimSynonym: client name, buyer name
+          dimTransform: ""
+        - dimAlias: sale_date
+          dimCol:
+            columnCounter: 73bbe552-f067-43ed-a0a2-7843559cd79b
+            name: FULL_DATE
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          dimComment: Calendar date of the sale
+          dimSynonym: transaction date, order date
+          dimTransform: ""
+        - dimAlias: ""
+          dimCol:
+            columnCounter: 9ee32014-b559-4356-a788-3dc7e2935315
+            name: MONTH
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          dimComment: Calendar month of the sale
+          dimSynonym: month number
+          dimTransform: ""
+        - dimAlias: sale_year
+          dimCol:
+            columnCounter: 49a32e41-b648-4f0a-b6ad-b5189b16121c
+            name: YEAR
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          dimComment: Calendar year of the sale
+          dimSynonym: fiscal year
+          dimTransform: ""
+        - dimAlias: dates.sale_quarter
+          dimCol:
+            columnCounter: 73bbe552-f067-43ed-a0a2-7843559cd79b
+            name: FULL_DATE
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          dimComment: Calendar quarter derived from the sale date
+          dimSynonym: quarter, qtr
+          dimTransform: QUARTER("dates"."FULL_DATE")
+    aiQuestionCategorization: Only answer questions about sales, customers and dates. Politely decline questions about inventory, employees or suppliers.
+    aiSqlGeneration: Round all monetary values to 2 decimal places. When a question mentions a quarter, use the sale_quarter dimension. Always order results by the main metric in descending order.
+    aiVerifiedQueries:
+      items:
+        - name: total_sales_overall
+          question: What is the total sales amount?
+          sql: SELECT SUM(s."sale_amount") AS total_sales FROM "__sales" AS s
+          useAsOnboardingQuestion: true
+          verifiedAt: "1759708800"
+          verifiedBy: anandhi.sekaran
+        - name: sales_by_customer
+          question: What is the total sales amount for each customer?
+          sql: SELECT c."customer_name", SUM(s."sale_amount") AS total_sales FROM "__sales" AS s JOIN "__customers" AS c ON s.sale_customer_id = c.customer_id GROUP BY c."customer_name" ORDER BY total_sales DESC
+          useAsOnboardingQuestion: true
+          verifiedAt: "1759708800"
+          verifiedBy: anandhi.sekaran
+        - name: sales_by_year_month
+          question: How many sales were made in each year and month?
+          sql: SELECT d."sale_year", d.month, COUNT(s.sale_id) AS sales_count FROM "__sales" AS s JOIN "__dates" AS d ON s.sale_date_id = d.date_id GROUP BY d."sale_year", d.month ORDER BY d."sale_year", d.month
+          useAsOnboardingQuestion: false
+          verifiedAt: ""
+          verifiedBy: ""
+    aiVerifiedQueriesEnabled: true
+    deriveCol: false
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: sale_amount
+          factCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          factComment: Gross amount of a single sale
+          factSynonym: revenue, sales value
+          factTranform: ""
+        - factAlias: ""
+          factCol:
+            columnCounter: 92de159f-4a34-4995-b548-5fa55229eaef
+            name: Sale_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          factComment: Unique identifier of the sale
+          factSynonym: transaction id
+          factTranform: ""
+        - factAlias: amount_with_tax
+          factCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          factComment: Sale amount incl''uding 8 percent tax
+          factSynonym: gross amount incl tax
+          factTranform: "\"sales\".\"Amount\" * 1.08"
+    factToggle: true
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: bc92d2fe-ea7d-4552-bb8d-07078810564d
+            name: SALE_CUSTOMER_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          refAlias: sales_to_customers
+          refTable: customers
+        - foreignKey:
+            columnCounter: d81b45f9-0532-43f5-a712-bacec7e3bc0b
+            name: SALE_DATE_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          refAlias: sales_to_dates
+          refTable: dates
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: total_sales
+          metricCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Sum of all sale amounts
+          metricSynonym: total revenue, gross sales
+          metricTransform: SUM
+          metricTransformExprn: ""
+        - metricAlias: sales_count
+          metricCol:
+            columnCounter: 92de159f-4a34-4995-b548-5fa55229eaef
+            name: Sale_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Number of sales transactions
+          metricSynonym: number of sales, order count
+          metricTransform: COUNT
+          metricTransformExprn: ""
+        - metricAlias: avg_sale_amount
+          metricCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Average amount per sale
+          metricSynonym: average order value, aov
+          metricTransform: AVG
+          metricTransformExprn: ""
+        - metricAlias: min_sale_amount
+          metricCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Lowest single sale amount
+          metricSynonym: smallest sale
+          metricTransform: MIN
+          metricTransformExprn: ""
+        - metricAlias: max_sale_amount
+          metricCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Highest single sale amount
+          metricSynonym: largest sale
+          metricTransform: MAX
+          metricTransformExprn: ""
+        - metricAlias: customer_count
+          metricCol:
+            columnCounter: e94986ed-4177-4937-8978-74e72e32e9b9
+            name: CUSTOMER_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Number of customers
+          metricSynonym: number of customers
+          metricTransform: COUNT
+          metricTransformExprn: ""
+        - metricAlias: total_sales_with_tax
+          metricCol:
+            columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+            name: Amount
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+          metricComment: Sum of sale amounts including tax
+          metricSynonym: revenue incl tax
+          metricTransform: SUM
+          metricTransformExprn: amount_with_tax
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: sales
+          primComment: Sales fact table - one row per sale
+          primSynonym: transactions
+          primaryKey:
+            columnCounter: 92de159f-4a34-4995-b548-5fa55229eaef
+            name: SALE_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        - primAlias: customers
+          primComment: Customer dimension
+          primSynonym: clients
+          primaryKey:
+            columnCounter: e94986ed-4177-4937-8978-74e72e32e9b9
+            name: CUSTOMER_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        - primAlias: dates
+          primComment: Date dimension
+          primSynonym: calendar
+          primaryKey:
+            columnCounter: b2c91cb3-b4ee-45ce-b1f9-ebec1789a808
+            name: DATE_ID
+            stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: Sales semantic view built on FACT_SALES with customer and date dimensions - exercises every Semantic View option
+  isMultisource: false
+  locationName: TARGET
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 92de159f-4a34-4995-b548-5fa55229eaef
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: Sale_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10e60aee-2771-49dc-b7fe-32fb0a0baed3
+                stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        description: ""
+        name: Amount
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: be02fd62-7e52-4f4b-84b7-5b8f569649ac
+                stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc92d2fe-ea7d-4552-bb8d-07078810564d
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SALE_CUSTOMER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1b19fbf8-9a50-4ef0-a18e-6980116b480b
+                stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d81b45f9-0532-43f5-a712-bacec7e3bc0b
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: SALE_DATE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a759978-d205-48b2-9d82-c9a8b52dcb0f
+                stepCounter: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e94986ed-4177-4937-8978-74e72e32e9b9
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8064de84-118f-4a87-9d29-1984de448572
+                stepCounter: a549260e-cf62-4702-be83-791695726beb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f8fe3abc-2a59-409b-8177-1acfa50b6f37
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: CUSTOMER_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 39886f75-3470-41ab-bd4c-05c78d3d1e2c
+                stepCounter: a549260e-cf62-4702-be83-791695726beb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2c91cb3-b4ee-45ce-b1f9-ebec1789a808
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DATE_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c011619-cbcb-4a9f-8946-69219173746a
+                stepCounter: f7e74518-4988-44d7-b9c7-502dd5cd954a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 73bbe552-f067-43ed-a0a2-7843559cd79b
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: DATE
+        description: ""
+        name: FULL_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fa024aef-77ba-45e0-96d8-a0603e5062ef
+                stepCounter: f7e74518-4988-44d7-b9c7-502dd5cd954a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9ee32014-b559-4356-a788-3dc7e2935315
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: da80d1ef-ac28-4733-98bf-1a7c14906f82
+                stepCounter: f7e74518-4988-44d7-b9c7-502dd5cd954a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49a32e41-b648-4f0a-b6ad-b5189b16121c
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 55547ed4-b5dc-4e1f-aee0-e6d990cb885c
+                stepCounter: f7e74518-4988-44d7-b9c7-502dd5cd954a
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 24a91162-6b2f-4363-8f4a-bf3c99e9716f
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: sale_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: db917c66-bf64-4193-9290-3949afb2eddf
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: amount_with_tax
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9025a453-9d51-466a-8153-51d7af7d4bd4
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: customer_name
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2e4cb94-5bcc-44d4-9ade-eb1f0f6b8e52
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: sale_date
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0a12299-f162-4962-893c-028225582730
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: sale_year
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9be9f0e8-95f8-4e5f-a668-086ee721fca3
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: sale_quarter
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ae28610-dffb-40f3-bb44-83c197a690dd
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: total_sales
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d2a76372-c585-4a13-b64d-52716572ee3c
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: sales_count
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 971b6f41-03ed-453e-8078-b358cd4af475
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: avg_sale_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 74ed0dc2-cee4-4e7e-9540-4f3589334e56
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: min_sale_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a3b20d6-fb70-426b-8321-4e8dd0392ab3
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: max_sale_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0418e0c-3d97-4ffb-bbf1-56070bcdabce
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: customer_count
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_CUSTOMER: a549260e-cf62-4702-be83-791695726beb
+          DIM_DATE: f7e74518-4988-44d7-b9c7-502dd5cd954a
+          FACT_SALES: 9b2dc9b8-c30f-4026-bf11-d5f3509d2c6b
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC
+            nodeName: DIM_CUSTOMER
+          - locationName: SRC
+            nodeName: DIM_DATE
+          - locationName: SRC
+            nodeName: FACT_SALES
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC', 'FACT_SALES') }} "FACT_SALES"
+            INNER JOIN {{ ref('SRC', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+            ON "FACT_SALES"."SALE_CUSTOMER_ID" = "DIM_CUSTOMER"."CUSTOMER_ID"
+            INNER JOIN {{ ref('SRC', 'DIM_DATE') }} "DIM_DATE"
+            ON "FACT_SALES"."SALE_DATE_ID" = "DIM_DATE"."DATE_ID"
+        name: SMV_Sales_ALL_OPTIONS
+        noLinkRefs: []
+  name: SMV_Sales_ALL_OPTIONS
+  overrideSQL: false
+  schema: ""
+  sqlType: "632"
+  type: sql
+  version: 1
+type: Node

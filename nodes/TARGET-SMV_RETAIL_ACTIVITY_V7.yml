@@ -28,14 +28,8 @@ operation:
           dimTransform: ""
         - dimAlias: ""
           dimCol:
-            columnCounter: 407f4f3c-8e99-4af9-8189-14b6bdd2e787
-            stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
-          dimComment: ""
-          dimSynonym: ""
-          dimTransform: ""
-        - dimAlias: ""
-          dimCol:
             columnCounter: 6031a1d3-dd1a-42e3-bcba-077b6fb18680
+            name: IC_ITEM_GROUP
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
           dimComment: ""
           dimSynonym: ""
@@ -108,25 +102,25 @@ operation:
     metricToggle: true
     primaryKeyConfig:
       items:
-        - primAlias: ""
+        - primAlias: people_master
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 07591cae-fc67-4021-b2eb-8d4103e90674
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
-        - primAlias: ""
+        - primAlias: purchase_header
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: a0d91c10-6dc1-4c94-818e-400ad4efc94a
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
-        - primAlias: ""
+        - primAlias: purchase_details
           primComment: ""
           primSynonym: ""
           primaryKey:
             columnCounter: 4f01bc59-ad5a-42ee-ab0b-61c33dde86ed
             stepCounter: 8018d446-9a92-4443-8dcb-e6a8afbda98d
-        - primAlias: ""
+        - primAlias: item_catalog
           primComment: ""
           primSynonym: ""
           primaryKey:
@@ -154,8 +148,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 25ab0c65-5a42-4ba4-a4f6-4dafa4c2a765
-                stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+              - columnCounter: 618470e8-940a-4b42-96c2-9b6caa8325e0
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -168,8 +162,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 669fc24a-482f-44d3-9b68-22b6dcbfbeed
-                stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+              - columnCounter: a8af9b19-e96c-4f74-be88-8cede907b472
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -182,8 +176,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: fd540798-aeeb-4e99-a425-af85f6ff1e38
-                stepCounter: 56587a3c-8cad-4c98-9aeb-42b607f0b487
+              - columnCounter: 385a96f8-f29b-45ad-b126-c24bfa06fb31
+                stepCounter: 5cd552d7-3801-44d8-90cb-6d1c98977b18
             transform: ""
       - appliedColumnTests: {}
         columnReference:

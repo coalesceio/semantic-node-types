@@ -3,10 +3,19 @@ id: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
 name: SMQ_CUSTOMER
 operation:
   config:
-    orderby: false
+    orderby: true
     orderbycolumn:
       items:
-        - {}
+        - sortColName:
+            columnCounter: a264323f-e205-4ae1-bfee-2d5e7c7acc8b
+            name: C_ADDRESS
+            stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+          sortOrder: DESC
+        - sortColName:
+            columnCounter: 19aab52f-08f5-4e62-828a-d46805628e1c
+            name: C_NAME
+            stepCounter: f0a86ec1-0a28-4b22-8a7a-4f83dea5a16b
+          sortOrder: DESC
   database: ""
   deployEnabled: true
   description: ""

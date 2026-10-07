@@ -1,6 +1,34 @@
 fileVersion: 1
 id: "1"
 macroString: |-
+  {#
+      quoteIdent(name): wraps an identifier in double quotes to preserve case.
+      Any quotes the user already typed are stripped first, so "sales" and sales both become "sales".
+  #}
+  {% macro quoteIdent(name) -%}
+      "{{ name | trim | replace('"', '') }}"
+  {%- endmacro %}
+
+  {#
+      qualifiedName(name, tableAlias): builds the quoted <table>.<name> identifier that
+      FACTS, DIMENSIONS and METRICS require.
+        sales.amount_with_tax  ->  "sales"."amount_with_tax"   (table given by the user)
+        amount_with_tax        ->  <tableAlias>."amount_with_tax" (table of the selected source column)
+        amount_with_tax        ->  "amount_with_tax"           (no source column, e.g. a view-level derived metric)
+  #}
+
+  {% macro qualifiedName(name, tableAlias) -%}
+      {%- set plain = name | trim | replace('"', '') -%}
+      {%- if '.' in plain -%}
+          {{- quoteIdent(plain.split('.', 1)[0]) ~ '.' ~ quoteIdent(plain.split('.', 1)[1]) -}}
+      {%- elif tableAlias -%}
+          {{- tableAlias ~ '.' ~ quoteIdent(plain) -}}
+      {%- else -%}
+          {{- quoteIdent(plain) -}}
+      {%- endif -%}
+  {%- endmacro %}
+
+
   {###########################################################################################
     **Macro: build_expr(expr)**
 
@@ -103,6 +131,7 @@ macroString: |-
 
   Input: config.orderby – enables ordering
   config.orderbycolumn.items – list of columns with sortColName.name and sortOrder
+  Column names are wrapped in double quotes, e.g. ORDER BY "Region" ASC, "total_sales" DESC
 
   Output: Returns a formatted ORDER BY clause or an empty string if no ordering is defined.
       and/or triggers a stage-level warning UI notification for critical switches.
@@ -115,7 +144,8 @@ macroString: |-
 
           {%- for item in config.orderbycolumn.get('items') -%}
 
-              {%- set colName  = item.sortColName.name -%}
+              {# quote to preserve case; quotes the user already typed are not doubled #}
+              {%- set colName  = quoteIdent(item.sortColName.name) -%}
               {%- set colOrder = item.sortOrder -%}
 
               {%- if loop.first -%}
