@@ -131,6 +131,7 @@ macroString: |-
 
   Input: config.orderby – enables ordering
   config.orderbycolumn.items – list of columns with sortColName.name and sortOrder
+  Column names are wrapped in double quotes, e.g. ORDER BY "Region" ASC, "total_sales" DESC
 
   Output: Returns a formatted ORDER BY clause or an empty string if no ordering is defined.
       and/or triggers a stage-level warning UI notification for critical switches.
@@ -143,7 +144,8 @@ macroString: |-
 
           {%- for item in config.orderbycolumn.get('items') -%}
 
-              {%- set colName  = item.sortColName.name -%}
+              {# quote to preserve case; quotes the user already typed are not doubled #}
+              {%- set colName  = quoteIdent(item.sortColName.name) -%}
               {%- set colOrder = item.sortOrder -%}
 
               {%- if loop.first -%}
