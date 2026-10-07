@@ -51,6 +51,25 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
+          columnCounter: 0b5cec47-bc68-4d65-bfc6-98f644d8f3e5
+          stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+        config: {}
+        dataType: VARCHAR(100)
+        defaultValue: ""
+        description: ""
+        name: Customer_city
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
           columnCounter: 5fce53f9-0d0c-4a23-85bf-075e10452375
           stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
         config: {}
@@ -70,13 +89,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0b5cec47-bc68-4d65-bfc6-98f644d8f3e5
+          columnCounter: d1cda827-d0d6-480d-bf9f-df37742d05b2
           stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
         config: {}
-        dataType: VARCHAR(100)
+        dataType: VARCHAR(50)
         defaultValue: ""
         description: ""
-        name: Customer_city
+        name: cust_name
         nullable: true
         primaryKey: false
         sourceColumnReferences:

@@ -42,7 +42,7 @@ operation:
           dimTransform: ""
     aiQuestionCategorization: ""
     aiSqlGeneration: ""
-    deriveCol: false
+    deriveCol: true
     dimToggle: false
     factDetConfig:
       items:
@@ -52,6 +52,7 @@ operation:
             name: PH_PURCHASE_DATE
             stepCounter: 679d1d3d-963b-4c04-a89c-661a5bc33513
           factComment: ""
+          factLayer: "1"
           factSynonym: ""
           factTranform: ""
     factToggle: true
@@ -107,10 +108,9 @@ operation:
           primSynonym: ""
           primaryKey:
             columnCounter: 74011cc5-a15b-4c1a-b2d4-1c4a3c9fc465
-            name: PH_PERSON_ID
             stepCounter: 679d1d3d-963b-4c04-a89c-661a5bc33513
     semanticMaterialization: semantic view
-    tableOnlyToggle: false
+    tableOnlyToggle: true
   database: ""
   deployEnabled: true
   description: ""

@@ -1,0 +1,77 @@
+fileVersion: 1
+id: 9e2502db-20ff-4f29-a667-fe77fe829da7
+name: SMQ_Sales_ALL_OPTIONS
+operation:
+  config:
+    orderby: true
+    orderbycolumn:
+      items:
+        - sortColName:
+            columnCounter: 816bb4d3-6b21-4d96-8309-04f08932a7f8
+            name: sale_amount
+            stepCounter: 9e2502db-20ff-4f29-a667-fe77fe829da7
+          sortOrder: DESC
+  database: ""
+  deployEnabled: true
+  description: Sales semantic view built on FACT_SALES with customer and date dimensions - exercises every Semantic View option
+  isMultisource: false
+  locationName: SRC
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 816bb4d3-6b21-4d96-8309-04f08932a7f8
+          stepCounter: 9e2502db-20ff-4f29-a667-fe77fe829da7
+        config:
+          isaDimColumn: true
+          isaFactColumn: true
+          isaMetricColumn: true
+        dataType: NUMBER(10,2)
+        description: ""
+        name: sale_amount
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 24a91162-6b2f-4363-8f4a-bf3c99e9716f
+                stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 100dc4e8-0a43-4505-a753-e64b38016150
+          stepCounter: 9e2502db-20ff-4f29-a667-fe77fe829da7
+        config:
+          isaDimColumn: true
+          isaFactColumn: true
+          isaMetricColumn: true
+        dataType: VARCHAR(50)
+        description: ""
+        name: customer_name
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9025a453-9d51-466a-8153-51d7af7d4bd4
+                stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SMV_Sales_ALL_OPTIONS: 68c7d669-ca31-4e39-b4af-93b3db453031
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: TARGET
+            nodeName: SMV_Sales_ALL_OPTIONS
+        join:
+          joinCondition: FROM {{ ref('TARGET', 'SMV_Sales_ALL_OPTIONS') }} "SMV_Sales_ALL_OPTIONS"
+        name: SMQ_Sales_ALL_OPTIONS
+        noLinkRefs: []
+  name: SMQ_Sales_ALL_OPTIONS
+  overrideSQL: false
+  schema: ""
+  sqlType: "631"
+  type: sql
+  version: 1
+type: Node

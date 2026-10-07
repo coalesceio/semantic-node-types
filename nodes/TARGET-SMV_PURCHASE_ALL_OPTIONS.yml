@@ -170,7 +170,7 @@ operation:
           metricComment: Average unit cost including markup
           metricSynonym: average list price
           metricTransform: AVG
-          metricTransformExprn: "\"items\".\"costWithMarkup\""
+          metricTransformExprn: costWithMarkup
     metricToggle: true
     primaryKeyConfig:
       items:

@@ -667,6 +667,40 @@ operation:
               - columnCounter: c73c7a08-a3db-4e62-b003-bec0862827bc
                 stepCounter: 263affd5-30a4-438d-99e0-650019f03724
             transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70e65841-38fa-4735-bcd0-21bf025121e0
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: cust_name
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d1cda827-d0d6-480d-bf9f-df37742d05b2
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb22441f-c34e-4418-a562-a9bfe9657fe6
+          stepCounter: 9c66b428-f8ed-4356-8673-40d49efc2269
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: cust_name1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d1cda827-d0d6-480d-bf9f-df37742d05b2
+                stepCounter: 0228d6a6-02fd-4565-97c8-3a379dced318
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

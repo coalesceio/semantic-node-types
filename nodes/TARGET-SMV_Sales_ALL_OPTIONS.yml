@@ -93,7 +93,7 @@ operation:
             columnCounter: 2ca678a9-d5bb-40d4-a4e6-d82ddc225917
             name: Amount
             stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
-          factComment: Sale amount including 8 percent tax
+          factComment: Sale amount incl''uding 8 percent tax
           factSynonym: gross amount incl tax
           factTranform: "\"sales\".\"Amount\" * 1.08"
     factToggle: true
@@ -357,7 +357,121 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 97b4bfeb-86e8-4ad9-bd27-12e3f65b6172
+          columnCounter: 24a91162-6b2f-4363-8f4a-bf3c99e9716f
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: sale_amount
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: db917c66-bf64-4193-9290-3949afb2eddf
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(10,2)
+        defaultValue: ""
+        description: ""
+        name: amount_with_tax
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9025a453-9d51-466a-8153-51d7af7d4bd4
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: ""
+        name: customer_name
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2e4cb94-5bcc-44d4-9ade-eb1f0f6b8e52
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: sale_date
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0a12299-f162-4962-893c-028225582730
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: sale_year
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9be9f0e8-95f8-4e5f-a668-086ee721fca3
+          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
+        config: {}
+        dataType: DATE
+        defaultValue: ""
+        description: ""
+        name: sale_quarter
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ae28610-dffb-40f3-bb44-83c197a690dd
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(10,2)
@@ -376,7 +490,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 41bae6b1-b130-4d9d-9aef-eac56ba65c63
+          columnCounter: d2a76372-c585-4a13-b64d-52716572ee3c
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(38,0)
@@ -395,7 +509,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 7e27ff73-ff45-41d9-82b7-cf48d7536176
+          columnCounter: 971b6f41-03ed-453e-8078-b358cd4af475
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(10,2)
@@ -414,7 +528,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 244e53ad-31b1-4627-87a4-d2d4df534de2
+          columnCounter: 74ed0dc2-cee4-4e7e-9540-4f3589334e56
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(10,2)
@@ -433,7 +547,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: dba6568e-c8a4-4328-b8b7-1324cb89a10e
+          columnCounter: 0a3b20d6-fb70-426b-8321-4e8dd0392ab3
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(10,2)
@@ -452,32 +566,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 727bd033-b18a-407f-924d-699d3c22c4e9
+          columnCounter: c0418e0c-3d97-4ffb-bbf1-56070bcdabce
           stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
         name: customer_count
-        nullable: true
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: d29eb271-1acd-4337-8939-267359d7ea3b
-          stepCounter: 68c7d669-ca31-4e39-b4af-93b3db453031
-        config: {}
-        dataType: NUMBER(10,2)
-        defaultValue: ""
-        description: ""
-        name: total_sales_with_tax
         nullable: true
         primaryKey: false
         sourceColumnReferences:
