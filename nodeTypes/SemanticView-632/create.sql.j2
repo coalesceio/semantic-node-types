@@ -422,7 +422,15 @@ does not permit copying or modification for any other purpose.
             {%- for item in nsSVvariables.metricDetails -%}
                 {%- set tblAlias = ns.aliasMap.get(item.srcTablePath, '') %}
                 {%- if item.derived and item.derived != "" %}
-                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ item.derived }})
+                    {%- set derivedExpr = item.derived | trim %}
+                    {# already quoted ("costCents" / "items"."costCents") or an expression (DISTINCT ..., a * b): use as typed #}
+                    {%- if '"' in derivedExpr or ' ' in derivedExpr or '(' in derivedExpr
+                            or '*' in derivedExpr or '+' in derivedExpr or '-' in derivedExpr or '/' in derivedExpr %}
+                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ derivedExpr }})
+                    {%- else %}
+                    {# bare name: costCents -> "costCents", items.costCents -> "items"."costCents" #}
+                    {{ qualifiedName(item.alias, tblAlias) }} AS {{ item.metric }}({{ qualifiedName(derivedExpr, '') }})
+                    {%- endif %}
                 {%- elif item.metric and item.name %}
                     {{ qualifiedName(item.alias if item.alias else item.name, tblAlias) }} AS {{ item.metric }}({{ tblAlias }}."{{ item.name }}")
                 {%- endif %}
