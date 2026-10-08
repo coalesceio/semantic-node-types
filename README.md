@@ -72,6 +72,13 @@ In a Semantic View, these 3 elements have distinct roles, but metrics and dimens
 | Instructions For SQL Generation | Embeds custom instructions for Cortex Analyst, guiding how it generates SQL from natural-language questions |
 | Instructions For Question Categorization | Governs how Cortex Analyst classifies incoming questions before SQL generation - used to reject out-of-scope or sensitive question categories |
 | AI Verified Query | Provides verified SQL queries as examples that help Cortex Analyst generate accurate SQL for similar natural-language questions |
+|Name	| A unique name for the query, e.g. total_sales_overall. It is wrapped in double quotes, so it is case-sensitive. Use letters, numbers and underscores only |
+|Question | The plain-English question this query answers, e.g. What is the total sales amount? Write it the way a business user would ask it.
+Verified At	No	When the query was checked, as a Unix epoch timestamp in seconds (e.g. 1759708800 for 2025-10-06 00:00 UTC). Leave it blank to skip it|
+|Verified By|Who checked the query, e.g. a username or email. Leave it blank to skip it|
+|Use as Onboarding Question |True: Cortex Analyst offers this question to users as a suggested starting question.
+False: the query is used only as an example for SQL generation|
+|SQL| The verified SQL that answers the question. Write it against the semantic view's logical table names, which are prefixed with __ (e.g. "__sales", "__customers"), not against the underlying physical tables|
 
 ### Semantic View Browser Creation Steps
 
